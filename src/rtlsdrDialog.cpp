@@ -36,6 +36,6 @@ rtlsdrDialog::rtlsdrDialog( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 
 void rtlsdrDialog::OnEnable( wxCommandEvent& event )
 {
-    m_rtlsdr_pi.m_Enabled = event.IsChecked();
-    m_rtlsdr_pi.RestartGrAis();
+    m_rtlsdr_pi.m_bEnabled = event.IsChecked();
+    m_rtlsdr_pi.Restart();
 }

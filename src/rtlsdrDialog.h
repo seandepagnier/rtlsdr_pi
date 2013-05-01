@@ -35,6 +35,7 @@ public:
     rtlsdrDialog( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent);
     
     void OnEnable( wxCommandEvent& event );
+    void OnPreferences( wxCommandEvent& event ) { m_rtlsdr_pi.ShowPreferencesDialog(this); }
     void OnClear( wxCommandEvent& event ) { m_tMessages->Clear(); }
     void OnClose( wxCommandEvent& event ) { Hide(); }
 

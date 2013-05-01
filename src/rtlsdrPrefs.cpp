@@ -43,9 +43,9 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 
 void rtlsdrPrefs::OnLaunchGnuRadioCompanion( wxCommandEvent& event )
 {
-    m_rtlsdr_pi.StopGrAis();
+    m_rtlsdr_pi.Stop();
     wxProcess::Open(_T("gnuradio-companion gr-ais.grc"), wxEXEC_SYNC);
-    m_rtlsdr_pi.RestartGrAis();
+    m_rtlsdr_pi.Restart();
 }
 
 void rtlsdrPrefs::OnInfo( wxCommandEvent& event )

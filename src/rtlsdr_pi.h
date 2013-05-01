@@ -51,6 +51,9 @@
 #define RTLSDR_TOOL_POSITION    -1          // Request default positioning of toolbar tool
 
 class rtlsdrDialog;
+class wxProcessEvent;
+
+enum rtlsdrMode {AIS, ADSB, FM, VHF};
 
 class rtlsdr_pi : public opencpn_plugin_18, public wxEvtHandler
 {
@@ -82,27 +85,39 @@ public:
       void SetrtlsdrDialogY    (int x){ m_rtlsdr_dialog_y = x;}
 
       void OnRtlsdrDialogClose();
-      void RestartGrAis();
-      void StopGrAis();
+      void Restart();
+      void Start();
+      void Stop();
+
+      void ShowPreferencesDialog( wxWindow* parent );
 
       wxWindow         *m_parent_window;
 
-      int m_Enabled, m_SampleRate, m_Error;
+      bool m_bEnabled;
+
+      rtlsdrMode m_Mode;
+      int m_AISSampleRate, m_AISError;
+      bool m_bADSBPlot;
+      double m_dFMFrequency;
+      int m_iVHFChannel;
+      bool m_bVHFWX;
 
       wxFileConfig     *m_pconfig;
+
 private:
       void OnTimer( wxTimerEvent & );
+      void OnTerminate(wxProcessEvent&);
 
       bool              LoadConfig(void);
       bool              SaveConfig(void);
 
-      void ShowPreferencesDialog( wxWindow* parent );
+      bool m_bNeedStart;
 
       wxTimer            m_Timer;
       wxProcess         *m_Process;
       rtlsdrDialog      *m_prtlsdrDialog;
 
-      wxString m_sLastNmeaMessage;
+      wxString m_sLastMessage;
 
       int               m_rtlsdr_dialog_x, m_rtlsdr_dialog_y;
       int               m_display_width, m_display_height;

@@ -22,6 +22,7 @@
 #include <wx/sizer.h>
 #include <wx/statbox.h>
 #include <wx/dialog.h>
+#include <wx/radiobut.h>
 #include <wx/stattext.h>
 #include <wx/spinctrl.h>
 
@@ -36,11 +37,13 @@ class rtlsdrDialogBase : public wxDialog
 	private:
 	
 	protected:
+		wxButton* m_bPreferences;
 		wxButton* m_bClear;
 		wxButton* m_bClose;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnEnable( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPreferences( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClear( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnClose( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -66,6 +69,8 @@ class rtlsdrPrefsBase : public wxDialog
 		wxStaticText* m_staticText30;
 		wxButton* m_bLaunchCompanion;
 		wxButton* m_bInfo;
+		wxStaticText* m_staticText4;
+		wxStaticText* m_staticText3;
 		wxStdDialogButtonSizer* m_sdbSizer1;
 		wxButton* m_sdbSizer1OK;
 		wxButton* m_sdbSizer1Cancel;
@@ -76,8 +81,16 @@ class rtlsdrPrefsBase : public wxDialog
 		
 	
 	public:
-		wxSpinCtrl* m_sSampleRate;
-		wxSpinCtrl* m_sError;
+		wxRadioButton* m_rbAIS;
+		wxSpinCtrl* m_sAISSampleRate;
+		wxSpinCtrl* m_sAISError;
+		wxRadioButton* m_rbADSB;
+		wxCheckBox* m_cbADSBPlot;
+		wxRadioButton* m_rbFM;
+		wxTextCtrl* m_tFMFrequency;
+		wxRadioButton* m_rbVHF;
+		wxTextCtrl* m_tVHFChannel;
+		wxCheckBox* m_cbVHFWX;
 		
 		rtlsdrPrefsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE ); 
 		~rtlsdrPrefsBase();

@@ -34,6 +34,10 @@
 
 #include "wx/process.h"
 
+#ifdef __unix__
+#include <sys/stat.h>
+#endif
+
 #include "rtlsdr_pi.h"
 #include "rtlsdrDialog.h"
 #include "rtlsdrPrefs.h"
@@ -59,7 +63,8 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
-    : opencpn_plugin_18(ppimgr), m_Process(NULL)
+    : opencpn_plugin_18(ppimgr), m_Process(NULL), m_bNeedStart(false)
+
 {
     // Create the PlugIn icons
     initialize_images();
@@ -168,7 +173,8 @@ wxString rtlsdr_pi::GetLongDescription()
 {
       return _("rtlsdr PlugIn for OpenCPN\n\
 Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n\
-Eventual version will need to link with gnu radio directly.\n\
+Support ADS-b FM radio and vhf\n\
+Eventually version will need to link with gnu radio directly.\n\
 \n\
 The rtlsdr plugin was written by Sean D'Epagnier\n\
 ");
@@ -201,7 +207,7 @@ void rtlsdr_pi::OnToolbarToolCallback(int id)
       if(!m_prtlsdrDialog)
       {
             m_prtlsdrDialog = new rtlsdrDialog(*this, m_parent_window);
-            m_prtlsdrDialog->m_cbEnabled->SetValue(m_Enabled);
+            m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
             m_prtlsdrDialog->Move(wxPoint(m_rtlsdr_dialog_x, m_rtlsdr_dialog_y));
       }
 
@@ -215,25 +221,222 @@ void rtlsdr_pi::OnToolbarToolCallback(int id)
 
 void rtlsdr_pi::OnTimer( wxTimerEvent & )
 {
-    if(!m_Process || !m_Enabled)
+    if(!m_Process || !m_bEnabled)
+        return;
+
+    if(m_Mode == FM || m_Mode == VHF)
         return;
 
     int c;
     wxInputStream *in = m_Process->GetInputStream();
+//    in->FlushBuffer();
     while(in->CanRead() && (c = in->GetC()) != wxEOF) {
         wxString s((wxChar)c);
         if(m_prtlsdrDialog)
             m_prtlsdrDialog->m_tMessages->AppendText(s);
 
         if(c == '\n') {
-            if(m_sLastNmeaMessage.StartsWith(_T("!AIVDM")))
-                PushNMEABuffer(m_sLastNmeaMessage);
+            switch(m_Mode) {
+            case AIS:
+                if(m_sLastMessage.StartsWith(_T("!AIVDM")))
+                    PushNMEABuffer(m_sLastMessage);
+                break;
+            case ADSB:
+                /* need to decode ADSB messages, and be able to plot */
+                break;
+            default:
+                break;
+            }
 
-            m_sLastNmeaMessage.clear();
+            m_sLastMessage.clear();
         }
         else
-            m_sLastNmeaMessage += s;
+            m_sLastMessage += s;
     }
+}
+
+void rtlsdr_pi::OnTerminate(wxProcessEvent& event)
+{
+    if(event.GetPid() == m_Process->GetPid()) {
+        m_Process = NULL;
+        if(m_bNeedStart)
+            Start();
+    }
+}
+
+double VHFFrequencyMHZ(int channel, bool WX)
+{
+    if(WX)
+        switch(channel) {
+        case 1: return 162.550;
+        case 2: return 162.400;
+        case 3: return 162.475;
+        case 4: return 162.425;
+        case 5: return 162.450;
+        case 6: return 162.500;
+        case 7: return 162.525;
+        default: return 0;
+        }
+            
+    if(channel >= 0 && channel <= 28)
+        return 156 + (double)channel*.05;
+    if(channel >= 60 && channel <= 88)
+        return 156.025 + (double)(channel-60)*.05;
+    return 0;
+}
+
+wxProcess *PlayFM(double frequency, int samplerate, int outputrate)
+{
+    if(frequency == 0)
+        return NULL;
+#ifdef __unix__
+    wxFileName temp;
+    temp.AssignTempFileName(_T("rtlsdr"));
+    FILE *f = fopen(temp.GetFullPath().mb_str(), "w");
+    if(!f)
+        return NULL;
+    fprintf(f, "LD_LIBRARY_PATH=/usr/local/lib rtl_fm -r %dk -s %dk\
+ -f %.1fM | aplay -r %dk -f S16_le -t raw -c 1\n", samplerate, outputrate, frequency, samplerate);
+    fclose(f);
+    wxProcess *p = NULL;
+    if(chmod(temp.GetFullPath().mb_str(), S_IRUSR | S_IXUSR) == 0)
+        p = wxProcess::Open(temp.GetFullPath());
+//    unlink(temp.GetFullPath().mb_str());
+    return p;
+#else
+    return NULL;
+#endif
+}
+
+void rtlsdr_pi::Restart()
+{
+    Stop();
+    if(!m_bEnabled)
+        return;
+
+    if(m_Process) {
+        m_bNeedStart = true;
+        return;
+    }
+
+    Start();
+}
+
+void rtlsdr_pi::Start()
+{
+    m_bNeedStart = false;
+    m_sLastMessage.clear();
+
+    switch(m_Mode) {
+    case AIS:
+        m_Process = wxProcess::Open(wxString::Format(_T("ais_rx.py -d -r %d -e %d "),
+                                                     m_AISSampleRate*1000, m_AISError));
+        break;
+    case ADSB:
+        m_Process = wxProcess::Open(wxString::Format(_T("rtl_adsb")));
+        break;
+    case FM:
+        m_Process = PlayFM(m_dFMFrequency, 48, 250);
+        break;
+    case VHF:
+        m_Process = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
+        break;
+    }
+
+    if(m_Process)
+        m_Process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
+                          ( rtlsdr_pi::OnTerminate ), NULL, this);
+
+}
+
+void rtlsdr_pi::Stop()
+{
+#ifdef __unix__
+    system("killall -9 rtl_fm > /dev/null");
+    system("killall -9 aplay > /dev/null");
+    wxThread::Sleep(1000);
+#endif
+
+    if(m_Process) {
+        int pid = m_Process->GetPid();
+        wxProcess::Kill(pid);
+        wxThread::Sleep(10);
+        if(wxProcess::Exists(pid))
+            wxProcess::Kill(pid, wxSIGKILL);
+    }
+//    m_Process = NULL;
+}
+
+void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
+{
+    rtlsdrPrefs *dialog = new rtlsdrPrefs( *this, parent );
+    
+    dialog->m_rbAIS->SetValue(m_Mode == AIS);
+    dialog->m_sAISSampleRate->SetValue(m_AISSampleRate);
+    dialog->m_sAISError->SetValue(m_AISError);
+
+    dialog->m_rbADSB->SetValue(m_Mode == ADSB);
+    dialog->m_cbADSBPlot->SetValue(m_bADSBPlot);
+
+    dialog->m_rbFM->SetValue(m_Mode == FM);
+    dialog->m_tFMFrequency->SetValue(wxString::Format(_T("%.1f"), m_dFMFrequency));
+
+    dialog->m_rbVHF->SetValue(m_Mode == VHF);
+    dialog->m_tVHFChannel->SetValue(wxString::Format(_T("%d"), m_iVHFChannel));
+    dialog->m_cbVHFWX->SetValue(m_bVHFWX);
+    
+    dialog->Fit();
+    wxColour cl;
+    GetGlobalColor(_T("DILG1"), &cl);
+    dialog->SetBackgroundColour(cl);
+    
+    if(dialog->ShowModal() == wxID_OK)
+    {
+        int mode = m_Mode;
+        if(dialog->m_rbAIS->GetValue())
+            mode = AIS;
+        else if(dialog->m_rbADSB->GetValue())
+            mode = ADSB;
+        else if(dialog->m_rbFM->GetValue())
+            mode = FM;
+        else if(dialog->m_rbVHF->GetValue())
+            mode = VHF;
+
+        int AISSampleRate = dialog->m_sAISSampleRate->GetValue();
+        int AISError = dialog->m_sAISError->GetValue();
+
+        m_bADSBPlot = dialog->m_cbADSBPlot->GetValue();
+
+        double FMFrequency;
+        dialog->m_tFMFrequency->GetValue().ToDouble(&FMFrequency);
+
+
+        long VHFChannel;
+        dialog->m_tVHFChannel->GetValue().ToLong(&VHFChannel);
+        bool VHFWX = dialog->m_cbVHFWX->GetValue();
+
+        bool restart =
+            m_Mode != mode ||
+            (mode == VHF && (m_AISSampleRate != AISSampleRate || m_AISError != AISError)) ||
+            (mode == FM && m_dFMFrequency != FMFrequency) ||
+            (mode == VHF && (m_iVHFChannel != VHFChannel || m_bVHFWX != VHFWX));
+
+        m_Mode = (rtlsdrMode)mode;
+
+        m_AISSampleRate = AISSampleRate;
+        m_AISError = AISError;
+
+        m_dFMFrequency = FMFrequency;
+
+        m_iVHFChannel = VHFChannel;
+        m_bVHFWX = VHFWX;
+
+        if(restart)
+            Restart();
+
+        SaveConfig();
+    }
+    delete dialog;
 }
 
 bool rtlsdr_pi::LoadConfig(void)
@@ -247,12 +450,24 @@ bool rtlsdr_pi::LoadConfig(void)
             m_rtlsdr_dialog_x =  pConf->Read ( _T ( "DialogPosX" ), 20L );
             m_rtlsdr_dialog_y =  pConf->Read ( _T ( "DialogPosY" ), 20L );
 
-            pConf->Read ( _T ( "Enabled" ), &m_Enabled, false);
-            m_SampleRate = pConf->Read ( _T ( "SampleRate" ), 256 );
-            m_Error = pConf->Read ( _T ( "Error" ), 50 );
+            pConf->Read ( _T ( "Enabled" ), &m_bEnabled, false);
+            int mode;
+            pConf->Read ( _T ( "Mode" ), &mode, 0 );
+            m_Mode = (rtlsdrMode)mode;
 
-            if(m_Enabled)
-                RestartGrAis();
+            m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
+            m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
+
+            pConf->Read ( _T ( "ADSBPlot" ), &m_bADSBPlot, 1 );
+
+            pConf->Read ( _T ( "FMFrequency" ), &m_dFMFrequency, 104.4 );
+
+            pConf->Read ( _T ( "VHFChannel" ), &m_iVHFChannel, 16 );
+            pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
+
+            if(m_bEnabled)
+                Start();
+
             return true;
       } else
             return false;
@@ -269,58 +484,21 @@ bool rtlsdr_pi::SaveConfig(void)
             pConf->Write ( _T ( "DialogPosX" ),   m_rtlsdr_dialog_x );
             pConf->Write ( _T ( "DialogPosY" ),   m_rtlsdr_dialog_y );
 
-            pConf->Write ( _T ( "Enabled" ), m_Enabled );
-            pConf->Write ( _T ( "SampleRate" ), m_SampleRate );
-            pConf->Write ( _T ( "Error" ), m_Error );
+            pConf->Write ( _T ( "Enabled" ), m_bEnabled );
+            pConf->Write ( _T ( "Mode" ), (int)m_Mode );
+
+            pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
+            pConf->Write ( _T ( "AISError" ), m_AISError );
+
+            pConf->Write ( _T ( "ADSBPlot" ), m_bADSBPlot );
+
+            pConf->Write ( _T ( "FMFrequency" ), m_dFMFrequency );
+
+            pConf->Write ( _T ( "VHFChannel" ), m_iVHFChannel );
+            pConf->Write ( _T ( "VHFWX" ), m_bVHFWX );
 
             return true;
       }
       else
             return false;
-}
-
-void rtlsdr_pi::RestartGrAis()
-{
-    StopGrAis();
-    if(m_Enabled)
-        m_Process = wxProcess::Open(wxString::Format(_T("ais_rx.py -d -r %d -e %d "),
-                                                     m_SampleRate*1000, m_Error));
-}
-
-void rtlsdr_pi::StopGrAis()
-{
-    if(m_Process) {
-        int pid = m_Process->GetPid();
-        wxProcess::Kill(pid);
-        wxThread::Sleep(10);
-        if(wxProcess::Exists(pid))
-            wxProcess::Kill(pid, wxSIGKILL);
-    }
-    m_Process = NULL;
-}
-
-void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
-{
-    rtlsdrPrefs *dialog = new rtlsdrPrefs( *this, parent );
-    
-    dialog->m_sSampleRate->SetValue(m_SampleRate);
-    dialog->m_sError->SetValue(m_Error);
-    
-    dialog->Fit();
-    wxColour cl;
-    GetGlobalColor(_T("DILG1"), &cl);
-    dialog->SetBackgroundColour(cl);
-    
-    if(dialog->ShowModal() == wxID_OK)
-    {
-        int sampleRate = dialog->m_sSampleRate->GetValue();
-        int error = dialog->m_sError->GetValue();
-        if(m_SampleRate != sampleRate || m_Error != error) {
-            m_SampleRate = sampleRate;
-            m_Error = error;
-            RestartGrAis();
-        }
-        SaveConfig();
-    }
-    delete dialog;
 }
