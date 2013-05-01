@@ -1,0 +1,9 @@
+src/rtlsdrDialog.cpp
+src/rtlsdrDialog.h
+src/rtlsdrPrefs.cpp
+src/rtlsdrPrefs.h
+src/rtlsdrUI.cpp
+src/rtlsdrUI.h
+src/rtlsdr_icon.png
+src/rtlsdr_pi.cpp
+src/rtlsdr_pi.h
