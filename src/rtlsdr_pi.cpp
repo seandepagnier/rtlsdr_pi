@@ -63,7 +63,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
-    : opencpn_plugin_18(ppimgr), m_Process(NULL), m_bNeedStart(false)
+    : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process(NULL)
 
 {
     // Create the PlugIn icons
