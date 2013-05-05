@@ -1,0 +1,131 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: rtlsdr_pi 3.3.424\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-05-05 22:23+1200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/rtlsdrPrefs.cpp:53
+msgid ""
+"Because the software radio is not a precision device,\n"
+"The error value must be set to properly calibrate the radio dongle\n"
+"Run \"gnuradio-companion gr-ais.grc\" and first enable only the lower block.\n"
+"Set the frequency to a known vhf frequency, and transmit, and note\n"
+"how far the peak is from the true frequency in khz, this is the error value\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"Channel blocks once enabled\n"
+msgstr ""
+
+#: src/rtlsdrPrefs.cpp:61 src/rtlsdrUI.h:55 src/rtlsdr_pi.cpp:99
+msgid "rtlsdr"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:23 src/rtlsdrUI.cpp:93 src/rtlsdrUI.cpp:152
+#: src/rtlsdrUI.cpp:175 src/rtlsdrUI.cpp:199
+msgid "Enable"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:27
+msgid "Messages"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:37
+msgid "Preferences"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:40
+msgid "Clear"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:43
+msgid "Close"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:86
+msgid "AIS"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:101
+msgid "Sample Rate (khz)"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:112 src/rtlsdrUI.cpp:119
+msgid "Error Correction"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:126
+msgid "Launch gnuradio-companion"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:129
+msgid "Info"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:145
+msgid "ADS-B"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:155
+msgid "Plot"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:168
+msgid "FM Radio"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:178
+msgid "100.4"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:181
+msgid "Mhz"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:192
+msgid "VHF Audio"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:202
+msgid "16"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:205
+msgid "WX"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:215
+msgid "SSB and HF Weather Fax Mode"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:217
+msgid "Not implemented"
+msgstr ""
+
+#: src/rtlsdrUI.h:95
+msgid "rtlsdr Preferences"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:175
+msgid "rtlsdr PlugIn for OpenCPN"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:180
+msgid ""
+"rtlsdr PlugIn for OpenCPN\n"
+"Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n"
+"Support ADS-b FM radio and vhf\n"
+"Eventually version will need to link with gnu radio directly.\n"
+"\n"
+"The rtlsdr plugin was written by Sean D'Epagnier\n"
+msgstr ""
