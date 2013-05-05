@@ -115,22 +115,28 @@ int rtlsdr_pi::Init(void)
 
 bool rtlsdr_pi::DeInit(void)
 {
-      //    Record the dialog position
-      if (NULL != m_prtlsdrDialog)
-      {
-            wxPoint p = m_prtlsdrDialog->GetPosition();
-            SetrtlsdrDialogX(p.x);
-            SetrtlsdrDialogY(p.y);
+    if(m_Process) {
+        m_Process->Disconnect(wxEVT_END_PROCESS, wxProcessEventHandler
+                              ( rtlsdr_pi::OnTerminate ), NULL, this);
+        Stop();
+    }
 
-            m_prtlsdrDialog->Close();
-            delete m_prtlsdrDialog;
-            m_prtlsdrDialog = NULL;
-      }
-      SaveConfig();
-
-      RemovePlugInTool(m_leftclick_tool_id);
-
-      return true;
+    //    Record the dialog position
+    if (NULL != m_prtlsdrDialog)
+    {
+        wxPoint p = m_prtlsdrDialog->GetPosition();
+        SetrtlsdrDialogX(p.x);
+        SetrtlsdrDialogY(p.y);
+        
+        m_prtlsdrDialog->Close();
+        delete m_prtlsdrDialog;
+        m_prtlsdrDialog = NULL;
+    }
+    SaveConfig();
+    
+    RemovePlugInTool(m_leftclick_tool_id);
+    
+    return true;
 }
 
 int rtlsdr_pi::GetAPIVersionMajor()
@@ -364,7 +370,6 @@ void rtlsdr_pi::Stop()
         if(wxProcess::Exists(pid))
             wxProcess::Kill(pid, wxSIGKILL);
     }
-//    m_Process = NULL;
 }
 
 void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
