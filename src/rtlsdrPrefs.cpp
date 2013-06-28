@@ -44,20 +44,24 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 void rtlsdrPrefs::OnLaunchGnuRadioCompanion( wxCommandEvent& event )
 {
     m_rtlsdr_pi.Stop();
-    wxProcess::Open(_T("gnuradio-companion gr-ais.grc"), wxEXEC_SYNC);
+    wxProcess::Open(_T("gnuradio-companion gr-ais.grc")/*, wxEXEC_SYNC*/);
     m_rtlsdr_pi.Restart();
 }
 
 void rtlsdrPrefs::OnInfo( wxCommandEvent& event )
 {
     wxMessageDialog mdlg(this, _("\
-Because the software radio is not a precision device,\n\
-The error value must be set to properly calibrate the radio dongle\n\
-Run \"gnuradio-companion gr-ais.grc\" and first enable only the lower block.\n\
-Set the frequency to a known vhf frequency, and transmit, and note\n\
-how far the peak is from the true frequency in khz, this is the error value\n\
+Because the software radio is not a precision device, \
+The error value must be set to properly calibrate the radio dongle.\n\
+To perform calibration, launch \"gnuradio-companion gr-ais.grc\"\
+(On a netbook first enable only the lower block or the top two take the\
+whole screen and you cannot see the third block)\
+Set the frequency to a known vhf frequency, \
+(for example, channel 8 is ") + wxString::Format(_T("%.2f MHZ"), VHFFrequencyMHZ(8))
++ _(") then transmit with vhf transmitter on this channel and note how far the peak is \
+from the true frequency in khz, this is the error value needed to calibrate the dongle.\n\
 Once working, you should be able to see bursts (ais data) from the A and B\n\
-Channel blocks once enabled\n"),
+in the filtered outputsChannel blocks once enabled\n"),
                          _("rtlsdr"), wxOK);
     mdlg.ShowModal();
 }

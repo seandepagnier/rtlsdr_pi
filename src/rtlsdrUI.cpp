@@ -16,7 +16,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxFlexGridSizer* fgSizer8;
 	fgSizer8 = new wxFlexGridSizer( 2, 1, 0, 0 );
 	fgSizer8->AddGrowableCol( 0 );
-	fgSizer8->AddGrowableRow( 0 );
+	fgSizer8->AddGrowableRow( 1 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -26,8 +26,11 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxStaticBoxSizer* sbSizer10;
 	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Messages") ), wxVERTICAL );
 	
-	m_tMessages = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY );
+	m_tMessages = new wxTextCtrl( this, wxID_ANY, _(" "), wxDefaultPosition, wxSize( -1,40 ), wxTE_MULTILINE|wxTE_READONLY );
 	sbSizer10->Add( m_tMessages, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer8->Add( sbSizer10, 1, wxEXPAND, 5 );
 	
 	wxFlexGridSizer* fgSizer25;
 	fgSizer25 = new wxFlexGridSizer( 0, 3, 0, 0 );
@@ -44,10 +47,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	fgSizer25->Add( m_bClose, 0, wxALL, 5 );
 	
 	
-	sbSizer10->Add( fgSizer25, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer8->Add( sbSizer10, 1, wxEXPAND, 5 );
+	fgSizer8->Add( fgSizer25, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( fgSizer8 );

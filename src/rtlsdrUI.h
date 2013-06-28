@@ -18,9 +18,9 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/textctrl.h>
-#include <wx/button.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
+#include <wx/button.h>
 #include <wx/dialog.h>
 #include <wx/radiobut.h>
 #include <wx/stattext.h>

@@ -115,6 +115,7 @@ private:
 
       wxTimer            m_Timer;
       wxProcess         *m_Process;
+      wxString           m_command;
       rtlsdrDialog      *m_prtlsdrDialog;
 
       wxString m_sLastMessage;
@@ -126,5 +127,7 @@ private:
 
       void              RearrangeWindow();
 };
+
+double VHFFrequencyMHZ(int channel, bool WX=false);
 
 #endif

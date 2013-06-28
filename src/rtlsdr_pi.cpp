@@ -264,6 +264,13 @@ void rtlsdr_pi::OnTimer( wxTimerEvent & )
 void rtlsdr_pi::OnTerminate(wxProcessEvent& event)
 {
     if(event.GetPid() == m_Process->GetPid()) {
+        if(event.GetExitCode()) {
+            wxString msg = _("Execution failed");
+            wxMessageDialog mdlg(m_parent_window, msg + _T(": \"") + m_command + _T("\""),
+                                 _("rtlsdr"), wxOK | wxICON_ERROR);
+            mdlg.ShowModal();
+        }
+
         m_Process = NULL;
         if(m_bNeedStart)
             Start();
@@ -291,27 +298,27 @@ double VHFFrequencyMHZ(int channel, bool WX)
     return 0;
 }
 
-wxProcess *PlayFM(double frequency, int samplerate, int outputrate)
+wxString PlayFM(double frequency, int samplerate, int outputrate)
 {
     if(frequency == 0)
-        return NULL;
-#ifdef __unix__
+        return _("Invalid FM frequency");
     wxFileName temp;
     temp.AssignTempFileName(_T("rtlsdr"));
     FILE *f = fopen(temp.GetFullPath().mb_str(), "w");
     if(!f)
-        return NULL;
-    fprintf(f, "LD_LIBRARY_PATH=/usr/local/lib rtl_fm -r %dk -s %dk\
- -f %.1fM | aplay -r %dk -f S16_le -t raw -c 1\n", samplerate, outputrate, frequency, samplerate);
-    fclose(f);
-    wxProcess *p = NULL;
-    if(chmod(temp.GetFullPath().mb_str(), S_IRUSR | S_IXUSR) == 0)
-        p = wxProcess::Open(temp.GetFullPath());
-//    unlink(temp.GetFullPath().mb_str());
-    return p;
-#else
-    return NULL;
+        return _("Failed to open file: ") + temp.GetFullPath();
+#ifdef __linux__
+    fprintf(f, "LD_LIBRARY_PATH=/usr/local/lib ");
 #endif
+    fprintf(f, "rtl_fm -r %dk -s %dk -f %.1fM | aplay -r %dk -f S16_le -t raw -c 1\n",
+            samplerate, outputrate, frequency, samplerate);
+    fclose(f);
+#ifdef __linux__
+    if(chmod(temp.GetFullPath().mb_str(), S_IRUSR | S_IXUSR) == 0)
+#endif
+        return temp.GetFullPath();
+//    unlink(temp.GetFullPath().mb_str());
+    return _("failed to make script executable");
 }
 
 void rtlsdr_pi::Restart()
@@ -335,24 +342,30 @@ void rtlsdr_pi::Start()
 
     switch(m_Mode) {
     case AIS:
-        m_Process = wxProcess::Open(wxString::Format(_T("ais_rx.py -d -r %d -e %d "),
-                                                     m_AISSampleRate*1000, m_AISError));
+        m_command = wxString::Format(_T("ais_rx.py -d -r %d -e %d"),
+                                   m_AISSampleRate*1000, m_AISError);
         break;
     case ADSB:
-        m_Process = wxProcess::Open(wxString::Format(_T("rtl_adsb")));
+        m_command = wxString::Format(_T("rtl_adsb"));
         break;
     case FM:
-        m_Process = PlayFM(m_dFMFrequency, 48, 250);
+        m_command = PlayFM(m_dFMFrequency, 48, 250);
         break;
     case VHF:
-        m_Process = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
+        m_command = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
         break;
+    default:
+        m_command = _("Unknown mode");
     }
 
-    if(m_Process)
+    if((m_Process = wxProcess::Open(m_command)))
         m_Process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
                           ( rtlsdr_pi::OnTerminate ), NULL, this);
-
+    else {
+        wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command,
+                             _("rtlsdr"), wxOK | wxICON_ERROR);
+        mdlg.ShowModal();
+    }
 }
 
 void rtlsdr_pi::Stop()
