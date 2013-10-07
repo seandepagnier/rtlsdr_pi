@@ -55,13 +55,13 @@ Because the software radio is not a precision device, \
 The error value must be set to properly calibrate the radio dongle.\n\
 To perform calibration, launch \"gnuradio-companion gr-ais.grc\"\
 (On a netbook first enable only the lower block or the top two take the\
-whole screen and you cannot see the third block)\
+whole screen and you cannot see the third block)\n                     \
 Set the frequency to a known vhf frequency, \
 (for example, channel 8 is ") + wxString::Format(_T("%.2f MHZ"), VHFFrequencyMHZ(8))
 + _(") then transmit with vhf transmitter on this channel and note how far the peak is \
 from the true frequency in khz, this is the error value needed to calibrate the dongle.\n\
 Once working, you should be able to see bursts (ais data) from the A and B\n\
-in the filtered outputsChannel blocks once enabled\n"),
+in the filtered output.\n"),
                          _("rtlsdr"), wxOK);
     mdlg.ShowModal();
 }
