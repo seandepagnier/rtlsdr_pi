@@ -161,7 +161,7 @@ int rtlsdr_pi::GetPlugInVersionMinor()
 
 wxBitmap *rtlsdr_pi::GetPlugInBitmap()
 {
-      return _img_rtlsdr;
+    return new wxBitmap(_img_rtlsdr->ConvertToImage().Copy());
 }
 
 wxString rtlsdr_pi::GetCommonName()
