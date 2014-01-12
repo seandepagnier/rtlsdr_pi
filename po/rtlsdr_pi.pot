@@ -6,28 +6,39 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rtlsdr_pi 3.3.424\n"
+"Project-Id-Version: rtlsdr_pi 3.3.1303\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-05-07 22:13+1200\n"
+"POT-Creation-Date: 2014-01-12 13:00+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/rtlsdrPrefs.cpp:53
 msgid ""
-"Because the software radio is not a precision device,\n"
-"The error value must be set to properly calibrate the radio dongle\n"
-"Run \"gnuradio-companion gr-ais.grc\" and first enable only the lower block.\n"
-"Set the frequency to a known vhf frequency, and transmit, and note\n"
-"how far the peak is from the true frequency in khz, this is the error value\n"
-"Once working, you should be able to see bursts (ais data) from the A and B\n"
-"Channel blocks once enabled\n"
+"Because the software radio is not a precision device, The error value must be "
+"set to properly calibrate the radio dongle.\n"
+"To perform calibration, launch \"gnuradio-companion gr-ais.grc\"(On a netbook "
+"first enable only the lower block or the top two take thewhole screen and you "
+"cannot see the third block)\n"
+"                     Set the frequency to a known vhf frequency, (for "
+"example, channel 8 is "
 msgstr ""
 
-#: src/rtlsdrPrefs.cpp:61 src/rtlsdrUI.h:55 src/rtlsdr_pi.cpp:99
+#: src/rtlsdrPrefs.cpp:61
+msgid ""
+") then transmit with vhf transmitter on this channel and note how far the "
+"peak is from the true frequency in khz, this is the error value needed to "
+"calibrate the dongle.\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output.\n"
+msgstr ""
+
+#: src/rtlsdrPrefs.cpp:65 src/rtlsdrUI.h:55 src/rtlsdr_pi.cpp:99
+#: src/rtlsdr_pi.cpp:270 src/rtlsdr_pi.cpp:366
 msgid "rtlsdr"
 msgstr ""
 
@@ -40,15 +51,19 @@ msgstr ""
 msgid "Messages"
 msgstr ""
 
-#: src/rtlsdrUI.cpp:37
-msgid "Preferences"
+#: src/rtlsdrUI.cpp:29
+msgid " "
 msgstr ""
 
 #: src/rtlsdrUI.cpp:40
-msgid "Clear"
+msgid "Preferences"
 msgstr ""
 
 #: src/rtlsdrUI.cpp:43
+msgid "Clear"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:46
 msgid "Close"
 msgstr ""
 
@@ -128,4 +143,28 @@ msgid ""
 "Eventually version will need to link with gnu radio directly.\n"
 "\n"
 "The rtlsdr plugin was written by Sean D'Epagnier\n"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:268
+msgid "Execution failed"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:304
+msgid "Invalid FM frequency"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:309
+msgid "Failed to open file: "
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:321
+msgid "failed to make script executable"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:358
+msgid "Unknown mode"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:365
+msgid "Failed to open: "
 msgstr ""
