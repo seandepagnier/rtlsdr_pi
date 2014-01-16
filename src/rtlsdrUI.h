@@ -71,6 +71,7 @@ class rtlsdrPrefsBase : public wxDialog
 		wxButton* m_bInfo;
 		wxStaticText* m_staticText4;
 		wxStaticText* m_staticText3;
+		wxButton* m_bAboutAuthor;
 		wxStdDialogButtonSizer* m_sdbSizer1;
 		wxButton* m_sdbSizer1OK;
 		wxButton* m_sdbSizer1Cancel;
@@ -78,6 +79,7 @@ class rtlsdrPrefsBase : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnLaunchGnuRadioCompanion( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInfo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:

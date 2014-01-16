@@ -36,6 +36,7 @@ public:
 
     void OnLaunchGnuRadioCompanion( wxCommandEvent& event );
     void OnInfo( wxCommandEvent& event );
+    void OnAboutAuthor( wxCommandEvent& event );
 
 protected:
     rtlsdr_pi &m_rtlsdr_pi;

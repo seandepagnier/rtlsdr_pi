@@ -1,7 +1,7 @@
 ##---------------------------------------------------------------------------
 ## Author:      Sean D'Epagnier
 ## Copyright:   
-## License:     GPLv3
+## License:     GPLv3+
 ##---------------------------------------------------------------------------
  
 # define minimum cmake version
@@ -81,15 +81,15 @@ IF(APPLE)
 ENDIF(APPLE)
 
 IF(APPLE)
-	INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${CMAKE_BINARY_DIR}/OpenCPN.app/Contents/SharedSupport/plugins)
+    INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${CMAKE_BINARY_DIR}/OpenCPN.app/Contents/SharedSupport/plugins)
 ENDIF(APPLE)
 
 IF(UNIX AND NOT APPLE)
-	INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${PREFIX_PLUGINS})
+    INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME LIBRARY DESTINATION ${PREFIX_PLUGINS})
 ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
-INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME DESTINATION "plugins")
+    INSTALL(TARGETS ${PACKAGE_NAME} RUNTIME DESTINATION "plugins")
 ENDIF(WIN32)
  	  	 
 INCLUDE("../PluginLocalization.cmake")

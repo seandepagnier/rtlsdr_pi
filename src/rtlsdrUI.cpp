@@ -26,7 +26,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	wxStaticBoxSizer* sbSizer10;
 	sbSizer10 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Messages") ), wxVERTICAL );
 	
-	m_tMessages = new wxTextCtrl( this, wxID_ANY, _(" "), wxDefaultPosition, wxSize( -1,40 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_tMessages = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,40 ), wxTE_MULTILINE|wxTE_READONLY );
 	sbSizer10->Add( m_tMessages, 0, wxALL|wxEXPAND, 5 );
 	
 	
@@ -221,6 +221,14 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	fgSizer7->Add( sbSizer5, 1, wxEXPAND, 5 );
 	
+	wxFlexGridSizer* fgSizer101;
+	fgSizer101 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer101->SetFlexibleDirection( wxBOTH );
+	fgSizer101->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_bAboutAuthor = new wxButton( this, wxID_ANY, _("About Author"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer101->Add( m_bAboutAuthor, 0, wxALL, 5 );
+	
 	m_sdbSizer1 = new wxStdDialogButtonSizer();
 	m_sdbSizer1OK = new wxButton( this, wxID_OK );
 	m_sdbSizer1->AddButton( m_sdbSizer1OK );
@@ -228,7 +236,10 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_sdbSizer1->AddButton( m_sdbSizer1Cancel );
 	m_sdbSizer1->Realize();
 	
-	fgSizer7->Add( m_sdbSizer1, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
+	fgSizer101->Add( m_sdbSizer1, 0, wxBOTTOM|wxEXPAND|wxTOP, 5 );
+	
+	
+	fgSizer7->Add( fgSizer101, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( fgSizer7 );
@@ -240,6 +251,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	// Connect Events
 	m_bLaunchCompanion->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
+	m_bAboutAuthor->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 }
 
 rtlsdrPrefsBase::~rtlsdrPrefsBase()
@@ -247,5 +259,6 @@ rtlsdrPrefsBase::~rtlsdrPrefsBase()
 	// Disconnect Events
 	m_bLaunchCompanion->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
+	m_bAboutAuthor->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 	
 }

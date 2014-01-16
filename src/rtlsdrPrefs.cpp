@@ -65,3 +65,8 @@ in the filtered output.\n"),
                          _("rtlsdr"), wxOK);
     mdlg.ShowModal();
 }
+
+void rtlsdrPrefs::OnAboutAuthor( wxCommandEvent& event )
+{
+    wxLaunchDefaultBrowser(_T(ABOUT_AUTHOR_URL));
+}
