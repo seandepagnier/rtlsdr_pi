@@ -26,13 +26,8 @@
  */
 
 
-#include "wx/wxprec.h"
-
-#ifndef  WX_PRECOMP
-  #include "wx/wx.h"
-#endif //precompiled headers
-
-#include "wx/process.h"
+#include <wx/wx.h>
+#include <wx/process.h>
 
 #ifdef __unix__
 #include <sys/stat.h>
