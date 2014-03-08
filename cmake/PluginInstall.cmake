@@ -15,7 +15,7 @@ IF(WIN32)
   IF(MINGW)
 # assuming wxwidgets is compiled with unicode, this is needed for mingw headers
     ADD_DEFINITIONS( " -DUNICODE" )
-    TARGET_LINK_LIBRARIES(${PACKAGE_NAME} ${OPENGL_LIBRARIES} "-lz" )
+    TARGET_LINK_LIBRARIES(${PACKAGE_NAME} ${OPENGL_LIBRARIES} )
     SET(OPENCPN_IMPORT_LIB "${PARENT}.dll")
   ENDIF(MINGW)
 
