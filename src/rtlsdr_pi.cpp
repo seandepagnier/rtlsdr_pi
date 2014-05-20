@@ -58,7 +58,7 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
-    : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process(NULL)
+    : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process1(NULL), m_Process2(NULL)
 
 {
     // Create the PlugIn icons
@@ -110,11 +110,16 @@ int rtlsdr_pi::Init(void)
 
 bool rtlsdr_pi::DeInit(void)
 {
-    if(m_Process) {
-        m_Process->Disconnect(wxEVT_END_PROCESS, wxProcessEventHandler
+    if(m_Process1)
+        m_Process1->Disconnect(wxEVT_END_PROCESS, wxProcessEventHandler
+                              ( rtlsdr_pi::OnTerminate ), NULL, this);
+
+    if(m_Process2) {
+        m_Process2->Disconnect(wxEVT_END_PROCESS, wxProcessEventHandler
                               ( rtlsdr_pi::OnTerminate ), NULL, this);
         Stop();
     }
+
 
     //    Record the dialog position
     if (NULL != m_prtlsdrDialog)
@@ -220,27 +225,23 @@ void rtlsdr_pi::OnToolbarToolCallback(int id)
       m_prtlsdrDialog->Move(p);
 }
 
-void rtlsdr_pi::OnTimer( wxTimerEvent & )
+void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
 {
-    if(!m_Process || !m_bEnabled)
-        return;
-
-    if(m_Mode == FM || m_Mode == VHF)
-        return;
-
     int c;
-    wxInputStream *in = m_Process->GetInputStream();
 //    in->FlushBuffer();
     while(in->CanRead() && (c = in->GetC()) != wxEOF) {
         wxString s((wxChar)c);
-        if(m_prtlsdrDialog)
-            m_prtlsdrDialog->m_tMessages->AppendText(s);
 
         if(c == '\n') {
+            if(m_prtlsdrDialog && m_prtlsdrDialog->IsShown())
+                m_prtlsdrDialog->m_tMessages->AppendText(m_sLastMessage);
+
             switch(m_Mode) {
             case AIS:
-                if(m_sLastMessage.StartsWith(_T("!AIVDM")))
+                if(m_sLastMessage.StartsWith(_T("!AIVDM"))) {
                     PushNMEABuffer(m_sLastMessage);
+                    m_AISCount++;
+                }
                 break;
             case ADSB:
                 /* need to decode ADSB messages, and be able to plot */
@@ -256,17 +257,42 @@ void rtlsdr_pi::OnTimer( wxTimerEvent & )
     }
 }
 
+void rtlsdr_pi::OnTimer( wxTimerEvent & )
+{
+    if(!m_Process2 || !m_bEnabled)
+        return;
+
+    if(m_Mode == FM || m_Mode == VHF)
+        return;
+
+    /* manually pipe the data */
+    if(m_Process1) {
+        wxInputStream *in = m_Process1->GetInputStream();
+        wxOutputStream *out = m_Process2->GetOutputStream();
+
+        char buffer[16384];
+        while(in->CanRead()) {
+            in->Read(buffer, sizeof buffer);
+            int size = in->LastRead();
+            out->Write(buffer, size);
+        }
+    }
+
+    ProcessInputStream(m_Process2->GetInputStream());
+    ProcessInputStream(m_Process2->GetErrorStream());
+}
+
 void rtlsdr_pi::OnTerminate(wxProcessEvent& event)
 {
-    if(event.GetPid() == m_Process->GetPid()) {
+    if(m_Process2 && event.GetPid() == m_Process2->GetPid()) {
         if(event.GetExitCode()) {
             wxString msg = _("Execution failed");
-            wxMessageDialog mdlg(m_parent_window, msg + _T(": \"") + m_command + _T("\""),
+            wxMessageDialog mdlg(m_parent_window, msg + _T(": \"") + m_command2 + _T("\""),
                                  _("rtlsdr"), wxOK | wxICON_ERROR);
             mdlg.ShowModal();
         }
 
-        m_Process = NULL;
+        m_Process2 = NULL;
         if(m_bNeedStart)
             Start();
     }
@@ -297,23 +323,8 @@ wxString PlayFM(double frequency, int samplerate, int outputrate)
 {
     if(frequency == 0)
         return _("Invalid FM frequency");
-    wxFileName temp;
-    temp.AssignTempFileName(_T("rtlsdr"));
-    FILE *f = fopen(temp.GetFullPath().mb_str(), "w");
-    if(!f)
-        return _("Failed to open file: ") + temp.GetFullPath();
-#ifdef __linux__
-    fprintf(f, "LD_LIBRARY_PATH=/usr/local/lib ");
-#endif
-    fprintf(f, "rtl_fm -r %dk -s %dk -f %.1fM | aplay -r %dk -f S16_le -t raw -c 1\n",
-            samplerate, outputrate, frequency, samplerate);
-    fclose(f);
-#ifdef __linux__
-    if(chmod(temp.GetFullPath().mb_str(), S_IRUSR | S_IXUSR) == 0)
-#endif
-        return temp.GetFullPath();
-//    unlink(temp.GetFullPath().mb_str());
-    return _("failed to make script executable");
+    return wxString::Format(_T("rtl_fm -r %dk -s %dk -f %.1fM"),
+                            samplerate, outputrate, frequency);
 }
 
 void rtlsdr_pi::Restart()
@@ -322,12 +333,10 @@ void rtlsdr_pi::Restart()
     if(!m_bEnabled)
         return;
 
-    if(m_Process) {
+    if(m_Process2)
         m_bNeedStart = true;
-        return;
-    }
-
-    Start();
+    else
+        Start();
 }
 
 void rtlsdr_pi::Start()
@@ -335,49 +344,86 @@ void rtlsdr_pi::Start()
     m_bNeedStart = false;
     m_sLastMessage.clear();
 
+    m_command1 = _T("");
+
     switch(m_Mode) {
     case AIS:
-        m_command = wxString::Format(_T("ais_rx.py -d -r %d -e %d"),
-                                   m_AISSampleRate*1000, m_AISError);
-        break;
+        switch(m_AISProgram) {
+        case AISDECODER:
+            m_command1 = wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k"),
+                                          m_AISError);
+            m_command2 = _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin");
+            break;
+        case AIS_RX:
+            m_command2 = wxString::Format(_T("ais_rx -d -r %d -e %d"),
+                                          m_AISSampleRate*1000, m_AISError);
+            break;
+        } break;
     case ADSB:
-        m_command = wxString::Format(_T("rtl_adsb"));
+        m_command2 = wxString::Format(_T("rtl_adsb"));
         break;
     case FM:
-        m_command = PlayFM(m_dFMFrequency, 48, 250);
+        m_command1 = PlayFM(m_dFMFrequency, 48, 250);
+        m_command2 = _T("aplay -r 48k -f S16_le -t raw -c 1");
         break;
     case VHF:
-        m_command = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
+        m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
+        m_command2 = _T("aplay -r 12k -f S16_le -t raw -c 1");
         break;
     default:
-        m_command = _("Unknown mode");
+        m_command2 = _("Unknown mode");
     }
 
-    if((m_Process = wxProcess::Open(m_command)))
-        m_Process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
-                          ( rtlsdr_pi::OnTerminate ), NULL, this);
+    if(m_command1.size()) {
+        if((m_Process1 = wxProcess::Open(m_command1)))
+            m_Process1->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
+                                ( rtlsdr_pi::OnTerminate ), NULL, this);
+        else {
+            wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command1,
+                                 _("rtlsdr"), wxOK | wxICON_ERROR);
+            mdlg.ShowModal();
+            return;
+        }
+    } else
+        m_Process1 = NULL;
+
+    if((m_Process2 = wxProcess::Open(m_command2)))
+        m_Process2->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
+                            ( rtlsdr_pi::OnTerminate ), NULL, this);
     else {
-        wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command,
+        wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command2,
                              _("rtlsdr"), wxOK | wxICON_ERROR);
         mdlg.ShowModal();
     }
 }
 
+static void KillProcess(wxProcess *process)
+{
+    if(!process)
+        return;
+
+    int pid = process->GetPid();
+    wxProcess::Kill(pid);
+    wxThread::Sleep(25);
+    if(wxProcess::Exists(pid))
+        wxProcess::Kill(pid, wxSIGKILL);
+}
+
 void rtlsdr_pi::Stop()
 {
+#if 0
 #ifdef __unix__
     system("killall -9 rtl_fm > /dev/null");
     system("killall -9 aplay > /dev/null");
     wxThread::Sleep(1000);
 #endif
+#endif
 
-    if(m_Process) {
-        int pid = m_Process->GetPid();
-        wxProcess::Kill(pid);
-        wxThread::Sleep(10);
-        if(wxProcess::Exists(pid))
-            wxProcess::Kill(pid, wxSIGKILL);
-    }
+    KillProcess(m_Process1);
+
+    wxProcess *process = m_Process2;
+    m_Process2 = NULL;
+    KillProcess(process);
 }
 
 void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
@@ -385,6 +431,8 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
     rtlsdrPrefs *dialog = new rtlsdrPrefs( *this, parent );
     
     dialog->m_rbAIS->SetValue(m_Mode == AIS);
+    dialog->m_cAISProgram->SetSelection(m_AISProgram);
+    dialog->m_sAISSampleRate->Enable((int)m_AISProgram);
     dialog->m_sAISSampleRate->SetValue(m_AISSampleRate);
     dialog->m_sAISError->SetValue(m_AISError);
 
@@ -415,6 +463,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         else if(dialog->m_rbVHF->GetValue())
             mode = VHF;
 
+        aisProgram AISProgram = (aisProgram)dialog->m_cAISProgram->GetSelection();
         int AISSampleRate = dialog->m_sAISSampleRate->GetValue();
         int AISError = dialog->m_sAISError->GetValue();
 
@@ -423,19 +472,21 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         double FMFrequency;
         dialog->m_tFMFrequency->GetValue().ToDouble(&FMFrequency);
 
-
         long VHFChannel;
         dialog->m_tVHFChannel->GetValue().ToLong(&VHFChannel);
         bool VHFWX = dialog->m_cbVHFWX->GetValue();
 
         bool restart =
             m_Mode != mode ||
-            (mode == VHF && (m_AISSampleRate != AISSampleRate || m_AISError != AISError)) ||
+            (mode == AIS && (m_AISProgram != AISProgram ||
+                             m_AISSampleRate != AISSampleRate ||
+                             m_AISError != AISError)) ||
             (mode == FM && m_dFMFrequency != FMFrequency) ||
             (mode == VHF && (m_iVHFChannel != VHFChannel || m_bVHFWX != VHFWX));
 
         m_Mode = (rtlsdrMode)mode;
 
+        m_AISProgram = AISProgram;
         m_AISSampleRate = AISSampleRate;
         m_AISError = AISError;
 
@@ -468,6 +519,7 @@ bool rtlsdr_pi::LoadConfig(void)
             pConf->Read ( _T ( "Mode" ), &mode, 0 );
             m_Mode = (rtlsdrMode)mode;
 
+            m_AISProgram = (aisProgram)pConf->Read ( _T ( "AISProgram" ), 0L );
             m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
             m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
 
@@ -500,6 +552,7 @@ bool rtlsdr_pi::SaveConfig(void)
             pConf->Write ( _T ( "Enabled" ), m_bEnabled );
             pConf->Write ( _T ( "Mode" ), (int)m_Mode );
 
+            pConf->Write ( _T ( "AISProgram" ), m_AISProgram );
             pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
             pConf->Write ( _T ( "AISError" ), m_AISError );
 

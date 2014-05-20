@@ -12,18 +12,19 @@
 #include <wx/xrc/xmlres.h>
 #include <wx/intl.h>
 #include <wx/string.h>
-#include <wx/checkbox.h>
+#include <wx/textctrl.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/textctrl.h>
 #include <wx/sizer.h>
 #include <wx/statbox.h>
+#include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
 #include <wx/radiobut.h>
 #include <wx/stattext.h>
+#include <wx/choice.h>
 #include <wx/spinctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -49,10 +50,10 @@ class rtlsdrDialogBase : public wxDialog
 		
 	
 	public:
-		wxCheckBox* m_cbEnabled;
 		wxTextCtrl* m_tMessages;
+		wxCheckBox* m_cbEnabled;
 		
-		rtlsdrDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL ); 
+		rtlsdrDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,160 ), long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL ); 
 		~rtlsdrDialogBase();
 	
 };
@@ -65,25 +66,31 @@ class rtlsdrPrefsBase : public wxDialog
 	private:
 	
 	protected:
+		wxStaticText* m_staticText5;
 		wxStaticText* m_staticText29;
 		wxStaticText* m_staticText30;
+		wxButton* m_button7;
 		wxButton* m_bLaunchCompanion;
 		wxButton* m_bInfo;
 		wxStaticText* m_staticText4;
-		wxStaticText* m_staticText3;
 		wxButton* m_bAboutAuthor;
+		wxButton* m_button8;
 		wxStdDialogButtonSizer* m_sdbSizer1;
 		wxButton* m_sdbSizer1OK;
 		wxButton* m_sdbSizer1Cancel;
 		
 		// Virtual event handlers, overide them in your derived class
+		virtual void OnAISProgram( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAutoCalibrate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLaunchGnuRadioCompanion( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInfo( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnInformation( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		wxRadioButton* m_rbAIS;
+		wxChoice* m_cAISProgram;
 		wxSpinCtrl* m_sAISSampleRate;
 		wxSpinCtrl* m_sAISError;
 		wxRadioButton* m_rbADSB;

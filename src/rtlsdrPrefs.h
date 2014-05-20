@@ -34,11 +34,13 @@ class rtlsdrPrefs: public rtlsdrPrefsBase
 public:
     rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent);
 
+    void OnAISProgram( wxCommandEvent& event );
+    void OnAutoCalibrate( wxCommandEvent& event );
     void OnLaunchGnuRadioCompanion( wxCommandEvent& event );
     void OnInfo( wxCommandEvent& event );
+    void OnInformation( wxCommandEvent& event );
     void OnAboutAuthor( wxCommandEvent& event );
 
 protected:
     rtlsdr_pi &m_rtlsdr_pi;
 };
-

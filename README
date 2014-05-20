@@ -1,6 +1,71 @@
-Weather Fax Plugin for OpenCPN
+RTLSDR Plugin for OpenCPN
 =======================================
-Implement weather fax ability for opencpn
+Implement rtlsdr ability for opencpn to receive ais messages
+
+Configuration using rtl_fm and aisdecoder
+=================================================
+
+First, you must be able to run rtl_fm and aisdecoder applications to recieve ais data.
+This is independent from the plugin itself, the plugin merely runs these programs
+piping the data from rtl_fm to aisdecoder and then into opencpn.  The plugin
+can also perform automatic calibration.
+
+For windows, I have compiled the needed programs using mingw, and
+provided binaries already (in the buildwin/bin directory)
+
+Otherwise you must compile from source and install:
+
+git clone git://git.osmocom.org/rtl-sdr.git
+cd rtl-sdr
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+wget http://www.aishub.net/downloads/aisdecoder.tar.gz
+tar zxvf aisdecoder
+cd aisdecoder
+cmake -DCMAKE_BUILD_TYPE=release .
+make
+sudo cp aisdecoder /usr/local/bin
+
+Test with:
+rtl_fm -f 161975000 -p 35 -s 48k | aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin
+
+be sure to try all possible values for -p!  this program is very picky and your value must be +- 7
+of the correct value to get messages (Range +- 128)  the exact correct value gives many more messages.
+The plugin provides an automatic detection routine.
+
+At this point you can simply add a udp data connection on port 10110 and not use the plugin, but the
+plugin automatically invokes the programs, and provides other control.
+
+Configuration using gnuradio
+=================================================
+
+The plugin also can run gnuradio to decode ais data, but I do not provide
+binaries to do this under windows.
+
+apt-get install libboost-all-dev
+apt-get install gnuradio gnuradio-dev
+git clone git://git.osmocom.org/gr-osmosdr
+cd gr-osmosdr
+if gnuradio 3.6 is installed "git checkout gr3.6"
+mkdir build
+cd build
+cmake ..
+make -j2
+sudo make install
+
+sudo apt-get install libcppunit-dev libfftw3-dev
+git clone https://github.com/bistromath/gr-ais.git
+cd gr-ais
+for gnuradio 3.6 "git checkout 1381ceca81b0cf238eeb81da9cd77189da74022a"
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
 
 Compiling
 =========

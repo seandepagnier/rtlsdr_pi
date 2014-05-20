@@ -51,6 +51,8 @@ class wxProcessEvent;
 
 enum rtlsdrMode {AIS, ADSB, FM, VHF};
 
+enum aisProgram {AISDECODER, AIS_RX};
+
 class rtlsdr_pi : public opencpn_plugin_18, public wxEvtHandler
 {
 public:
@@ -92,6 +94,7 @@ public:
       bool m_bEnabled;
 
       rtlsdrMode m_Mode;
+      aisProgram m_AISProgram;
       int m_AISSampleRate, m_AISError;
       bool m_bADSBPlot;
       double m_dFMFrequency;
@@ -100,7 +103,10 @@ public:
 
       wxFileConfig     *m_pconfig;
 
+      int m_AISCount;
+
 private:
+      void ProcessInputStream( wxInputStream *in );
       void OnTimer( wxTimerEvent & );
       void OnTerminate(wxProcessEvent&);
 
@@ -110,8 +116,8 @@ private:
       bool m_bNeedStart;
 
       wxTimer            m_Timer;
-      wxProcess         *m_Process;
-      wxString           m_command;
+      wxProcess         *m_Process1, *m_Process2;
+      wxString           m_command1, m_command2;
       rtlsdrDialog      *m_prtlsdrDialog;
 
       wxString m_sLastMessage;
