@@ -552,7 +552,7 @@ bool rtlsdr_pi::SaveConfig(void)
             pConf->Write ( _T ( "Enabled" ), m_bEnabled );
             pConf->Write ( _T ( "Mode" ), (int)m_Mode );
 
-            pConf->Write ( _T ( "AISProgram" ), m_AISProgram );
+            pConf->Write ( _T ( "AISProgram" ), (int)m_AISProgram );
             pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
             pConf->Write ( _T ( "AISError" ), m_AISError );
 

@@ -46,7 +46,7 @@ Configuration using gnuradio
 The plugin also can run gnuradio to decode ais data, but I do not provide
 binaries to do this under windows.
 
-apt-get install libboost-all-dev
+apt-get install libboost-all-dev uhd swig
 apt-get install gnuradio gnuradio-dev
 git clone git://git.osmocom.org/gr-osmosdr
 cd gr-osmosdr
@@ -57,7 +57,7 @@ cmake ..
 make -j2
 sudo make install
 
-sudo apt-get install libcppunit-dev libfftw3-dev
+sudo apt-get install libcppunit-dev libfftw3-dev python-numpy
 git clone https://github.com/bistromath/gr-ais.git
 cd gr-ais
 for gnuradio 3.6 "git checkout 1381ceca81b0cf238eeb81da9cd77189da74022a"
