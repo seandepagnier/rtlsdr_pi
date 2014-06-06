@@ -69,18 +69,17 @@ sudo make install
 
 Compiling
 =========
-You have to be able to compile OpenCPN itself - Get the info at http://opencpn.org/ocpn/developers_manual
-
 * go to the plugin subdirectory in your OpenCPN source tree
 * git clone git://github.com/seandepagnier/rtlsdr_pi.git
 
 Build as normally:
 
-* cd ..
+* mkdir build
 * cd build
 * cmake ..
-* cmake --build .
+* make
+* make install
 
 License
 =======
-The plugin code is licensed under the terms of the GPL v2 or, at your will, later.
+The plugin code is licensed under the terms of the GPL v3 or, at your will, later.
