@@ -69,8 +69,9 @@ sudo make install
 
 Compiling
 =========
-* go to the plugin subdirectory in your OpenCPN source tree
 * git clone git://github.com/seandepagnier/rtlsdr_pi.git
+
+Under windows, you must find the file "opencpn.lib" (Visual Studio) or "libopencpn.dll.a" (mingw) which is built in the build directory after compiling opencpn.  This file must be copied to the plugin directory.
 
 Build as normally:
 
