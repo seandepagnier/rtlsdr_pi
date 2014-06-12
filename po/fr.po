@@ -1,0 +1,187 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: weatherfax_pi 3.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-06-12 21:04+0800\n"
+"PO-Revision-Date: 2014-03-10 22:14+0100\n"
+"Last-Translator: Gilletarom <contact@gilletarom.fr>\n"
+"Language-Team: Gilletarom <contactàgilletarom;fr>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.4\n"
+#
+#, fuzzy
+msgid ""
+") and transmit on this frequency to note how far the peak is from the true "
+"frequency in khz.  This is the error value needed to calibrate the dongle.\n"
+"\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output, and receive ais messages (if any are available)\n"
+msgstr ""
+") then transmit with vhf transmitter on this channel and note how far the "
+"peak is from the true frequency in khz, this is the error value needed to "
+"calibrate the dongle.\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output.\n"
+#
+msgid "100.4"
+msgstr "100.4"
+#
+msgid "16"
+msgstr "16"
+#
+msgid "ADS-B"
+msgstr "ADS-B"
+#
+msgid "AIS"
+msgstr "AIS"
+#
+msgid "About Author"
+msgstr ""
+#
+msgid "Auto Calibrate"
+msgstr ""
+#
+#, fuzzy
+msgid ""
+"Because the software radio is not a precision device, The error value must be "
+"set to properly calibrate the radio dongle.\n"
+"\n"
+"To perform calibration, the autocalibrate takes some time, but will scan many "
+"error values searching for AIS signals.  This requires fairly frequent AIS "
+"traffic to work.\n"
+"\n"
+"Alternately if gnuradio is installed, you may use the included script and "
+"either look for peaks on ais traffic, or use a known frequency (for example, "
+"vhf channel 8 is "
+msgstr ""
+"Because the software radio is not a precision device, The error value must be "
+"set to properly calibrate the radio dongle.\n"
+"To perform calibration, launch \"gnuradio-companion gr-ais.grc\"(On a netbook "
+"first enable only the lower block or the top two take thewhole screen and you "
+"cannot see the third block)\n"
+"                     Set the frequency to a known vhf frequency, (for "
+"example, channel 8 is "
+#
+msgid "Clear"
+msgstr "Effacer"
+#
+msgid "Close"
+msgstr "Fermer"
+#
+msgid "Enable"
+msgstr "Permettre"
+#
+msgid "Error Correction"
+msgstr "Correction d'erreur"
+#
+msgid "Error Correction Calibration"
+msgstr "Correction d'erreur"
+#
+msgid "Execution failed"
+msgstr "Echec de l'exécution"
+#
+msgid "FM Radio"
+msgstr "Radio FM"
+#
+msgid "Failed to open: "
+msgstr "Impossible d'ouvrir :"
+#
+msgid "Info"
+msgstr "Info"
+#
+msgid "Information"
+msgstr ""
+#
+msgid "Invalid FM frequency"
+msgstr "Fréquence FM invalide"
+#
+msgid "Manual via grc"
+msgstr ""
+#
+msgid "Messages"
+msgstr "Méssages"
+#
+msgid "Mhz"
+msgstr "Mhz"
+#
+msgid ""
+"No AIS messages received\n"
+"Calibration Failed"
+msgstr ""
+#
+msgid "Plot"
+msgstr "Plot"
+#
+msgid "Preferences"
+msgstr "Préférences"
+#
+msgid "Program"
+msgstr ""
+#
+msgid "Sample Rate (khz)"
+msgstr "Taux d'échantillonnage (khz)"
+#
+msgid ""
+"This plugin integrates opencpn with the rtlsdr project to turn DVB dongles "
+"into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n"
+"\n"
+"The author is using the r820t type dvb-t dongle with a standard vhf antenna, "
+"but many others can work.  The antenna coax cable is spliced to the dvb-t "
+"cable, both inner and outer connections must be made.\n"
+"\n"
+"Currently ais channel A only is available with rtl_fm and aisdecoder mode. "
+"This method uses little cpu and is very efficient. \n"
+"The gnuradio implementation automatically receives both channels A and B \n"
+"simaltaniously but uses much more cpu (due to the python implementation)"
+msgstr ""
+#
+msgid "Unknown mode"
+msgstr "Mode inconnu"
+#
+msgid "VHF Audio"
+msgstr "Audio VHF"
+#
+msgid "WX"
+msgstr "WX"
+#
+msgid "ais_rx  (gnuradio)"
+msgstr ""
+#
+msgid "rtl_fm | aisdecoder"
+msgstr ""
+#
+msgid "rtlsdr"
+msgstr "rtlsdr"
+#
+msgid "rtlsdr PlugIn for OpenCPN"
+msgstr "Complément rtlsdr pour openCPN"
+#
+msgid ""
+"rtlsdr PlugIn for OpenCPN\n"
+"Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n"
+"Support ADS-b FM radio and vhf\n"
+"Eventually version will need to link with gnu radio directly.\n"
+"\n"
+"The rtlsdr plugin was written by Sean D'Epagnier\n"
+msgstr ""
+"Complément rtlsdr pour OpenCPN\n"
+"Ce complément lit les phrases NMEA depuis les scripts gr-ais ais_rx.py. \n"
+"Il supporte les radio FM et les VHF ADS-b\n"
+"Éventuellement, cette version devra faire le lien avec la radio gnu "
+"directement..\n"
+"\n"
+"Le complément a été développé par  Sean D'Epagnier\n"
+#
+msgid "rtlsdr Preferences"
+msgstr "Préférences rtlsdr"
+#
+msgid "rtlsdr error calibration"
+msgstr "Correction d'erreur"

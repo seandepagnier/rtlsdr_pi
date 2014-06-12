@@ -44,7 +44,7 @@ void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )
 
 void rtlsdrPrefs::OnAutoCalibrate( wxCommandEvent& event )
 {
-    wxProgressDialog progress(_("rtlsdr error calibration"), _(""), 256, this,
+    wxProgressDialog progress(_("rtlsdr error calibration"), _T(""), 256, this,
                               wxPD_ELAPSED_TIME | wxPD_ESTIMATED_TIME | wxPD_CAN_ABORT);
     m_rtlsdr_pi.Stop();
 
