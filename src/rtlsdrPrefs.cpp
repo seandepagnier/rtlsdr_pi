@@ -5,7 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2013 by Sean D'Epagnier                                 *
+ *   Copyright (C) 2014 by Sean D'Epagnier                                 *
  *   sean at depagnier dot com                                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,7 +39,7 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 
 void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )
 {
-    m_sAISSampleRate->Enable(event.GetSelection());
+    m_sAISSampleRate->Enable((bool)event.GetSelection());
 }
 
 void rtlsdrPrefs::OnAutoCalibrate( wxCommandEvent& event )

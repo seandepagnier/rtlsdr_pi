@@ -432,7 +432,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
     
     dialog->m_rbAIS->SetValue(m_Mode == AIS);
     dialog->m_cAISProgram->SetSelection(m_AISProgram);
-    dialog->m_sAISSampleRate->Enable((int)m_AISProgram);
+    dialog->m_sAISSampleRate->Enable((bool)m_AISProgram);
     dialog->m_sAISSampleRate->SetValue(m_AISSampleRate);
     dialog->m_sAISError->SetValue(m_AISError);
 
