@@ -49,9 +49,9 @@ msgstr ""
 "valores de error posibles buscando mensajes en las frecuencias AIS. Es necesario que haya "
 "bastante tráfico de barcos para que funcione.\n"
 "\n"
-"Como alternativa y siempre que gnuradio esté instalado puede buscar señales de mensajes"
-"en los canales AIS o sintonizar en un canal conocido y transmitir en él "
-"(por ejemplo el canal 8 está en 156.40 MHZ) "
+"Como método alternativo puede usar gnuradio, o similar, y buscar la señal de los "
+"mensajes en los canales AIS o sintonizar en un canal conocido y transmitir en él "
+"(por ejemplo el canal 8 está en 156.40 MHZ). "
 
 #: src/rtlsdrPrefs.cpp:162
 msgid ""
@@ -61,11 +61,11 @@ msgid ""
 "Once working, you should be able to see bursts (ais data) from the A and B\n"
 "in the filtered output, and receive ais messages (if any are available)\n"
 msgstr ""
-"a continuación observe cuan lejos está el pico de la señal de la frecuencia "
+"A continuación observe la distancia entre el pico de la señal y la frecuencia "
 "real en khz. Este será el valor del factor de error para calibrar el dispositivo.\n"
 "\n"
 "Una vez en funcionamiento deberia poder ver ráfagas (datos AIS) en el canal A Y B "
-"y recibir mansajes AIS en la salida filtrada (si estuvieran presentes).\n"
+"y recibir mensajes AIS en la salida filtrada (si estuvieran presentes).\n"
 
 #: src/rtlsdrPrefs.cpp:166 src/rtlsdrPrefs.cpp:182 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:94 src/rtlsdr_pi.cpp:291 src/rtlsdr_pi.cpp:383
