@@ -27,7 +27,7 @@ msgid ""
 "Calibration Failed"
 msgstr ""
 "Mensajes AIS no recibidos\n"
-"Calibración errónea"
+"Calibración fallida"
 
 #: src/rtlsdrPrefs.cpp:153
 msgid ""
