@@ -166,7 +166,7 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:198
 msgid "Plot"
-msgstr ""
+msgstr "Trazar"
 
 #: src/rtlsdrUI.cpp:211
 msgid "FM Radio"
