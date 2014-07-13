@@ -226,16 +226,16 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:289
 msgid "Execution failed"
-msgstr ""
+msgstr "Ejecución fallida"
 
 #: src/rtlsdr_pi.cpp:325
 msgid "Invalid FM frequency"
-msgstr ""
+msgstr "Frecuencia FM inválida"
 
 #: src/rtlsdr_pi.cpp:374
 msgid "Unknown mode"
-msgstr ""
+msgstr "Modo desconocido"
 
 #: src/rtlsdr_pi.cpp:382 src/rtlsdr_pi.cpp:394
 msgid "Failed to open: "
-msgstr ""
+msgstr "Error abriendo: "
