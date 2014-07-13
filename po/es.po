@@ -65,7 +65,7 @@ msgstr ""
 "real en khz. Este será el valor del factor de error para calibrar el dispositivo.\n"
 "\n"
 "Una vez en funcionamiento deberia poder ver ráfagas (datos AIS) en el canal A Y B "
-"y recibir mansajes AIS en la salida filtrada (si estuvieran preentes).\n"
+"y recibir mansajes AIS en la salida filtrada (si estuvieran presentes).\n"
 
 #: src/rtlsdrPrefs.cpp:166 src/rtlsdrPrefs.cpp:182 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:94 src/rtlsdr_pi.cpp:291 src/rtlsdr_pi.cpp:383
@@ -87,27 +87,38 @@ msgid ""
 "The gnuradio implementation automatically receives both channels A and B \n"
 "simaltaniously but uses much more cpu (due to the python implementation)"
 msgstr ""
+"Este plugin integra OpenCPN con el proyecto rtlsdr que convierte adaptadores TDT "
+"en receptores SDR. Ver: http://sdr.osmocom.org/trac/wiki/rtl-sdr\n"
+"\n"
+"El autor utiliza un adaptador TDT r820t con una antena VHF estandar pero otros "
+"modelos funcionarán también. El cable coaxial de la antena está empalmado con el "
+"cable del adaptador. Deben hacerse ambas conexiones interior y exterior.\n"
+"\n"
+"Actualmente con el modo rtl_fm y aisdecoder solo está disponible el canal AIS A. "
+"Este método usa muy poca CPU y es muy eficiente. \n"
+"El modo gnuradio recibe automáticamente ambos canales A y B simultaneamente \n"
+"pero utiliza mucha más CPU (debido a la implementación en python)."
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr ""
+msgstr "Mensajes"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:107 src/rtlsdrUI.cpp:195
 #: src/rtlsdrUI.cpp:218 src/rtlsdrUI.cpp:242
 msgid "Enable"
-msgstr ""
+msgstr "Activar"
 
 #: src/rtlsdrUI.cpp:50
 msgid "Preferences"
-msgstr ""
+msgstr "Preferencias"
 
 #: src/rtlsdrUI.cpp:53
 msgid "Clear"
-msgstr ""
+msgstr "Borrar"
 
 #: src/rtlsdrUI.cpp:56
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: src/rtlsdrUI.cpp:100
 msgid "AIS"
@@ -115,7 +126,7 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:115
 msgid "Program"
-msgstr ""
+msgstr "Programa"
 
 #: src/rtlsdrUI.cpp:119
 msgid "rtl_fm | aisdecoder"
@@ -127,19 +138,19 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:133
 msgid "Sample Rate (khz)"
-msgstr ""
+msgstr "Fr muestreo (khz)"
 
 #: src/rtlsdrUI.cpp:144
 msgid "Error Correction Calibration"
-msgstr ""
+msgstr "Calibración de factor de error"
 
 #: src/rtlsdrUI.cpp:151
 msgid "Error Correction"
-msgstr ""
+msgstr "Factor de error"
 
 #: src/rtlsdrUI.cpp:158
 msgid "Auto Calibrate"
-msgstr ""
+msgstr "Auto Calibración"
 
 #: src/rtlsdrUI.cpp:161
 msgid "Manual via grc"
@@ -147,7 +158,7 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:164
 msgid "Info"
-msgstr ""
+msgstr "Información"
 
 #: src/rtlsdrUI.cpp:188
 msgid "ADS-B"
@@ -183,19 +194,19 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:266
 msgid "About Author"
-msgstr ""
+msgstr "Sobre el autor"
 
 #: src/rtlsdrUI.cpp:269
 msgid "Information"
-msgstr ""
+msgstr "Información"
 
 #: src/rtlsdrUI.h:104
 msgid "rtlsdr Preferences"
-msgstr ""
+msgstr "Preferencias rtlsdr"
 
 #: src/rtlsdr_pi.cpp:175
 msgid "rtlsdr PlugIn for OpenCPN"
-msgstr ""
+msgstr "Plugin rtlsdr para OpenCPN"
 
 #: src/rtlsdr_pi.cpp:180
 msgid ""
@@ -206,6 +217,12 @@ msgid ""
 "\n"
 "The rtlsdr plugin was written by Sean D'Epagnier\n"
 msgstr ""
+"Plugin rtlsdr para OpenCPN\n"
+"Lee mensajes NMEA rtlsdr desde los scripts gr-ais, ais_rx.py, aisdecoder. \n"
+"Implementa ADS-b, radio FM y VHF.\n"
+"Eventualmente necesitará enlazar con gnuradio directamente.\n"
+"\n"
+"Creado por Sean D'Epagnier\n"
 
 #: src/rtlsdr_pi.cpp:289
 msgid "Execution failed"
