@@ -7,54 +7,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: rtlsdr_pi 0.10\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-14 03:32+0800\n"
-"PO-Revision-Date: 2014-07-13 17:00+0100\n"
-"Last-Translator: FULL NAME <info@sailoog.com>\n"
-"Language-Team: LANGUAGE <info@sailoog.com>\n"
+"POT-Creation-Date: 2014-07-24 12:00+0100\n"
+"PO-Revision-Date: 2014-07-24 12:00+0100\n"
+"Last-Translator: sailoog <info@sailoog.com>\n"
+"Language-Team:  <info@sailoog.com>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-#
+"X-Generator: Poedit 1.5.4\n"
+"X-Poedit-Basepath: /home/sailoog/rtlsdr_pi/\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop\n"
+"X-Poedit-SearchPath-0: src\n"
+
+#: src/rtlsdrPrefs.cpp:47 src/rtlsdrPrefs.cpp:137
+msgid "rtlsdr error calibration"
+msgstr "Calibración de rtlsdr"
+
+#: src/rtlsdrPrefs.cpp:136
 msgid ""
-") and transmit on this frequency to note how far the peak is from the true "
-"frequency in khz.  This is the error value needed to calibrate the dongle.\n"
-"\n"
-"Once working, you should be able to see bursts (ais data) from the A and B\n"
-"in the filtered output, and receive ais messages (if any are available)\n"
+"No AIS messages received\n"
+"Calibration Failed"
 msgstr ""
-"A continuación observe la distancia entre el pico de la señal y la frecuencia "
-"real en khz. Este será el valor del factor de error para calibrar el "
-"dispositivo.\n"
-"\n"
-"Una vez en funcionamiento deberia poder ver ráfagas (datos AIS) en el canal A "
-"Y B y recibir mensajes AIS en la salida filtrada (si estuvieran presentes).\n"
-#
-msgid "100.4"
-msgstr ""
-#
-msgid "16"
-msgstr ""
-#
-msgid "ADS-B"
-msgstr ""
-#
-msgid "AIS"
-msgstr ""
-#
-msgid "About Author"
-msgstr "Sobre el autor"
-#
-msgid "Auto Calibrate"
-msgstr "Auto Calibración"
-#
+"Mensajes AIS no recibidos\n"
+"Calibración fallida"
+
+#: src/rtlsdrPrefs.cpp:153
 msgid ""
-"Because the software radio is not a precision device, The error value must be "
-"set to properly calibrate the radio dongle.\n"
+"Because the software radio is not a precision device, The error value must "
+"be set to properly calibrate the radio dongle.\n"
 "\n"
-"To perform calibration, the autocalibrate takes some time, but will scan many "
-"error values searching for AIS signals.  This requires fairly frequent AIS "
-"traffic to work.\n"
+"To perform calibration, the autocalibrate takes some time, but will scan "
+"many error values searching for AIS signals.  This requires fairly frequent "
+"AIS traffic to work.\n"
 "\n"
 "Alternately if gnuradio is installed, you may use the included script and "
 "either look for peaks on ais traffic, or use a known frequency (for example, "
@@ -69,69 +54,31 @@ msgstr ""
 "\n"
 "Como método alternativo puede usar gnuradio, o similar, y buscar la señal de "
 "los mensajes en los canales AIS o sintonizar en un canal conocido y "
-"transmitir en él (por ejemplo el canal 8 está en 156.40 MHZ). "
-#
-msgid "Clear"
-msgstr "Borrar"
-#
-msgid "Close"
-msgstr "Cerrar"
-#
-msgid "Enable"
-msgstr "Activar"
-#
-msgid "Error Correction"
-msgstr "Factor de error"
-#
-msgid "Error Correction Calibration"
-msgstr "Calibración de factor de error"
-#
-msgid "Execution failed"
-msgstr "Ejecución fallida"
-#
-msgid "FM Radio"
-msgstr ""
-#
-msgid "Failed to open: "
-msgstr "Error abriendo: "
-#
-msgid "Info"
-msgstr "Información"
-#
-msgid "Information"
-msgstr "Información"
-#
-msgid "Invalid FM frequency"
-msgstr "Frecuencia FM inválida"
-#
-msgid "Manual via grc"
-msgstr ""
-#
-msgid "Messages"
-msgstr "Mensajes"
-#
-msgid "Mhz"
-msgstr ""
-#
+"transmitir en él (por ejemplo el canal 8 está en "
+
+#: src/rtlsdrPrefs.cpp:162
 msgid ""
-"No AIS messages received\n"
-"Calibration Failed"
+") and transmit on this frequency to note how far the peak is from the true "
+"frequency in khz.  This is the error value needed to calibrate the dongle.\n"
+"\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output, and receive ais messages (if any are available)\n"
 msgstr ""
-"Mensajes AIS no recibidos\n"
-"Calibración fallida"
-#
-msgid "Plot"
-msgstr "Trazar"
-#
-msgid "Preferences"
-msgstr "Preferencias"
-#
-msgid "Program"
-msgstr "Programa"
-#
-msgid "Sample Rate (khz)"
-msgstr "Fr muestreo (khz)"
-#
+"). A continuación observe la distancia entre el pico de la señal y la "
+"frecuencia real en khz. Este será el valor del factor de error para calibrar "
+"el dispositivo.\n"
+"\n"
+"Una vez en funcionamiento deberia poder ver ráfagas (datos AIS) en el canal "
+"A Y B y recibir mensajes AIS en la salida filtrada (si estuvieran "
+"presentes).\n"
+
+#: src/rtlsdrPrefs.cpp:166 src/rtlsdrPrefs.cpp:182 src/rtlsdr_pi.cpp:94
+#: src/rtlsdr_pi.cpp:291 src/rtlsdr_pi.cpp:383 src/rtlsdr_pi.cpp:395
+#: src/rtlsdrUI.h:56
+msgid "rtlsdr"
+msgstr ""
+
+#: src/rtlsdrPrefs.cpp:172
 msgid ""
 "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles "
 "into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n"
@@ -150,35 +97,121 @@ msgstr ""
 "\n"
 "El autor utiliza un adaptador TDT r820t con una antena VHF estandar pero "
 "otros modelos funcionarán también. El cable coaxial de la antena está "
-"empalmado con el cable del adaptador. Deben hacerse ambas conexiones interior "
-"y exterior.\n"
+"empalmado con el cable del adaptador. Deben hacerse ambas conexiones "
+"interior y exterior.\n"
 "\n"
-"Actualmente con el modo rtl_fm y aisdecoder solo está disponible el canal AIS "
-"A. Este método usa muy poca CPU y es muy eficiente. \n"
-"El modo gnuradio recibe automáticamente ambos canales A y B simultaneamente \n"
+"Actualmente con el modo rtl_fm y aisdecoder solo está disponible el canal "
+"AIS A. Este método usa muy poca CPU y es muy eficiente. \n"
+"El modo gnuradio recibe automáticamente ambos canales A y B "
+"simultaneamente \n"
 "pero utiliza mucha más CPU (debido a la implementación en python)."
-#
-msgid "Unknown mode"
-msgstr "Modo desconocido"
-#
-msgid "VHF Audio"
+
+#: src/rtlsdrUI.cpp:24
+msgid "Messages"
+msgstr "Mensajes"
+
+#: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:107 src/rtlsdrUI.cpp:195
+#: src/rtlsdrUI.cpp:218 src/rtlsdrUI.cpp:242
+msgid "Enable"
+msgstr "Activar"
+
+#: src/rtlsdrUI.cpp:50
+msgid "Preferences"
+msgstr "Preferencias"
+
+#: src/rtlsdrUI.cpp:53
+msgid "Clear"
+msgstr "Borrar"
+
+#: src/rtlsdrUI.cpp:56
+msgid "Close"
+msgstr "Cerrar"
+
+#: src/rtlsdrUI.cpp:100
+msgid "AIS"
 msgstr ""
-#
-msgid "WX"
-msgstr ""
-#
-msgid "ais_rx  (gnuradio)"
-msgstr ""
-#
+
+#: src/rtlsdrUI.cpp:115
+msgid "Program"
+msgstr "Programa"
+
+#: src/rtlsdrUI.cpp:119
 msgid "rtl_fm | aisdecoder"
 msgstr ""
-#
-msgid "rtlsdr"
+
+#: src/rtlsdrUI.cpp:119
+msgid "ais_rx  (gnuradio)"
 msgstr ""
-#
+
+#: src/rtlsdrUI.cpp:133
+msgid "Sample Rate (khz)"
+msgstr "Fr muestreo (khz)"
+
+#: src/rtlsdrUI.cpp:144
+msgid "Error Correction Calibration"
+msgstr "Calibración de factor de error"
+
+#: src/rtlsdrUI.cpp:151
+msgid "Error Correction"
+msgstr "Factor de error"
+
+#: src/rtlsdrUI.cpp:158
+msgid "Auto Calibrate"
+msgstr "Auto Calibración"
+
+#: src/rtlsdrUI.cpp:161
+msgid "Manual via grc"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:164
+msgid "Info"
+msgstr "Información"
+
+#: src/rtlsdrUI.cpp:188
+msgid "ADS-B"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:198
+msgid "Plot"
+msgstr "Trazar"
+
+#: src/rtlsdrUI.cpp:211
+msgid "FM Radio"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:221
+msgid "100.4"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:224
+msgid "Mhz"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:235
+msgid "VHF Audio"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:245
+msgid "16"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:248
+msgid "WX"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:266
+msgid "About Author"
+msgstr "Sobre el autor"
+
+#: src/rtlsdrUI.cpp:269
+msgid "Information"
+msgstr "Información"
+
+#: src/rtlsdr_pi.cpp:175
 msgid "rtlsdr PlugIn for OpenCPN"
 msgstr "Plugin rtlsdr para OpenCPN"
-#
+
+#: src/rtlsdr_pi.cpp:180
 msgid ""
 "rtlsdr PlugIn for OpenCPN\n"
 "Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n"
@@ -193,9 +226,23 @@ msgstr ""
 "Eventualmente necesitará enlazar con gnuradio directamente.\n"
 "\n"
 "Creado por Sean D'Epagnier\n"
-#
+
+#: src/rtlsdr_pi.cpp:289
+msgid "Execution failed"
+msgstr "Ejecución fallida"
+
+#: src/rtlsdr_pi.cpp:325
+msgid "Invalid FM frequency"
+msgstr "Frecuencia FM inválida"
+
+#: src/rtlsdr_pi.cpp:374
+msgid "Unknown mode"
+msgstr "Modo desconocido"
+
+#: src/rtlsdr_pi.cpp:382 src/rtlsdr_pi.cpp:394
+msgid "Failed to open: "
+msgstr "Error abriendo: "
+
+#: src/rtlsdrUI.h:104
 msgid "rtlsdr Preferences"
 msgstr "Preferencias rtlsdr"
-#
-msgid "rtlsdr error calibration"
-msgstr "Calibración de rtlsdr"
