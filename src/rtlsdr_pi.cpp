@@ -350,7 +350,7 @@ void rtlsdr_pi::Start()
     case AIS:
         switch(m_AISProgram) {
         case AISDECODER:
-            m_command1 = wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k"),
+            m_command1 = wxString::Format(_T("rtl_fm -f 161975000 -p %d -g 49.6 -s 48k"),
                                           m_AISError);
             m_command2 = _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin");
             break;
