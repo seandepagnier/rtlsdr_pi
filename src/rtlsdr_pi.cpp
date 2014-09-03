@@ -5,7 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2013 by Sean D'Epagnier                                 *
+ *   Copyright (C) 2014 by Sean D'Epagnier                                 *
  *   sean at depagnier dot com                                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,7 +26,6 @@
  */
 
 
-#include <wx/wx.h>
 #include <wx/process.h>
 
 #ifdef __unix__
@@ -346,16 +345,21 @@ void rtlsdr_pi::Start()
 
     m_command1 = _T("");
 
+    wxString path;
+#ifdef __WIN32__ // on windows the utility is distributed with the plugin
+    path = *GetpSharedDataLocation() + _T("plugins\\rtlsdr_pi\\bin\\");
+#endif
+
     switch(m_Mode) {
     case AIS:
         switch(m_AISProgram) {
         case AISDECODER:
-            m_command1 = wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k"),
+            m_command1 = path + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k"),
                                           m_AISError);
-            m_command2 = _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin");
+            m_command2 = path + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin");
             break;
         case AIS_RX:
-            m_command2 = wxString::Format(_T("ais_rx -d -r %d -e %d"),
+            m_command2 = path + wxString::Format(_T("ais_rx -d -r %d -e %d"),
                                           m_AISSampleRate*1000, m_AISError);
             break;
         } break;

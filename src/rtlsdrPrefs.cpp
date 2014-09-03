@@ -169,7 +169,7 @@ in the filtered output, and receive ais messages (if any are available)\n"),
 
 void rtlsdrPrefs::OnInformation( wxCommandEvent& event )
 {
-        wxMessageDialog mdlg(this, _("\
+    wxString basemsg = _("\
 This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into \
 a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n\
 The author is using the r820t type dvb-t dongle with a standard vhf antenna, \
@@ -178,8 +178,16 @@ cable, both inner and outer connections must be made.\n\n\
 Currently ais channel A only is available with rtl_fm and aisdecoder mode. \
 This method uses little cpu and is very efficient. \n\
 The gnuradio implementation automatically receives both channels A and B \n\
-simaltaniously but uses much more cpu (due to the python implementation)"),
-                             _("rtlsdr"), wxOK);
+simaltaniously but uses much more cpu (due to the python implementation)");
+
+    wxMessageDialog mdlg(this,
+#ifdef __WIN32__
+	_("\
+Under Windows Operating system, you must first run the utility program 'zadig'\
+to install the needed usb driver once the device is plugged in.\n\
+You can find this program at http://zadig.akeo.ie\n\n") +
+#endif
+                             basemsg, _("rtlsdr"), wxOK);
     mdlg.ShowModal();
 }
 

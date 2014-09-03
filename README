@@ -12,6 +12,8 @@ can also perform automatic calibration.
 
 For windows, I have compiled the needed programs using mingw, and
 provided binaries already (in the buildwin/bin directory)
+You must download the rtlsdr_winutilites.zip file available from sourceforge
+and extract it here to compile from source on windows and correctly build packages.
 
 Otherwise you must compile from source and install:
 
