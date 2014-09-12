@@ -30,7 +30,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	fgSizer13->SetFlexibleDirection( wxBOTH );
 	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_tMessages = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( -1,40 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_tMessages = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 420,70 ), wxTE_MULTILINE|wxTE_READONLY );
 	fgSizer13->Add( m_tMessages, 0, wxALL|wxEXPAND, 5 );
 	
 	
@@ -62,6 +62,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	
 	this->SetSizer( fgSizer8 );
 	this->Layout();
+	fgSizer8->Fit( this );
 	
 	this->Centre( wxBOTH );
 	

@@ -5,7 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2013 by Sean D'Epagnier                                 *
+ *   Copyright (C) 2014 by Sean D'Epagnier                                 *
  *   sean at depagnier dot com                                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,8 +51,6 @@ class wxProcessEvent;
 
 enum rtlsdrMode {AIS, ADSB, FM, VHF};
 
-enum aisProgram {AISDECODER, AIS_RX};
-
 class rtlsdr_pi : public opencpn_plugin_18, public wxEvtHandler
 {
 public:
@@ -79,8 +77,8 @@ public:
       void SetColorScheme(PI_ColorScheme cs);
 
 //    Other public methods
-      void SetrtlsdrDialogX    (int x){ m_rtlsdr_dialog_x = x;};
-      void SetrtlsdrDialogY    (int x){ m_rtlsdr_dialog_y = x;}
+      void SetrtlsdrDialogX    (int x) { m_rtlsdr_dialog_x = x;};
+      void SetrtlsdrDialogY    (int x) { m_rtlsdr_dialog_y = x;}
 
       void OnRtlsdrDialogClose();
       void Restart();
@@ -94,7 +92,7 @@ public:
       bool m_bEnabled;
 
       rtlsdrMode m_Mode;
-      aisProgram m_AISProgram;
+      wxString m_AISProgram;
       int m_AISSampleRate, m_AISError;
       bool m_bADSBPlot;
       double m_dFMFrequency;
@@ -105,9 +103,14 @@ public:
 
       int m_AISCount;
 
+      // should we support sox as a cross platform alternative to aplay?
+      enum Processes { RTL_FM, AISDECODER, AIS_RX, RTL_ADSB, APLAY, PROCESS_COUNT };
+      bool have_processes[PROCESS_COUNT];
+
 private:
       void ProcessInputStream( wxInputStream *in );
       void OnTimer( wxTimerEvent & );
+      void ReportErrorStream(wxProcess *process);
       void OnTerminate(wxProcessEvent&);
 
       bool              LoadConfig(void);

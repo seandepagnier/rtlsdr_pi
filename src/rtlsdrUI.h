@@ -53,7 +53,7 @@ class rtlsdrDialogBase : public wxDialog
 		wxTextCtrl* m_tMessages;
 		wxCheckBox* m_cbEnabled;
 		
-		rtlsdrDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,160 ), long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL ); 
+		rtlsdrDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER|wxTAB_TRAVERSAL ); 
 		~rtlsdrDialogBase();
 	
 };

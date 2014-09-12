@@ -35,6 +35,26 @@
 rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
     : rtlsdrPrefsBase( parent ), m_rtlsdr_pi(_rtlsdr_pi)
 {
+
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_FM] ||
+       !m_rtlsdr_pi.have_processes[rtlsdr_pi::AISDECODER]) {
+        if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::AIS_RX]) {
+            m_rbAIS->Disable();
+            m_cAISProgram->Clear();
+        } else
+            m_cAISProgram->Delete(0);
+    } else
+        if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::AIS_RX])
+            m_cAISProgram->Delete(1);
+
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_ADSB])
+        m_rbADSB->Disable();
+
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_FM] ||
+       !m_rtlsdr_pi.have_processes[rtlsdr_pi::APLAY]) {
+        m_rbFM->Disable();
+        m_rbVHF->Disable();
+    }
 }
 
 void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )

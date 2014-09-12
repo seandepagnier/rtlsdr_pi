@@ -42,7 +42,7 @@
             <property name="minimum_size">-1,-1</property>
             <property name="name">rtlsdrDialogBase</property>
             <property name="pos"></property>
-            <property name="size">-1,160</property>
+            <property name="size">-1,-1</property>
             <property name="style">wxCAPTION|wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER</property>
             <property name="subclass"></property>
             <property name="title">rtlsdr</property>
@@ -175,7 +175,7 @@
                                         <property name="pos"></property>
                                         <property name="resize">Resizable</property>
                                         <property name="show">1</property>
-                                        <property name="size">-1,40</property>
+                                        <property name="size">420,70</property>
                                         <property name="style">wxTE_MULTILINE|wxTE_READONLY</property>
                                         <property name="subclass"></property>
                                         <property name="toolbar_pane">0</property>
