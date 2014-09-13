@@ -43,7 +43,9 @@ static void KillProcess(wxProcess *process)
         return;
 
     int pid = process->GetPid();
-    wxProcess::Kill(pid);
+    wxThread::Sleep(25);
+    if(wxProcess::Exists(pid))
+        wxProcess::Kill(pid);
     wxThread::Sleep(25);
     if(wxProcess::Exists(pid))
         wxProcess::Kill(pid, wxSIGKILL);
@@ -85,9 +87,9 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
     // detect helper programs
     const wxString ProcessNames[] = {_T("rtl_fm"), _T("aisdecoder"), _T("ais_rx"), _T("rtl_adsb"), _T("aplay")};
     for(int i=0; i<PROCESS_COUNT; i++) {
-        wxProcess *process = wxProcess::Open(PATH() + ProcessNames[i]);
+        // pass -h because we are only testing the binary exists in the path
+        wxProcess *process = wxProcess::Open(PATH() + ProcessNames[i] + _T(" -h"));
         have_processes[i] = process;
-        KillProcess(process);
     }
 }
 
