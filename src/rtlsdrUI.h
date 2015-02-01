@@ -67,6 +67,8 @@ class rtlsdrPrefsBase : public wxDialog
 	
 	protected:
 		wxStaticText* m_staticText5;
+		wxStaticText* m_stP1args;
+		wxStaticText* m_stP2args;
 		wxStaticText* m_staticText29;
 		wxStaticText* m_staticText30;
 		wxButton* m_button7;
@@ -91,6 +93,8 @@ class rtlsdrPrefsBase : public wxDialog
 	public:
 		wxRadioButton* m_rbAIS;
 		wxChoice* m_cAISProgram;
+		wxTextCtrl* m_tP1args;
+		wxTextCtrl* m_tP2args;
 		wxSpinCtrl* m_sAISSampleRate;
 		wxSpinCtrl* m_sAISError;
 		wxRadioButton* m_rbADSB;

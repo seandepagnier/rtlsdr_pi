@@ -93,6 +93,7 @@ public:
 
       rtlsdrMode m_Mode;
       wxString m_AISProgram;
+      wxString m_P1args, m_P2args;
       int m_AISSampleRate, m_AISError;
       bool m_bADSBPlot;
       double m_dFMFrequency;

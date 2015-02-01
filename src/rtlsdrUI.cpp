@@ -126,6 +126,35 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	fgSizer12->Add( fgSizer121, 1, wxEXPAND, 5 );
 	
+	wxStaticBoxSizer* sbSizer71;
+	sbSizer71 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("extra args (blank default)") ), wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer15;
+	fgSizer15 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer15->AddGrowableCol( 1 );
+	fgSizer15->SetFlexibleDirection( wxBOTH );
+	fgSizer15->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_stP1args = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_stP1args->Wrap( -1 );
+	fgSizer15->Add( m_stP1args, 0, wxALL, 5 );
+	
+	m_tP1args = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer15->Add( m_tP1args, 0, wxALL|wxEXPAND, 5 );
+	
+	m_stP2args = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_stP2args->Wrap( -1 );
+	fgSizer15->Add( m_stP2args, 0, wxALL, 5 );
+	
+	m_tP2args = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer15->Add( m_tP2args, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	sbSizer71->Add( fgSizer15, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer12->Add( sbSizer71, 1, wxEXPAND, 5 );
+	
 	wxFlexGridSizer* fgSizer24;
 	fgSizer24 = new wxFlexGridSizer( 0, 2, 0, 0 );
 	fgSizer24->SetFlexibleDirection( wxBOTH );

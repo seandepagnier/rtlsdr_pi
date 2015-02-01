@@ -413,11 +413,12 @@ void rtlsdr_pi::Start()
     switch(m_Mode) {
     case AIS:
         if(m_AISProgram == _T("aisdecoder")) {
-            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k"),
+            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k") + m_P1args,
                                           m_AISError);
-            m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin");
+            m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin"
+                 + m_P2args);
         } else if(m_AISProgram == _T("ais_rx")) {
-            m_command2 = PATH() + wxString::Format(_T("ais_rx -d -r %d -e %d"),
+            m_command2 = PATH() + wxString::Format(_T("ais_rx -d -r %d -e %d") + m_P1args,
                                           m_AISSampleRate*1000, m_AISError);
         }
         break;
@@ -494,7 +495,9 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         if(dialog->m_cAISProgram->GetString(i).Contains(m_AISProgram))
            dialog->m_cAISProgram->SetSelection(i);
 
-    dialog->m_sAISSampleRate->Enable((bool)m_AISProgram);
+    dialog->m_tP1args->SetValue(m_P1args);
+    dialog->m_tP2args->SetValue(m_P2args);
+
     dialog->m_sAISSampleRate->SetValue(m_AISSampleRate);
     dialog->m_sAISError->SetValue(m_AISError);
 
@@ -507,6 +510,9 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
     dialog->m_rbVHF->SetValue(m_Mode == VHF);
     dialog->m_tVHFChannel->SetValue(wxString::Format(_T("%d"), m_iVHFChannel));
     dialog->m_cbVHFWX->SetValue(m_bVHFWX);
+
+    wxCommandEvent d;
+    dialog->OnAISProgram(d);
     
     dialog->Fit();
     wxColour cl;
@@ -527,6 +533,8 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
 
         wxString AISProgram = dialog->m_cAISProgram->GetString(dialog->m_cAISProgram->GetSelection()).Contains(_T("aisdecoder")) ?
             _T("aisdecoder") : _T("ais_rx");
+        wxString P1args = dialog->m_tP1args->GetValue();
+        wxString P2args = dialog->m_tP2args->GetValue();
         int AISSampleRate = dialog->m_sAISSampleRate->GetValue();
         int AISError = dialog->m_sAISError->GetValue();
 
@@ -542,6 +550,8 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         bool restart =
             m_Mode != mode ||
             (mode == AIS && (m_AISProgram != AISProgram ||
+                             m_P1args != P1args ||
+                             m_P2args != P2args ||
                              m_AISSampleRate != AISSampleRate ||
                              m_AISError != AISError)) ||
             (mode == FM && m_dFMFrequency != FMFrequency) ||
@@ -550,6 +560,8 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         m_Mode = (rtlsdrMode)mode;
 
         m_AISProgram = AISProgram;
+        m_P1args = P1args;
+        m_P2args = P2args;
         m_AISSampleRate = AISSampleRate;
         m_AISError = AISError;
 
@@ -583,6 +595,8 @@ bool rtlsdr_pi::LoadConfig(void)
             m_Mode = (rtlsdrMode)mode;
 
             m_AISProgram = pConf->Read ( _T ( "AISProgram" ), _T("aisdecoder") );
+            m_P1args = pConf->Read ( _T ( "P1args" ), _T("") );
+            m_P2args = pConf->Read ( _T ( "P2args" ), _T("") );
             m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
             m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
 
@@ -616,6 +630,8 @@ bool rtlsdr_pi::SaveConfig(void)
             pConf->Write ( _T ( "Mode" ), (int)m_Mode );
 
             pConf->Write ( _T ( "AISProgram" ), m_AISProgram );
+            pConf->Write ( _T ( "P1args" ), m_P1args );
+            pConf->Write ( _T ( "P2args" ), m_P2args );
             pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
             pConf->Write ( _T ( "AISError" ), m_AISError );
 

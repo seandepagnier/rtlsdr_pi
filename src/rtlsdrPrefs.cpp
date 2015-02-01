@@ -60,6 +60,16 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )
 {
     m_sAISSampleRate->Enable((bool)event.GetSelection());
+    m_stP2args->Show(!event.GetSelection());
+    m_tP2args->Show(!event.GetSelection());
+
+    if(event.GetSelection()) {
+        m_stP1args->SetLabel(_("ais_rx"));
+    } else {
+        m_stP1args->SetLabel(_("rtl_fm"));
+        m_stP2args->SetLabel(_("aisdecoder"));
+    }
+    Fit();
 }
 
 void rtlsdrPrefs::OnAutoCalibrate( wxCommandEvent& event )
