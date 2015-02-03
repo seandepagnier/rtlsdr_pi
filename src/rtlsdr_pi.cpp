@@ -5,8 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2014 by Sean D'Epagnier                                 *
- *   sean at depagnier dot com                                             *
+ *   Copyright (C) 2015 by Sean D'Epagnier                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -413,12 +412,12 @@ void rtlsdr_pi::Start()
     switch(m_Mode) {
     case AIS:
         if(m_AISProgram == _T("aisdecoder")) {
-            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k") + m_P1args,
+            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k ") + m_P1args,
                                           m_AISError);
-            m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin"
+            m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin "
                  + m_P2args);
         } else if(m_AISProgram == _T("ais_rx")) {
-            m_command2 = PATH() + wxString::Format(_T("ais_rx -d -r %d -e %d") + m_P1args,
+            m_command2 = PATH() + wxString::Format(_T("ais_rx -d -r %d -e %d ") + m_P1args,
                                           m_AISSampleRate*1000, m_AISError);
         }
         break;
