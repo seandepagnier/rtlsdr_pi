@@ -75,6 +75,7 @@ class rtlsdrPrefsBase : public wxDialog
 		wxButton* m_bLaunchCompanion;
 		wxButton* m_bInfo;
 		wxStaticText* m_staticText4;
+		wxStaticText* m_staticText7;
 		wxButton* m_bAboutAuthor;
 		wxButton* m_button8;
 		wxStdDialogButtonSizer* m_sdbSizer1;
@@ -104,6 +105,7 @@ class rtlsdrPrefsBase : public wxDialog
 		wxRadioButton* m_rbVHF;
 		wxTextCtrl* m_tVHFChannel;
 		wxCheckBox* m_cbVHFWX;
+		wxSpinCtrl* m_sVHFSquelch;
 		
 		rtlsdrPrefsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE ); 
 		~rtlsdrPrefsBase();

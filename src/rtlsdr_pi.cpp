@@ -382,12 +382,12 @@ double VHFFrequencyMHZ(int channel, bool WX)
     return 0;
 }
 
-wxString PlayFM(double frequency, int samplerate, int outputrate)
+wxString PlayFM(double frequency, int samplerate, int outputrate, int squelch)
 {
     if(frequency == 0)
         return _("Invalid FM frequency");
-    return wxString::Format(_T("rtl_fm -r %dk -s %dk -f %.1fM"),
-                            samplerate, outputrate, frequency);
+    return wxString::Format(_T("rtl_fm -r %dk -s %dk -f %.1fM -l %d"),
+                            samplerate, outputrate, frequency, squelch);
 }
 
 void rtlsdr_pi::Restart()
@@ -425,11 +425,11 @@ void rtlsdr_pi::Start()
         m_command2 = PATH() + wxString::Format(_T("rtl_adsb"));
         break;
     case FM:
-        m_command1 = PlayFM(m_dFMFrequency, 48, 250);
+        m_command1 = PlayFM(m_dFMFrequency, 48, 250, 0);
         m_command2 = _T("aplay -r 48k -f S16_le -t raw -c 1");
         break;
     case VHF:
-        m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12);
+        m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12, m_iVHFSquelch);
         m_command2 = _T("aplay -r 12k -f S16_le -t raw -c 1");
         break;
     default:
@@ -508,6 +508,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
 
     dialog->m_rbVHF->SetValue(m_Mode == VHF);
     dialog->m_tVHFChannel->SetValue(wxString::Format(_T("%d"), m_iVHFChannel));
+    dialog->m_sVHFSquelch->SetValue(wxString::Format(_T("%d"), m_iVHFSquelch));
     dialog->m_cbVHFWX->SetValue(m_bVHFWX);
 
     wxCommandEvent d;
@@ -544,6 +545,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
 
         long VHFChannel;
         dialog->m_tVHFChannel->GetValue().ToLong(&VHFChannel);
+        int VHFSquelch = dialog->m_sVHFSquelch->GetValue();
         bool VHFWX = dialog->m_cbVHFWX->GetValue();
 
         bool restart =
@@ -554,7 +556,9 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
                              m_AISSampleRate != AISSampleRate ||
                              m_AISError != AISError)) ||
             (mode == FM && m_dFMFrequency != FMFrequency) ||
-            (mode == VHF && (m_iVHFChannel != VHFChannel || m_bVHFWX != VHFWX));
+            (mode == VHF && (m_iVHFChannel != VHFChannel ||
+                             m_iVHFSquelch != VHFSquelch ||
+                             m_bVHFWX != VHFWX));
 
         m_Mode = (rtlsdrMode)mode;
 
@@ -567,6 +571,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         m_dFMFrequency = FMFrequency;
 
         m_iVHFChannel = VHFChannel;
+        m_iVHFSquelch = VHFSquelch;
         m_bVHFWX = VHFWX;
 
         if(restart)
@@ -604,6 +609,7 @@ bool rtlsdr_pi::LoadConfig(void)
             pConf->Read ( _T ( "FMFrequency" ), &m_dFMFrequency, 104.4 );
 
             pConf->Read ( _T ( "VHFChannel" ), &m_iVHFChannel, 16 );
+            pConf->Read ( _T ( "VHFSquelch" ), &m_iVHFSquelch, 30 );
             pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
 
             if(m_bEnabled)
@@ -639,6 +645,7 @@ bool rtlsdr_pi::SaveConfig(void)
             pConf->Write ( _T ( "FMFrequency" ), m_dFMFrequency );
 
             pConf->Write ( _T ( "VHFChannel" ), m_iVHFChannel );
+            pConf->Write ( _T ( "VHFSquelch" ), m_iVHFSquelch );
             pConf->Write ( _T ( "VHFWX" ), m_bVHFWX );
 
             return true;

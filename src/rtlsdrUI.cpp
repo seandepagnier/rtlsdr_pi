@@ -265,7 +265,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("VHF Audio") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer9;
-	fgSizer9 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer9 = new wxFlexGridSizer( 0, 3, 0, 0 );
 	fgSizer9->SetFlexibleDirection( wxBOTH );
 	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -277,6 +277,13 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	m_cbVHFWX = new wxCheckBox( this, wxID_ANY, _("WX"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_cbVHFWX, 0, wxALL, 5 );
+	
+	m_staticText7 = new wxStaticText( this, wxID_ANY, _("Squelch"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText7->Wrap( -1 );
+	fgSizer9->Add( m_staticText7, 0, wxALL, 5 );
+	
+	m_sVHFSquelch = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 30 );
+	fgSizer9->Add( m_sVHFSquelch, 0, wxALL, 5 );
 	
 	
 	sbSizer8->Add( fgSizer9, 1, wxEXPAND, 5 );

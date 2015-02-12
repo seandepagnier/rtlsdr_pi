@@ -96,7 +96,7 @@ public:
       int m_AISSampleRate, m_AISError;
       bool m_bADSBPlot;
       double m_dFMFrequency;
-      int m_iVHFChannel;
+      int m_iVHFChannel, m_iVHFSquelch;
       bool m_bVHFWX;
 
       wxFileConfig     *m_pconfig;
