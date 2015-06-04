@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-22 13:54-0500\n"
-"PO-Revision-Date: 2015-04-22 14:55-0400\n"
+"PO-Revision-Date: 2015-05-23 05:02-0400\n"
 "Last-Translator: nohal <pavel@kalian.cz>\n"
 "Language-Team: Portuguese, Brazilian\n"
 "Language: pt_BR\n"
@@ -18,31 +18,41 @@ msgstr ""
 
 #: src/rtlsdrPrefs.cpp:67
 msgid "ais_rx"
-msgstr ""
+msgstr "ais_rx"
 
 #: src/rtlsdrPrefs.cpp:69
 msgid "rtl_fm"
-msgstr ""
+msgstr "rtl_fm"
 
 #: src/rtlsdrPrefs.cpp:70
 msgid "aisdecoder"
-msgstr ""
+msgstr "aisdecoder"
 
 #: src/rtlsdrPrefs.cpp:77 src/rtlsdrPrefs.cpp:167
 msgid "rtlsdr error calibration"
 msgstr "erro de calibração rtlsdr"
 
 #: src/rtlsdrPrefs.cpp:166
-msgid "No AIS messages received\nCalibration Failed"
-msgstr "Não recebeu mensagens AIS\nFalha na Calibração"
+msgid "No AIS messages received\n"
+"Calibration Failed"
+msgstr "Não recebeu mensagens AIS\n"
+"Falha na Calibração"
 
 #: src/rtlsdrPrefs.cpp:183
-msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\nTo perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\nAlternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
-msgstr "Porque o Software do rádio não é um dispositivo de precisão, o valor de erro deve ser definido para calibrar corretamente o rádio dongle.\n\nPara realizar a calibração, a auto calibração levara algum tempo, mas irá escanear muitos valores errados, procurando por sinais de AIS.  Isso requer bastante freqüente tráfego AIS para trabalhar.\n\nAlternadamente se gnuradio estiver instalado, você pode usar o script incluído e também procurar por picos no tráfego ais, ou usar uma freqüência conhecida (por exemplo, vhf canal 8 "
+msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
+"To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
+"Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
+msgstr "Porque o Software do rádio não é um dispositivo de precisão, o valor de erro deve ser definido para calibrar corretamente o rádio dongle.\n\n"
+"Para realizar a calibração, a auto calibração levara algum tempo, mas irá escanear muitos valores errados, procurando por sinais de AIS.  Isso requer bastante freqüente tráfego AIS para trabalhar.\n\n"
+"Alternadamente se gnuradio estiver instalado, você pode usar o script incluído e também procurar por picos no tráfego ais, ou usar uma freqüência conhecida (por exemplo, vhf canal 8 "
 
 #: src/rtlsdrPrefs.cpp:192
-msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\nOnce working, you should be able to see bursts (ais data) from the A and B\nin the filtered output, and receive ais messages (if any are available)\n"
-msgstr ") e transmitir nesta freqüência observar a que distância fica o pico é da verdadeira freqüência em khz.  Este é o valor do erro necessário para calibrar o dongle.\n\nUma vez trabalhando, você deve ser capaz de ver explosões (dados de ais) de A e B\nna saída filtrada e receber mensagens de ais (se houverem algumas disponíveis) \n"
+msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output, and receive ais messages (if any are available)\n"
+msgstr ") e transmitir nesta freqüência observar a que distância fica o pico é da verdadeira freqüência em khz.  Este é o valor do erro necessário para calibrar o dongle.\n\n"
+"Uma vez trabalhando, você deve ser capaz de ver explosões (dados de ais) de A e B\n"
+"na saída filtrada e receber mensagens de ais (se houverem algumas disponíveis) \n"
 
 #: src/rtlsdrPrefs.cpp:196 src/rtlsdrPrefs.cpp:220 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:121 src/rtlsdr_pi.cpp:448 src/rtlsdr_pi.cpp:462
@@ -50,12 +60,22 @@ msgid "rtlsdr"
 msgstr "rtlsdr"
 
 #: src/rtlsdrPrefs.cpp:202
-msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\nThe author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\nCurrently ais channel A only is available with rtl_fm and aisdecoder mode. This method uses little cpu and is very efficient. \nThe gnuradio implementation automatically receives both channels A and B \nsimaltaniously but uses much more cpu (due to the python implementation)"
-msgstr "Este plugin integra opencpn com o projeto rtlsdr para transformar um receptor DVB dongles em SRD receiver consulte: http://sdr.osmocom.org/trac/wiki/rtl-sdr \n\nO autor esta usando o tipo r820t dvb-t dongle com uma antena vhf padrão, mas muitos outros podem funcionar.  O cabo coaxial da antena é emendado ao cabo dvb-t, Ambas ligações internas e externas devem ser feitas.\n\nAtualmente ais canal só está disponível com o modo de rtl_fm e aisdecoder. Este método usa pouco a cpu e é muito eficiente.\n A  gnuradio implementação recebe automaticamente os dois canais A e B \nsimaltaniously mas usa muito mais cpu (devido a implementação do python)"
+msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
+"The author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\n"
+"Currently ais channel A only is available with rtl_fm and aisdecoder mode. This method uses little cpu and is very efficient. \n"
+"The gnuradio implementation automatically receives both channels A and B \n"
+"simaltaniously but uses much more cpu (due to the python implementation)"
+msgstr "Este plugin integra opencpn com o projeto rtlsdr para transformar um receptor DVB dongles em SRD receiver consulte: http://sdr.osmocom.org/trac/wiki/rtl-sdr \n\n"
+"O autor esta usando o tipo r820t dvb-t dongle com uma antena vhf padrão, mas muitos outros podem funcionar.  O cabo coaxial da antena é emendado ao cabo dvb-t, Ambas ligações internas e externas devem ser feitas.\n\n"
+"Atualmente ais canal só está disponível com o modo de rtl_fm e aisdecoder. Este método usa pouco a cpu e é muito eficiente.\n"
+" A  gnuradio implementação recebe automaticamente os dois canais A e B \n"
+"simaltaniously mas usa muito mais cpu (devido a implementação do python)"
 
 #: src/rtlsdrPrefs.cpp:215
-msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\nYou can find this program at http://zadig.akeo.ie\n\n"
-msgstr ""
+msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
+"You can find this program at http://zadig.akeo.ie\n\n"
+msgstr "Sob o sistema operacional Windows, primeiro você deve executar o programa utilitário ' zadig' para instalar o driver usb necessário, uma vez que o dispositivo está conectado em.\n"
+"Você pode encontrar este programa em http://zadig.akeo.ie \n\n"
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
@@ -96,7 +116,7 @@ msgstr "ais_rx (gnuradio)"
 
 #: src/rtlsdrUI.cpp:130
 msgid "extra args (blank default)"
-msgstr ""
+msgstr "extra args (padrão em branco)"
 
 #: src/rtlsdrUI.cpp:163
 msgid "Sample Rate (khz)"
@@ -175,8 +195,16 @@ msgid "rtlsdr PlugIn for OpenCPN"
 msgstr "rtlsdr PlugIn para OpenCPN"
 
 #: src/rtlsdr_pi.cpp:207
-msgid "rtlsdr PlugIn for OpenCPN\nRead rtlsdr nmea messages from gr-ais ais_rx.py script. \nSupport ADS-b FM radio and vhf\nEventually version will need to link with gnu radio directly.\n\nThe rtlsdr plugin was written by Sean D'Epagnier\n"
-msgstr "rtlsdr PlugIn para OpenCPN\nLeia rtlsdr nmea mensagens de script de ais_rx.py gr-ais. \nSupport ADS-b FM e vhf rádio\nEventualmente  versão será necessário vincular com gnu rádio gnu diretamente.\n\nO rtlsdr plugin foi escrito por Sean D'Epagnier\n"
+msgid "rtlsdr PlugIn for OpenCPN\n"
+"Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n"
+"Support ADS-b FM radio and vhf\n"
+"Eventually version will need to link with gnu radio directly.\n\n"
+"The rtlsdr plugin was written by Sean D'Epagnier\n"
+msgstr "rtlsdr PlugIn para OpenCPN\n"
+"Leia rtlsdr nmea mensagens de script de ais_rx.py gr-ais. \n"
+"Support ADS-b FM e vhf rádio\n"
+"Eventualmente  versão será necessário vincular com gnu rádio gnu diretamente.\n\n"
+"O rtlsdr plugin foi escrito por Sean D'Epagnier\n"
 
 #: src/rtlsdr_pi.cpp:346
 msgid "Execution failed"
