@@ -35,17 +35,31 @@
 rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
     : rtlsdrPrefsBase( parent ), m_rtlsdr_pi(_rtlsdr_pi)
 {
+    int pindex = 0;
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_AIS])
+        m_cAISProgram->Delete(pindex);
+    else
+        pindex++;
 
     if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_FM] ||
-       !m_rtlsdr_pi.have_processes[rtlsdr_pi::AISDECODER]) {
-        if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::AIS_RX]) {
-            m_rbAIS->Disable();
-            m_cAISProgram->Clear();
-        } else
-            m_cAISProgram->Delete(0);
-    } else
-        if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::AIS_RX])
-            m_cAISProgram->Delete(1);
+       !m_rtlsdr_pi.have_processes[rtlsdr_pi::AISDECODER])
+        m_cAISProgram->Delete(pindex);
+    else
+        pindex++;
+
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::SOFT_FM] ||
+       !m_rtlsdr_pi.have_processes[rtlsdr_pi::AISDECODER])
+        m_cAISProgram->Delete(pindex);
+    else
+        pindex++;
+
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::AIS_RX])
+        m_cAISProgram->Delete(pindex);
+    else
+        pindex++;
+
+    if(pindex == 0)
+        m_rbAIS->Disable();
 
     if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_ADSB])
         m_rbADSB->Disable();
@@ -60,15 +74,15 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
 void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )
 {
     m_sAISSampleRate->Enable((bool)event.GetSelection());
-    m_stP2args->Show(!event.GetSelection());
-    m_tP2args->Show(!event.GetSelection());
 
-    if(event.GetSelection()) {
-        m_stP1args->SetLabel(_("ais_rx"));
-    } else {
-        m_stP1args->SetLabel(_("rtl_fm"));
-        m_stP2args->SetLabel(_("aisdecoder"));
-    }
+    wxString AISProgram = m_cAISProgram->GetString(m_cAISProgram->GetSelection());
+    bool pipe = AISProgram.Contains(_T("|"));
+    m_stP2args->Show(pipe);
+    m_tP2args->Show(pipe);
+
+    m_stP1args->SetLabel(AISProgram.BeforeFirst('|'));
+    m_stP2args->SetLabel(AISProgram.AfterFirst('|'));
+
     Fit();
 }
 
@@ -205,10 +219,9 @@ a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n\
 The author is using the r820t type dvb-t dongle with a standard vhf antenna, \
 but many others can work.  The antenna coax cable is spliced to the dvb-t \
 cable, both inner and outer connections must be made.\n\n\
-Currently ais channel A only is available with rtl_fm and aisdecoder mode. \
-This method uses little cpu and is very efficient. \n\
-The gnuradio implementation automatically receives both channels A and B \n\
-simaltaniously but uses much more cpu (due to the python implementation)");
+rtl_ais can efficiently recieve channel A and B simultaneously\n\
+rtl_fm/softfm and aisdecoder can only receive channel A or B\n\
+ais_rx (gnuradio) receives both channels A and B but uses much more cpu.");
 
     wxMessageDialog mdlg(this,
 #ifdef __WIN32__

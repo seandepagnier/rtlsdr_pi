@@ -74,6 +74,13 @@ extern "C" DECL_EXP void destroy_pi(opencpn_plugin* p)
 //
 //---------------------------------------------------------------------------------------------------------
 
+void rtlsdr_pi::OnTestTerminate(wxProcessEvent& event)
+{
+    for(int i=0; i<PROCESS_COUNT; i++)
+        if(event.GetPid() == TestPid[i])
+            have_processes[i] = event.GetExitCode() != -1;
+}
+
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
     : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process1(NULL), m_Process2(NULL),
@@ -83,12 +90,20 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
     // Create the PlugIn icons
     initialize_images();
 
+    for(int i=0; i<PROCESS_COUNT; i++) {
+        TestPid[i] = 0;
+        have_processes[i] = false;
+    }
+
     // detect helper programs
-    const wxString ProcessNames[] = {_T("rtl_fm"), _T("aisdecoder"), _T("ais_rx"), _T("rtl_adsb"), _T("aplay")};
+    const wxString ProcessNames[] = {_T("rtl_ais"), _T("rtl_fm"), _T("soft_fm"),
+                                     _T("aisdecoder"), _T("ais_rx"), _T("rtl_adsb"), _T("aplay")};
     for(int i=0; i<PROCESS_COUNT; i++) {
         // pass -h because we are only testing the binary exists in the path
         wxProcess *process = wxProcess::Open(PATH() + ProcessNames[i] + _T(" -h"));
-        have_processes[i] = process;
+        TestPid[i] = process->GetPid();
+        process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
+                        ( rtlsdr_pi::OnTestTerminate ), NULL, this);
     }
 }
 
@@ -205,11 +220,8 @@ wxString rtlsdr_pi::GetShortDescription()
 wxString rtlsdr_pi::GetLongDescription()
 {
       return _("rtlsdr PlugIn for OpenCPN\n\
-Read rtlsdr nmea messages from gr-ais ais_rx.py script. \n\
-Support ADS-b FM radio and vhf\n\
-Eventually version will need to link with gnu radio directly.\n\
-\n\
-The rtlsdr plugin was written by Sean D'Epagnier\n\
+This plugin automatically controls external command-line tools for software radio.\n\
+There are several options for AIS data, as well as ADS-b FM radio and vhf audio.\
 ");
 }
 
@@ -411,8 +423,16 @@ void rtlsdr_pi::Start()
 
     switch(m_Mode) {
     case AIS:
-        if(m_AISProgram == _T("aisdecoder")) {
+        if(m_AISProgram == _T("rtl_ais")) {
+            m_command2 = PATH() + wxString::Format(_T("rtl_ais -p %d -s 48k ") + m_P1args,
+                                          m_AISError);
+        } else if(m_AISProgram == _T("rtl_fm")) {
             m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k ") + m_P1args,
+                                          m_AISError);
+            m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin "
+                 + m_P2args);
+        } else if(m_AISProgram == _T("soft_fm")) {
+            m_command1 = PATH() + wxString::Format(_T("soft_fm -f 161975000 -p %d -s 48k ") + m_P1args,
                                           m_AISError);
             m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin "
                  + m_P2args);
@@ -531,8 +551,13 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         else if(dialog->m_rbVHF->GetValue())
             mode = VHF;
 
-        wxString AISProgram = dialog->m_cAISProgram->GetString(dialog->m_cAISProgram->GetSelection()).Contains(_T("aisdecoder")) ?
-            _T("aisdecoder") : _T("ais_rx");
+        wxString AISProgram = dialog->m_cAISProgram->GetString(dialog->m_cAISProgram->GetSelection());
+        wxString AISPrograms[] = {_T("rtl_ais"), _T("rtl_fm"), _T("soft_fm"), _T("ais_rx")};
+
+        for(unsigned int i=0; i < (sizeof AISPrograms) / (sizeof *AISPrograms); i++)
+            if(AISProgram.Contains(AISPrograms[i]))
+               AISProgram = AISPrograms[i];
+                
         wxString P1args = dialog->m_tP1args->GetValue();
         wxString P2args = dialog->m_tP2args->GetValue();
         int AISSampleRate = dialog->m_sAISSampleRate->GetValue();
