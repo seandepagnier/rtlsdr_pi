@@ -55,6 +55,7 @@ MACRO(GETTEXT_BUILD_MO)
     ADD_CUSTOM_COMMAND(
       OUTPUT ${_gmoFile}
       COMMAND ${GETTEXT_MSGFMT_EXECUTABLE} --check -o ${_gmoFile} ${_absFile}
+      COMMAND ${CMAKE_COMMAND} -E copy ${_gmoFile} "Resources/${_poBasename}.lproj/opencpn-${PACKAGE_NAME}.mo"
       DEPENDS ${_absFile}
       COMMENT "${I18N_NAME}-i18n [${_poBasename}]: Created mo file."
       )

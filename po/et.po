@@ -5,15 +5,15 @@ msgstr ""
 "POT-Creation-Date: 2015-04-22 13:54-0500\n"
 "PO-Revision-Date: 2015-06-02 20:34-0400\n"
 "Last-Translator: nohal <pavel@kalian.cz>\n"
-"Language-Team: French\n"
-"Language: fr_FR\n"
+"Language-Team: Estonian\n"
+"Language: et_EE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: opencpn\n"
-"X-Crowdin-Language: fr\n"
+"X-Crowdin-Language: et\n"
 "X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
 
 #: src/rtlsdrPrefs.cpp:67
@@ -26,33 +26,33 @@ msgstr "rtl_fm"
 
 #: src/rtlsdrPrefs.cpp:70
 msgid "aisdecoder"
-msgstr "Décodeur AIS"
+msgstr "AIS-dekooder"
 
 #: src/rtlsdrPrefs.cpp:77 src/rtlsdrPrefs.cpp:167
 msgid "rtlsdr error calibration"
-msgstr "Correction d'erreur"
+msgstr "rtlsdr-vea kalibreerimine"
 
 #: src/rtlsdrPrefs.cpp:166
 msgid "No AIS messages received\n"
 "Calibration Failed"
-msgstr "Aucun message AIS reçu\n"
-"Echec du calibrage"
+msgstr "AIS-teateid pole vastu võetud\n"
+"Kalibreerimine nurjus"
 
 #: src/rtlsdrPrefs.cpp:183
 msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
 "To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
 "Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
-msgstr "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n"
-"To perform calibration, launch \"gnuradio-companion gr-ais.grc\"(On a netbook first enable only the lower block or the top two take thewhole screen and you cannot see the third block)\n"
-"                     Set the frequency to a known vhf frequency, (for example, channel 8 is "
+msgstr "Sest tarkvaraline raadio ei ole täppisseade. Vea väärtus peab olema määratud, et õieti kalibreerida raadiodongel.\n\n"
+"Kalibreerimise teostamisel - autokalibreerimine võtab mõnevõrra aega - skaneeritakse palju veaväärtusi otsides AIS-signaali. See nõuab töötamiseks küllaltki tihedat AIS-liiklust.\n\n"
+"Selle asemel, kui gnu-raadio on paigaldatud, võite kasutada kaasa pandud skripti ja kas vaadata AIS-liikluse haripunkte või kasutada teadaolevat sagedust (näiteks, VHF kanal 8 on "
 
 #: src/rtlsdrPrefs.cpp:192
 msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
 "Once working, you should be able to see bursts (ais data) from the A and B\n"
 "in the filtered output, and receive ais messages (if any are available)\n"
-msgstr ") then transmit with vhf transmitter on this channel and note how far the peak is from the true frequency in khz, this is the error value needed to calibrate the dongle.\n"
-"Once working, you should be able to see bursts (ais data) from the A and B\n"
-"in the filtered output.\n"
+msgstr ") ning kiirata sellel sagedusel, märkamaks, kui palju kõrval on haripunkt tegelikust sagedusest, kHz-s, See ongi vea väärtus dongli kalibreerimiseks.\n\n"
+"Kui ta ükskord töötab, peaksite olema võimelised nägema purskeid (AIS-andmed) filtreeritud väljundi A-st ja B-st\n"
+"ning vastu võtma AIS-teateid (kui midagi on saadaval)\n"
 
 #: src/rtlsdrPrefs.cpp:196 src/rtlsdrPrefs.cpp:220 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:121 src/rtlsdr_pi.cpp:448 src/rtlsdr_pi.cpp:462
@@ -65,38 +65,37 @@ msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongle
 "Currently ais channel A only is available with rtl_fm and aisdecoder mode. This method uses little cpu and is very efficient. \n"
 "The gnuradio implementation automatically receives both channels A and B \n"
 "simaltaniously but uses much more cpu (due to the python implementation)"
-msgstr "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
-"The author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\n"
-"Currently ais channel A only is available with rtl_fm and aisdecoder mode. This method uses little cpu and is very efficient. \n"
-"The gnuradio implementation automatically receives both channels A and B \n"
-"simaltaniously but uses much more cpu (due to the python implementation)"
+msgstr "See plugin integreerib OpenCPN'i rtlsdr-projektiga DVB-dongli muutmiseks SDR-vastuvõtjaks. Vaata: http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
+"Autor kasutab r820t-tüüpi DVB-T donglit koos standartse ULL-antenniga, kuid paljud teised võivad ka töötada. Antenni koakskaabel tuleb pleissida DVB-T kaabliga, mõlemad ühendused, sisemine ja väline, peavad olema tehtud.\n\n"
+"Praegu on koos rtl_fm ja AIS-dekooder režiimiga ainult AIS-kanal A saadaval. See meetod kasutab vähe CPU'd ja on väga effektiivne. \n"
+"gnu-raadio rakendus võtab automaatselt mõlemad kanalid A ja B sama-aegselt vastu, kuid kasutab rohkem CPU'd (seoses python'i teostusega)"
 
 #: src/rtlsdrPrefs.cpp:215
 msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
 "You can find this program at http://zadig.akeo.ie\n\n"
-msgstr "Sous Windows, vous pouvez exécuter l'utilitaire \"Zadig\" pour installer le driver nécessaire dés lors qu'un périphérique est branché.\n"
-"Vous pouvez trouver cet utilitaire en suivant ce lien : http://zadig.akeo.ie\n\n"
+msgstr "Windows operatsioonisüsteemis pead sa esimesena käivitama abiprogrammi 'zadig', et paigaldada vajalik usb-draiver kui seade saab külge ühendatud.\n"
+"Sa leiad selle programmi http://zadig.akeo.ie\n\n"
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr "Méssages"
+msgstr "Teated"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:108 src/rtlsdrUI.cpp:225
 #: src/rtlsdrUI.cpp:248 src/rtlsdrUI.cpp:272
 msgid "Enable"
-msgstr "Activer"
+msgstr "Võimalda"
 
 #: src/rtlsdrUI.cpp:50
 msgid "Preferences"
-msgstr "Préférences"
+msgstr "Eelistused"
 
 #: src/rtlsdrUI.cpp:53
 msgid "Clear"
-msgstr "Effacer"
+msgstr "Tühjenda"
 
 #: src/rtlsdrUI.cpp:56
 msgid "Close"
-msgstr "Fermer"
+msgstr "Sulge"
 
 #: src/rtlsdrUI.cpp:101
 msgid "AIS"
@@ -104,39 +103,39 @@ msgstr "AIS"
 
 #: src/rtlsdrUI.cpp:116
 msgid "Program"
-msgstr "Programme"
+msgstr "Programm"
 
 #: src/rtlsdrUI.cpp:120
 msgid "rtl_fm | aisdecoder"
-msgstr "rtl_fm | aisdecoder"
+msgstr "rtl_fm | AIS-dekooder"
 
 #: src/rtlsdrUI.cpp:120
 msgid "ais_rx  (gnuradio)"
-msgstr "ais_rx  (gnuradio)"
+msgstr "ais_rx  (gnu-raadio)"
 
 #: src/rtlsdrUI.cpp:130
 msgid "extra args (blank default)"
-msgstr "Arguments complémentaires (Blanc par défaut)"
+msgstr "Lisa args (vaikimisi tühi)"
 
 #: src/rtlsdrUI.cpp:163
 msgid "Sample Rate (khz)"
-msgstr "Taux d'échantillonnage (khz)"
+msgstr "Diskreetimissagedus (khz)"
 
 #: src/rtlsdrUI.cpp:174
 msgid "Error Correction Calibration"
-msgstr "Correction d'erreur"
+msgstr "Vea paranduse kalibreerimine"
 
 #: src/rtlsdrUI.cpp:181
 msgid "Error Correction"
-msgstr "Correction d'erreur"
+msgstr "Vea parandus"
 
 #: src/rtlsdrUI.cpp:188
 msgid "Auto Calibrate"
-msgstr "Auto calibrage"
+msgstr "Automaatne kalibreerimine"
 
 #: src/rtlsdrUI.cpp:191
 msgid "Manual via grc"
-msgstr "Manuel via grc"
+msgstr "Käsitsi üle grc"
 
 #: src/rtlsdrUI.cpp:194
 msgid "Info"
@@ -148,11 +147,11 @@ msgstr "ADS-B"
 
 #: src/rtlsdrUI.cpp:228
 msgid "Plot"
-msgstr "Tracer"
+msgstr "Kõver"
 
 #: src/rtlsdrUI.cpp:241
 msgid "FM Radio"
-msgstr "Radio FM"
+msgstr "FM-raadio"
 
 #: src/rtlsdrUI.cpp:251
 msgid "100.4"
@@ -164,7 +163,7 @@ msgstr "Mhz"
 
 #: src/rtlsdrUI.cpp:265
 msgid "VHF Audio"
-msgstr "Audio VHF"
+msgstr "VHF-audio"
 
 #: src/rtlsdrUI.cpp:275
 msgid "16"
@@ -176,23 +175,23 @@ msgstr "WX"
 
 #: src/rtlsdrUI.cpp:281
 msgid "Squelch"
-msgstr "Bruit de fond"
+msgstr "Summutus"
 
 #: src/rtlsdrUI.cpp:303
 msgid "About Author"
-msgstr "Au sujet de l'auteur"
+msgstr "Autorist"
 
 #: src/rtlsdrUI.cpp:306
 msgid "Information"
-msgstr "Information"
+msgstr "Info"
 
 #: src/rtlsdrUI.h:110
 msgid "rtlsdr Preferences"
-msgstr "Préférences rtlsdr"
+msgstr "rtlsdr eelistused"
 
 #: src/rtlsdr_pi.cpp:202
 msgid "rtlsdr PlugIn for OpenCPN"
-msgstr "Complément rtlsdr pour openCPN"
+msgstr "rtlsdr-plugIn OpenCPN'i jaoks"
 
 #: src/rtlsdr_pi.cpp:207
 msgid "rtlsdr PlugIn for OpenCPN\n"
@@ -200,33 +199,33 @@ msgid "rtlsdr PlugIn for OpenCPN\n"
 "Support ADS-b FM radio and vhf\n"
 "Eventually version will need to link with gnu radio directly.\n\n"
 "The rtlsdr plugin was written by Sean D'Epagnier\n"
-msgstr "Complément rtlsdr pour OpenCPN\n"
-"Ce complément lit les phrases NMEA depuis les scripts gr-ais ais_rx.py. \n"
-"Il supporte les radio FM et les VHF ADS-b\n"
-"Éventuellement, cette version devra faire le lien avec la radio gnu directement..\n\n"
-"Le complément a été développé par  Sean D'Epagnier\n"
+msgstr "rtlsdr-plugIn OpenCPN'i jaoks\n"
+"Loeb rtlsdr NMEA-teateid gr-ais ais_rx.py skriptist. \n"
+"Toetab ADS-b FM-raadiot ja ULL\n"
+"Viimaks tuleb see versioon otselinkida gnu raadioga.\n\n"
+"rtlsdr-plugIna kirjutas Sean D'Epagnier\n"
 
 #: src/rtlsdr_pi.cpp:346
 msgid "Execution failed"
-msgstr "Echec de l'exécution"
+msgstr "Käivitamine nurjus"
 
 #: src/rtlsdr_pi.cpp:388
 msgid "Invalid FM frequency"
-msgstr "Fréquence FM invalide"
+msgstr "Kehtetu FM-sagedus"
 
 #: src/rtlsdr_pi.cpp:436
 msgid "Unknown mode"
-msgstr "Mode inconnu"
+msgstr "Tundmatu režiim"
 
 #: src/rtlsdr_pi.cpp:445 src/rtlsdr_pi.cpp:459
 msgid "Executed: "
-msgstr "Exécuté : "
+msgstr "Käivitatud: "
 
 #: src/rtlsdr_pi.cpp:447 src/rtlsdr_pi.cpp:461
 msgid "Failed to open: "
-msgstr "Impossible d'ouvrir :"
+msgstr "Avamine nurjus: "
 
 #: src/rtlsdr_pi.cpp:475 src/rtlsdr_pi.cpp:484
 msgid "Stopped: "
-msgstr "Arrêté : "
+msgstr "Peatatud: "
 
