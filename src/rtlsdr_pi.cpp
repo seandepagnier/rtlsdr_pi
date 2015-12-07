@@ -424,7 +424,7 @@ void rtlsdr_pi::Start()
     switch(m_Mode) {
     case AIS:
         if(m_AISProgram == _T("rtl_ais")) {
-            m_command2 = PATH() + wxString::Format(_T("rtl_ais -p %d -s 48k ") + m_P1args,
+            m_command2 = PATH() + wxString::Format(_T("rtl_ais -n -p %d ") + m_P1args,
                                           m_AISError);
         } else if(m_AISProgram == _T("rtl_fm")) {
             m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k ") + m_P1args,
