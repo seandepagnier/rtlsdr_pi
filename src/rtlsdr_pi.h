@@ -104,17 +104,20 @@ public:
       int m_AISCount;
 
       // should we support sox as a cross platform alternative to aplay?
-      enum Processes { RTL_FM, AISDECODER, AIS_RX, RTL_ADSB, APLAY, PROCESS_COUNT };
+      enum Processes { RTL_AIS, RTL_FM, SOFT_FM, AISDECODER, AIS_RX, RTL_ADSB, APLAY, PROCESS_COUNT };
       bool have_processes[PROCESS_COUNT];
 
 private:
       void ProcessInputStream( wxInputStream *in );
       void OnTimer( wxTimerEvent & );
       void ReportErrorStream(wxProcess *process);
+      void OnTestTerminate(wxProcessEvent&);
       void OnTerminate(wxProcessEvent&);
 
       bool              LoadConfig(void);
       bool              SaveConfig(void);
+
+      void              RearrangeWindow();
 
       bool m_bNeedStart;
 
@@ -130,7 +133,7 @@ private:
 
       int               m_leftclick_tool_id;
 
-      void              RearrangeWindow();
+      int TestPid[PROCESS_COUNT];
 };
 
 double VHFFrequencyMHZ(int channel, bool WX=false);

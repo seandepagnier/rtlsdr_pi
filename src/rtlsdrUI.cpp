@@ -117,7 +117,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_staticText5->Wrap( -1 );
 	fgSizer121->Add( m_staticText5, 0, wxALL, 5 );
 	
-	wxString m_cAISProgramChoices[] = { _("rtl_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
+	wxString m_cAISProgramChoices[] = { _("rtl_ais"), _("rtl_fm | aisdecoder"), _("soft_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
 	int m_cAISProgramNChoices = sizeof( m_cAISProgramChoices ) / sizeof( wxString );
 	m_cAISProgram = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
 	m_cAISProgram->SetSelection( 0 );
@@ -214,6 +214,11 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	fgSizer7->Add( sbSizer3, 1, wxEXPAND, 5 );
 	
+	wxFlexGridSizer* fgSizer16;
+	fgSizer16 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer16->SetFlexibleDirection( wxBOTH );
+	fgSizer16->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
 	wxStaticBoxSizer* sbSizer4;
 	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("ADS-B") ), wxVERTICAL );
 	
@@ -235,7 +240,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	sbSizer4->Add( fgSizer6, 1, wxEXPAND, 5 );
 	
 	
-	fgSizer7->Add( sbSizer4, 1, wxEXPAND, 5 );
+	fgSizer16->Add( sbSizer4, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer7;
 	sbSizer7 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("FM Radio") ), wxVERTICAL );
@@ -259,7 +264,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	sbSizer7->Add( fgSizer8, 1, wxEXPAND, 5 );
 	
 	
-	fgSizer7->Add( sbSizer7, 1, wxEXPAND, 5 );
+	fgSizer16->Add( sbSizer7, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer8;
 	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("VHF Audio") ), wxVERTICAL );
@@ -289,7 +294,10 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	sbSizer8->Add( fgSizer9, 1, wxEXPAND, 5 );
 	
 	
-	fgSizer7->Add( sbSizer8, 1, wxEXPAND, 5 );
+	fgSizer16->Add( sbSizer8, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer7->Add( fgSizer16, 1, wxEXPAND, 5 );
 	
 	
 	fgSizer14->Add( fgSizer7, 1, wxEXPAND, 5 );
