@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-22 13:54-0500\n"
-"PO-Revision-Date: 2015-05-23 05:01-0400\n"
+"POT-Creation-Date: 2016-02-27 14:11-0300\n"
+"PO-Revision-Date: 2016-02-27 12:12-0500\n"
 "Last-Translator: nohal <pavel@kalian.cz>\n"
 "Language-Team: Catalan\n"
 "Language: ca_ES\n"
@@ -18,15 +18,15 @@ msgstr ""
 
 #: src/rtlsdrPrefs.cpp:67
 msgid "ais_rx"
-msgstr ""
+msgstr "ais_rx"
 
 #: src/rtlsdrPrefs.cpp:69
 msgid "rtl_fm"
-msgstr ""
+msgstr "rtl_fm"
 
 #: src/rtlsdrPrefs.cpp:70
 msgid "aisdecoder"
-msgstr ""
+msgstr "Decodificador d'AIS"
 
 #: src/rtlsdrPrefs.cpp:77 src/rtlsdrPrefs.cpp:167
 msgid "rtlsdr error calibration"
@@ -74,7 +74,8 @@ msgstr "Aquest Connector integra OpenCPN amb el projecte rtlsdr que converteix a
 #: src/rtlsdrPrefs.cpp:215
 msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
 "You can find this program at http://zadig.akeo.ie\n\n"
-msgstr ""
+msgstr "Sota el sistema operatiu de Windows, una vegada que el dispositiu està connectat, primer cal que executeu el programa d'utilitat 'zadig' per a instal·lar el controlador usb necessari.\n"
+"Podeu trobar aquest programa en http://zadig.akeo.ie \n\n"
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
@@ -115,7 +116,7 @@ msgstr "ais_rx  (gnuradio)"
 
 #: src/rtlsdrUI.cpp:130
 msgid "extra args (blank default)"
-msgstr ""
+msgstr "Arguments complementaris (Blanc per defecte)"
 
 #: src/rtlsdrUI.cpp:163
 msgid "Sample Rate (khz)"
@@ -175,7 +176,7 @@ msgstr "WX"
 
 #: src/rtlsdrUI.cpp:281
 msgid "Squelch"
-msgstr ""
+msgstr "Soroll de fons"
 
 #: src/rtlsdrUI.cpp:303
 msgid "About Author"
@@ -219,7 +220,7 @@ msgstr "Mode de desconegut"
 
 #: src/rtlsdr_pi.cpp:445 src/rtlsdr_pi.cpp:459
 msgid "Executed: "
-msgstr ""
+msgstr "Executat: "
 
 #: src/rtlsdr_pi.cpp:447 src/rtlsdr_pi.cpp:461
 msgid "Failed to open: "
@@ -227,5 +228,5 @@ msgstr "No s'ha pogut obrir: "
 
 #: src/rtlsdr_pi.cpp:475 src/rtlsdr_pi.cpp:484
 msgid "Stopped: "
-msgstr ""
+msgstr "Es va aturar: "
 
