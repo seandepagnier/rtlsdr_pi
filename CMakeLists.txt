@@ -27,17 +27,24 @@ SET(SRC_RTLSDR
 	    )
 
 IF(UNIX AND NOT APPLE)
-  ADD_DEFINITIONS( "-DBUILTIN_RTLAIS" )
-SET(SRC_AISDECODER
-  src/rtl-sdr-misc/rtl_ais.c
-  src/rtl-sdr-misc/main.c
-  src/rtl-sdr-misc/convenience.c
-  src/rtl-sdr-misc/aisdecoder/sounddecoder.c
-  src/rtl-sdr-misc/aisdecoder/aisdecoder.c
-  src/rtl-sdr-misc/aisdecoder/lib/protodec.c
-  src/rtl-sdr-misc/aisdecoder/lib/filter.c
-  src/rtl-sdr-misc/aisdecoder/lib/hmalloc.c
-  src/rtl-sdr-misc/aisdecoder/lib/receiver.c)
+  find_library(RTLSDR_LIBRARY NAMES rtlsdr
+    DOC "The rtlsdr library"
+    )
+  IF(RTLSDR_LIBRARY)
+
+    ADD_DEFINITIONS( "-DBUILTIN_RTLAIS" )
+    SET(SRC_AISDECODER
+      src/rtl-sdr-misc/rtl_ais.c
+      src/rtl-sdr-misc/convenience.c
+      src/rtl-sdr-misc/aisdecoder/sounddecoder.c
+      src/rtl-sdr-misc/aisdecoder/aisdecoder.c
+      src/rtl-sdr-misc/aisdecoder/lib/protodec.c
+      src/rtl-sdr-misc/aisdecoder/lib/filter.c
+      src/rtl-sdr-misc/aisdecoder/lib/hmalloc.c
+      src/rtl-sdr-misc/aisdecoder/lib/receiver.c)
+
+    SET(EXTRA_LIBS ${EXTRA_LIBS} ${RTLSDR_LIBRARY})
+  ENDIF()
 ENDIF(UNIX AND NOT APPLE)
 
 ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_RTLSDR} ${SRC_AISDECODER})

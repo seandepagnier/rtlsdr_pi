@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 struct rtl_ais_config
 {
     int gain, dev_index, dev_given, ppm_error, rtl_agc, custom_ppm;
@@ -35,3 +39,7 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config);
 int rtl_ais_isactive(struct rtl_ais_context *ctx);
 const char *rtl_ais_next_message(struct rtl_ais_context *ctx);
 void rtl_ais_cleanup(struct rtl_ais_context *ctx);
+
+#ifdef __cplusplus
+}
+#endif
