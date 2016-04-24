@@ -13,8 +13,8 @@ SET(CPACK_PACKAGE_CONTACT "Sean D'Epagnier ")
 
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
-SET(VERSION_MAJOR "0")
-SET(VERSION_MINOR "14")
+SET(VERSION_MAJOR "1")
+SET(VERSION_MINOR "0")
 
 INCLUDE("cmake/PluginConfigure.cmake")
 
@@ -24,8 +24,23 @@ SET(SRC_RTLSDR
             src/rtlsdrPrefs.cpp
             src/rtlsdrUI.cpp
             src/icons.cpp
-	)
-ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_RTLSDR})
+	    )
+
+IF(UNIX AND NOT APPLE)
+  ADD_DEFINITIONS( "-DBUILTIN_RTLAIS" )
+SET(SRC_AISDECODER
+  src/rtl-sdr-misc/rtl_ais.c
+  src/rtl-sdr-misc/main.c
+  src/rtl-sdr-misc/convenience.c
+  src/rtl-sdr-misc/aisdecoder/sounddecoder.c
+  src/rtl-sdr-misc/aisdecoder/aisdecoder.c
+  src/rtl-sdr-misc/aisdecoder/lib/protodec.c
+  src/rtl-sdr-misc/aisdecoder/lib/filter.c
+  src/rtl-sdr-misc/aisdecoder/lib/hmalloc.c
+  src/rtl-sdr-misc/aisdecoder/lib/receiver.c)
+ENDIF(UNIX AND NOT APPLE)
+
+ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC_RTLSDR} ${SRC_AISDECODER})
 
 INCLUDE_DIRECTORIES(${PLUGIN_SOURCE_DIR}/src/libaudiofile)
 

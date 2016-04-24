@@ -39,8 +39,7 @@ be sure to try all possible values for -p!  this program is very picky and your 
 of the correct value to get messages (Range +- 128)  the exact correct value gives many more messages.
 The plugin provides an automatic detection routine.
 
-At this point you can simply add a udp data connection on port 10110 and not use the plugin, but the
-plugin automatically invokes the programs, and provides other control.
+At this point you can simply add a udp data connection on port 10110 and not use the plugin, but the plugin automatically invokes the programs, and provides other control.
 
 Configuration using gnuradio
 =================================================

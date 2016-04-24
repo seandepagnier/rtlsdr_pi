@@ -122,6 +122,10 @@ private:
       bool m_bNeedStart;
 
       wxTimer            m_Timer;
+#ifdef BUILTIN_RTLAIS
+      struct rtl_ais_context *context;
+#endif      
+      
       wxProcess         *m_Process1, *m_Process2;
       wxString           m_command1, m_command2;
       rtlsdrDialog      *m_prtlsdrDialog;

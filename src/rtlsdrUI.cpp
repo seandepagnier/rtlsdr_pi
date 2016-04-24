@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Oct  8 2012)
+// C++ code generated with wxFormBuilder (version Dec  8 2015)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO "NOT" EDIT THIS FILE!
@@ -117,7 +117,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_staticText5->Wrap( -1 );
 	fgSizer121->Add( m_staticText5, 0, wxALL, 5 );
 	
-	wxString m_cAISProgramChoices[] = { _("rtl_ais"), _("rtl_fm | aisdecoder"), _("soft_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
+	wxString m_cAISProgramChoices[] = { _("builtin rtl_ais"), _("rtl_ais"), _("rtl_fm | aisdecoder"), _("soft_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
 	int m_cAISProgramNChoices = sizeof( m_cAISProgramChoices ) / sizeof( wxString );
 	m_cAISProgram = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
 	m_cAISProgram->SetSelection( 0 );

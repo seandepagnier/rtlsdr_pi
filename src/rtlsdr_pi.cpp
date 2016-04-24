@@ -31,6 +31,10 @@
 #include <sys/stat.h>
 #endif
 
+#ifdef BUILTIN_RTLAIS
+#include "rtl-sdr-misc/rtl_ais.h"
+#endif
+
 #include "rtlsdr_pi.h"
 #include "rtlsdrDialog.h"
 #include "rtlsdrPrefs.h"
@@ -105,6 +109,10 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
         process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
                         ( rtlsdr_pi::OnTestTerminate ), NULL, this);
     }
+
+#ifdef BUILTIN_RTLAIS
+    context = NULL;
+#endif    
 }
 
 //---------------------------------------------------------------------------------------------------------
@@ -298,6 +306,24 @@ void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
 
 void rtlsdr_pi::OnTimer( wxTimerEvent & )
 {
+#ifdef BUILTIN_RTLAIS
+    if(context) {
+        if(rtl_ais_isactive(context)) {
+            const char *str;
+            while((str = rtl_ais_next_message(context))) {
+                wxString msg = str;
+                if(m_prtlsdrDialog && m_prtlsdrDialog->IsShown())
+                    m_prtlsdrDialog->m_tMessages->AppendText(msg);
+                
+                if(msg.StartsWith(_T("!AIVDM"))) {
+                    PushNMEABuffer(msg);
+                    m_AISCount++;
+                }
+            }
+        } else
+            Stop();
+    }
+#endif
     if(!m_Process2 || !m_bEnabled)
         return;
 
@@ -423,7 +449,17 @@ void rtlsdr_pi::Start()
 
     switch(m_Mode) {
     case AIS:
-        if(m_AISProgram == _T("rtl_ais")) {
+#ifdef BUILTIN_RTLAIS
+        if(m_AISProgram == _T("builtin rtl_ais")) {
+            struct rtl_ais_config config;
+            rtl_ais_default_config(&config);
+            context = rtl_ais_start(&config);
+            if(m_prtlsdrDialog)
+                m_prtlsdrDialog->m_tMessages->AppendText(_("Started builtin rtl_ais") + _T("\n"));
+            return;
+        } else
+#endif            
+            if(m_AISProgram == _T("rtl_ais")) {
             m_command2 = PATH() + wxString::Format(_T("rtl_ais -n -p %d ") + m_P1args,
                                           m_AISError);
         } else if(m_AISProgram == _T("rtl_fm")) {
@@ -486,6 +522,12 @@ void rtlsdr_pi::Start()
 
 void rtlsdr_pi::Stop()
 {
+#ifdef BUILTIN_RTLAIS
+    if(context) {
+        rtl_ais_cleanup(context);
+        context = NULL;
+    }
+#endif
     if(m_Process1) {
         wxProcess *process = m_Process1;
         m_Process1 = NULL;

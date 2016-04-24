@@ -36,6 +36,12 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
     : rtlsdrPrefsBase( parent ), m_rtlsdr_pi(_rtlsdr_pi)
 {
     int pindex = 0;
+#ifndef BUILTIN_RTLAIS
+        m_cAISProgram->Delete(pindex);
+#else        
+        pindex++;
+#endif        
+
     if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_AIS])
         m_cAISProgram->Delete(pindex);
     else
