@@ -125,17 +125,8 @@ int rtlsdr_pi::Init(void)
 {
       AddLocaleCatalog( _T("opencpn-rtlsdr_pi") );
 
-      // Set some default private member parameters
-      m_rtlsdr_dialog_x = 0;
-      m_rtlsdr_dialog_y = 0;
-
-      ::wxDisplaySize(&m_display_width, &m_display_height);
-
       //    Get a pointer to the opencpn display canvas, to use as a parent for the POI Manager dialog
       m_parent_window = GetOCPNCanvasWindow();
-
-      //    Get a pointer to the opencpn configuration object
-      m_pconfig = GetOCPNConfigObject();
 
       //    And load the configuration items
       LoadConfig();
@@ -257,19 +248,19 @@ void rtlsdr_pi::RearrangeWindow()
 
 void rtlsdr_pi::OnToolbarToolCallback(int id)
 {
-      if(!m_prtlsdrDialog)
-      {
-            m_prtlsdrDialog = new rtlsdrDialog(*this, m_parent_window);
-            m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
-            m_prtlsdrDialog->Move(wxPoint(m_rtlsdr_dialog_x, m_rtlsdr_dialog_y));
-      }
+    if(!m_prtlsdrDialog)
+    {
+        m_prtlsdrDialog = new rtlsdrDialog(*this, m_parent_window);
+        m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
+        m_prtlsdrDialog->Move(wxPoint(m_rtlsdr_dialog_x, m_rtlsdr_dialog_y));
+    }
 
-      RearrangeWindow();
-      m_prtlsdrDialog->Show(!m_prtlsdrDialog->IsShown());
+    RearrangeWindow();
+    m_prtlsdrDialog->Show(!m_prtlsdrDialog->IsShown());
 
-      wxPoint p = m_prtlsdrDialog->GetPosition();
-      m_prtlsdrDialog->Move(0,0);        // workaround for gtk autocentre dialog behavior
-      m_prtlsdrDialog->Move(p);
+    wxPoint p = m_prtlsdrDialog->GetPosition();
+    m_prtlsdrDialog->Move(0,0);        // workaround for gtk autocentre dialog behavior
+    m_prtlsdrDialog->Move(p);
 }
 
 void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
@@ -651,72 +642,69 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
 
 bool rtlsdr_pi::LoadConfig(void)
 {
-      wxFileConfig *pConf = m_pconfig;
+    wxFileConfig *pConf = GetOCPNConfigObject();
 
-      if(pConf)
-      {
-            pConf->SetPath ( _T( "/Settings/rtlsdr" ) );
+    if(!pConf)
+        return false;
 
-            m_rtlsdr_dialog_x =  pConf->Read ( _T ( "DialogPosX" ), 20L );
-            m_rtlsdr_dialog_y =  pConf->Read ( _T ( "DialogPosY" ), 20L );
+    pConf->SetPath ( _T( "/Settings/rtlsdr" ) );
 
-            pConf->Read ( _T ( "Enabled" ), &m_bEnabled, false);
-            int mode;
-            pConf->Read ( _T ( "Mode" ), &mode, 0 );
-            m_Mode = (rtlsdrMode)mode;
+    m_rtlsdr_dialog_x =  pConf->Read ( _T ( "DialogPosX" ), 20L );
+    m_rtlsdr_dialog_y =  pConf->Read ( _T ( "DialogPosY" ), 20L );
 
-            m_AISProgram = pConf->Read ( _T ( "AISProgram" ), _T("aisdecoder") );
-            m_P1args = pConf->Read ( _T ( "P1args" ), _T("") );
-            m_P2args = pConf->Read ( _T ( "P2args" ), _T("") );
-            m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
-            m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
+    pConf->Read ( _T ( "Enabled" ), &m_bEnabled, false);
+    int mode;
+    pConf->Read ( _T ( "Mode" ), &mode, 0 );
+    m_Mode = (rtlsdrMode)mode;
 
-            pConf->Read ( _T ( "ADSBPlot" ), &m_bADSBPlot, 1 );
+    m_AISProgram = pConf->Read ( _T ( "AISProgram" ), _T("aisdecoder") );
+    m_P1args = pConf->Read ( _T ( "P1args" ), _T("") );
+    m_P2args = pConf->Read ( _T ( "P2args" ), _T("") );
+    m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
+    m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
 
-            pConf->Read ( _T ( "FMFrequency" ), &m_dFMFrequency, 104.4 );
+    pConf->Read ( _T ( "ADSBPlot" ), &m_bADSBPlot, 1 );
 
-            pConf->Read ( _T ( "VHFChannel" ), &m_iVHFChannel, 16 );
-            pConf->Read ( _T ( "VHFSquelch" ), &m_iVHFSquelch, 30 );
-            pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
+    pConf->Read ( _T ( "FMFrequency" ), &m_dFMFrequency, 104.4 );
 
-            if(m_bEnabled)
-                Start();
+    pConf->Read ( _T ( "VHFChannel" ), &m_iVHFChannel, 16 );
+    pConf->Read ( _T ( "VHFSquelch" ), &m_iVHFSquelch, 30 );
+    pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
 
-            return true;
-      } else
-            return false;
+    if(m_bEnabled)
+        Start();
+
+    return true;
 }
 
 bool rtlsdr_pi::SaveConfig(void)
 {
-      wxFileConfig *pConf = m_pconfig;
+    wxFileConfig *pConf = GetOCPNConfigObject();
 
-      if(pConf)
-      {
-            pConf->SetPath ( _T ( "/Settings/rtlsdr" ) );
+    if(!pConf)
+        return false;
 
-            pConf->Write ( _T ( "DialogPosX" ),   m_rtlsdr_dialog_x );
-            pConf->Write ( _T ( "DialogPosY" ),   m_rtlsdr_dialog_y );
+    pConf->SetPath ( _T ( "/Settings/rtlsdr" ) );
 
-            pConf->Write ( _T ( "Enabled" ), m_bEnabled );
-            pConf->Write ( _T ( "Mode" ), (int)m_Mode );
+    pConf->Write ( _T ( "DialogPosX" ),   m_rtlsdr_dialog_x );
+    pConf->Write ( _T ( "DialogPosY" ),   m_rtlsdr_dialog_y );
 
-            pConf->Write ( _T ( "AISProgram" ), m_AISProgram );
-            pConf->Write ( _T ( "P1args" ), m_P1args );
-            pConf->Write ( _T ( "P2args" ), m_P2args );
-            pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
-            pConf->Write ( _T ( "AISError" ), m_AISError );
+    pConf->Write ( _T ( "Enabled" ), m_bEnabled );
+    pConf->Write ( _T ( "Mode" ), (int)m_Mode );
 
-            pConf->Write ( _T ( "ADSBPlot" ), m_bADSBPlot );
+    pConf->Write ( _T ( "AISProgram" ), m_AISProgram );
+    pConf->Write ( _T ( "P1args" ), m_P1args );
+    pConf->Write ( _T ( "P2args" ), m_P2args );
+    pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
+    pConf->Write ( _T ( "AISError" ), m_AISError );
 
-            pConf->Write ( _T ( "FMFrequency" ), m_dFMFrequency );
+    pConf->Write ( _T ( "ADSBPlot" ), m_bADSBPlot );
 
-            pConf->Write ( _T ( "VHFChannel" ), m_iVHFChannel );
-            pConf->Write ( _T ( "VHFSquelch" ), m_iVHFSquelch );
-            pConf->Write ( _T ( "VHFWX" ), m_bVHFWX );
+    pConf->Write ( _T ( "FMFrequency" ), m_dFMFrequency );
 
-            return true;
-      }
-      else
-            return false;
+    pConf->Write ( _T ( "VHFChannel" ), m_iVHFChannel );
+    pConf->Write ( _T ( "VHFSquelch" ), m_iVHFSquelch );
+    pConf->Write ( _T ( "VHFWX" ), m_bVHFWX );
+
+    return true;
 }

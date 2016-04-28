@@ -99,8 +99,6 @@ public:
       int m_iVHFChannel, m_iVHFSquelch;
       bool m_bVHFWX;
 
-      wxFileConfig     *m_pconfig;
-
       int m_AISCount;
 
       // should we support sox as a cross platform alternative to aplay?
@@ -133,8 +131,6 @@ private:
       wxString m_sLastMessage;
 
       int               m_rtlsdr_dialog_x, m_rtlsdr_dialog_y;
-      int               m_display_width, m_display_height;
-
       int               m_leftclick_tool_id;
 
       int TestPid[PROCESS_COUNT];
