@@ -104,10 +104,13 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
                                      _T("aisdecoder"), _T("ais_rx"), _T("rtl_adsb"), _T("aplay")};
     for(int i=0; i<PROCESS_COUNT; i++) {
         // pass -h because we are only testing the binary exists in the path
+
         wxProcess *process = wxProcess::Open(PATH() + ProcessNames[i] + _T(" -h"));
-        TestPid[i] = process->GetPid();
-        process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
-                        ( rtlsdr_pi::OnTestTerminate ), NULL, this);
+        if (process) {
+            TestPid[i] = process->GetPid();
+            process->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
+                (rtlsdr_pi::OnTestTerminate), NULL, this);
+        }
     }
 
 #ifdef BUILTIN_RTLAIS

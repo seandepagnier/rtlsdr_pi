@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-22 13:54-0500\n"
-"PO-Revision-Date: 2015-06-02 20:34-0400\n"
+"POT-Creation-Date: 2016-02-27 14:11-0300\n"
+"PO-Revision-Date: 2016-02-27 12:12-0500\n"
 "Last-Translator: nohal <pavel@kalian.cz>\n"
 "Language-Team: Dutch\n"
 "Language: nl_NL\n"
@@ -52,12 +52,12 @@ msgid ") and transmit on this frequency to note how far the peak is from the tru
 "in the filtered output, and receive ais messages (if any are available)\n"
 msgstr "). Zend op deze frequentie om te merken hoe ver de piek ligt van de ware frequentie in kHz.  Dit is de foutwaarde die nodig is voor het calibreren van de dongle.\n\n"
 "Zodra het werkt, zou u 'bursts' moeten zien (ais-gegevens) in de A en B\n"
-"van de gefilterde output, en ais-berichten moeten ontvangen (indien beschikbaar)\n"
+"van de gefilterde uitvoer, en ais-berichten moeten ontvangen (indien beschikbaar).\n"
 
 #: src/rtlsdrPrefs.cpp:196 src/rtlsdrPrefs.cpp:220 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:121 src/rtlsdr_pi.cpp:448 src/rtlsdr_pi.cpp:462
 msgid "rtlsdr"
-msgstr "rtlsdr"
+msgstr "RTLSDR"
 
 #: src/rtlsdrPrefs.cpp:202
 msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
@@ -65,16 +65,16 @@ msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongle
 "Currently ais channel A only is available with rtl_fm and aisdecoder mode. This method uses little cpu and is very efficient. \n"
 "The gnuradio implementation automatically receives both channels A and B \n"
 "simaltaniously but uses much more cpu (due to the python implementation)"
-msgstr "Deze plugin integreert OpenCPN met het rtlsdr-project dat DVB-dongles omzet in een SDR-ontvanger (zie: http://sdr.osmocom.org/trac/wiki/rtl-sdr).\n\n"
+msgstr "Deze plugin integreert OpenCPN met het RTLSDR-project dat DVB-dongles omzet in een SDR-ontvanger (zie: http://sdr.osmocom.org/trac/wiki/rtl-sdr).\n\n"
 "De auteur gebruikt het type r820t DVB-T-dongle met een standaard VHF-antenne, maar ook andere kunnen werken. De antenne coaxkabel is gesplitst op de DVB-T kabel; zowel de binnen- en buitengeleider moeten worden verbonden. \n\n"
-"Momenteel is AIS-kanaal A alleen beschikbaar in rtl_fm en AIS-decoder-modus. Deze methode belast de CPU slecht in geringe mate en is zeer efficiënt. \n"
+"Momenteel is AIS-kanaal A alleen beschikbaar in rtl_fm en AIS-decoder modus. Deze methode belast de CPU slecht in geringe mate en is zeer efficiënt. \n"
 "De gnuradio uitvoering ontvangt automatisch de beide kanalen A en B \\gelijktijdig, maar belast de CPU veel meer (als gevolg van de Python implementatie)."
 
 #: src/rtlsdrPrefs.cpp:215
 msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
 "You can find this program at http://zadig.akeo.ie\n\n"
-msgstr "Onder Windows besturingssysteem moet u eerst het hulpprogramma 'zadig' uitvoeren om het benodigde USB-stuurprogramma te installeren zodra het apparaat is aangesloten\n"
-"Je kunt dit programma vinden op http://zadig.akeo.ie \n\n"
+msgstr "Onder Windows moet u, zodra het apparaat is aangesloten, eerst het hulpprogramma 'Zadig' uitvoeren om het benodigde USB-stuurprogramma te installeren .\n"
+"U kunt dit programma vinden op http://zadig.akeo.ie .\n\n"
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
@@ -115,7 +115,7 @@ msgstr "ais_rx  (gnuradio)"
 
 #: src/rtlsdrUI.cpp:130
 msgid "extra args (blank default)"
-msgstr "extra argumenten ( standaard leeg)"
+msgstr "Extra argumenten ( standaard leeg)"
 
 #: src/rtlsdrUI.cpp:163
 msgid "Sample Rate (khz)"
@@ -163,7 +163,7 @@ msgstr "Mhz"
 
 #: src/rtlsdrUI.cpp:265
 msgid "VHF Audio"
-msgstr "VHF Audio"
+msgstr "VHF audio"
 
 #: src/rtlsdrUI.cpp:275
 msgid "16"
@@ -187,11 +187,11 @@ msgstr "Informatie"
 
 #: src/rtlsdrUI.h:110
 msgid "rtlsdr Preferences"
-msgstr "rtlsdr voorkeuren"
+msgstr "Voorkeuren RTLSDR"
 
 #: src/rtlsdr_pi.cpp:202
 msgid "rtlsdr PlugIn for OpenCPN"
-msgstr "rtlsdr PlugIn voor OpenCPN"
+msgstr "RTLSDR PlugIn voor OpenCPN"
 
 #: src/rtlsdr_pi.cpp:207
 msgid "rtlsdr PlugIn for OpenCPN\n"
@@ -199,11 +199,11 @@ msgid "rtlsdr PlugIn for OpenCPN\n"
 "Support ADS-b FM radio and vhf\n"
 "Eventually version will need to link with gnu radio directly.\n\n"
 "The rtlsdr plugin was written by Sean D'Epagnier\n"
-msgstr "rtlsdr PlugIn voor OpenCPN\n"
-"Leest rtlsdr NMEA-berichten van gr-ais ais_rx.py script. \n"
+msgstr "RTLSDR PlugIn voor OpenCPN\n"
+"Leest rtlsdr NMEA-berichten van gr-ais ais_rx.py script.\n"
 "Ondersteunt ADS-b FM-radio en VHF.\n"
-" Mogeljk zal deze versie een directe koppeling vereisen met gnu radio.\n\n"
-"De rtlsdr PlugIn is geschreven door Sean D'Epagnier.\n"
+"Mogeljk zal deze versie een directe koppeling vereisen met gnu-radio.\n\n"
+"De RTLSDR PlugIn is geschreven door Sean D'Epagnier.\n"
 
 #: src/rtlsdr_pi.cpp:346
 msgid "Execution failed"
