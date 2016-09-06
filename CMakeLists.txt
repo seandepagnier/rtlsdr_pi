@@ -46,6 +46,13 @@ IF(UNIX AND NOT APPLE)
       src/rtl-sdr-misc/aisdecoder/lib/receiver.c)
 
     SET(EXTRA_LIBS ${EXTRA_LIBS} ${RTLSDR_LIBRARY})
+  ELSE()
+    MESSAGE (STATUS "")
+    MESSAGE (STATUS "================ WARNING ===================")
+    MESSAGE (STATUS "rtlsdr library not found, no builtin decoder")
+    MESSAGE (STATUS "You may want to install librtlsdr-dev and run cmake again")
+    MESSAGE (STATUS "============================================")
+    MESSAGE (STATUS "")
   ENDIF()
 ENDIF(UNIX AND NOT APPLE)
 
