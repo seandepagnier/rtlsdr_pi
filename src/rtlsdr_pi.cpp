@@ -385,12 +385,16 @@ void rtlsdr_pi::OnTerminate(wxProcessEvent& event)
 
         if(m_bNeedStart)
             Start();
-        else {
-            m_bEnabled = false;
-            if(m_prtlsdrDialog)
-                m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
-        }
+        else
+            Disable();
     }
+}
+
+void rtlsdr_pi::Disable()
+{
+    m_bEnabled = false;
+    if(m_prtlsdrDialog)
+        m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
 }
 
 double VHFFrequencyMHZ(int channel, bool WX)
@@ -450,8 +454,15 @@ void rtlsdr_pi::Start()
             config.ppm_error = m_AISError;
             config.custom_ppm = 1;
             context = rtl_ais_start(&config);
-            if(m_prtlsdrDialog)
-                m_prtlsdrDialog->m_tMessages->AppendText(_("Started builtin rtl_ais") + _T("\n"));
+            if(context) {
+                if(m_prtlsdrDialog)
+                    m_prtlsdrDialog->m_tMessages->AppendText(_("Started builtin rtl_ais") + _T("\n"));
+            } else {
+                if(m_prtlsdrDialog)
+                    m_prtlsdrDialog->m_tMessages->AppendText(_("failed to start builtin rtl_ais") + _T("\n") +
+                                                             _("is an rtlsdr device available?\n") + _T("\n"));
+                Disable();
+            }
             return;
         } else
 #endif            
@@ -525,6 +536,8 @@ void rtlsdr_pi::Stop()
 
         if(m_prtlsdrDialog)
             m_prtlsdrDialog->m_tMessages->AppendText(_("Stopped builtin rtl_ais") + _T("\n"));
+
+        Disable();
     }
 #endif
     if(m_Process1) {
