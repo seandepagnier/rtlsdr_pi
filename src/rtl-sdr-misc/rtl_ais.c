@@ -385,8 +385,10 @@ static void pre_output(struct rtl_ais_context *ctx)
 static void *demod_thread_fn(void *arg)
 {
         struct rtl_ais_context *ctx = arg;
-        while (ctx->active) {
+        for(;;) {
                 safe_cond_wait(&ctx->ready, &ctx->ready_m);
+                if (!ctx->active)
+                    break;
                 pthread_rwlock_wrlock(&ctx->both.rw);
 		downsample(&ctx->both);
 		memcpy(ctx->left.buf,  ctx->both.buf, 2*ctx->both.len_out);
@@ -467,8 +469,12 @@ void rtl_ais_default_config(struct rtl_ais_config *config)
         config->right_freq = 162025000;
         config->sample_rate = 24000;
         config->output_rate = 48000;
-
         config->edge = 0;
+        config->oversample = 0;
+        config->dc_filter=1;
+        config->use_internal_aisdecoder=1;
+        config->seconds_for_decoder_stats=0;
+        
         /* Aisdecoder */
         config->show_levels=0;
         config->debug_nmea = 0;
@@ -490,8 +496,8 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
         /* precompute rates */
         int dongle_freq, dongle_rate, delta, i;
         dongle_freq = config->left_freq/2 + config->right_freq/2;
-	if (config->edge) {
-		dongle_freq -= config->sample_rate/2;}
+	if (config->edge)
+		dongle_freq -= config->sample_rate/2;
 	delta = config->right_freq - config->left_freq;
 	if (delta > 1.2e6) {
 		fprintf(stderr, "Frequencies may be at most 1.2MHz apart.");
@@ -555,7 +561,7 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 	}
 
 	if (config->dev_index < 0) {
-		exit(1);
+		return NULL;
 	}
 
 	downsample_init(&ctx->both);
@@ -568,7 +574,7 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 	int r = rtlsdr_open(&ctx->dev, (uint32_t)config->dev_index);
 	if (r < 0) {
 		fprintf(stderr, "Failed to open rtlsdr device #%d.\n", config->dev_index);
-		exit(1);
+		return NULL;
 	}
 
         if(!config->use_internal_aisdecoder){
@@ -582,7 +588,7 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 			ctx->file = fopen(config->filename, "wb");
 			if (!ctx->file) {
 				fprintf(stderr, "Failed to open %s\n", config->filename);
-				exit(1);
+				return NULL;
 			}
 		}
 	}
@@ -592,8 +598,9 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 			fprintf(stderr,"Error initializing built-in AIS decoder\n");
 			rtlsdr_cancel_async(ctx->dev);
 			rtlsdr_close(ctx->dev);
-			exit(1);
+			return NULL;
 		}
+                ctx->file = NULL;
 	}
         ctx->use_internal_aisdecoder = config->use_internal_aisdecoder;
         
@@ -608,7 +615,7 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 		int r = rtlsdr_set_agc_mode(ctx->dev, 1);
 		if(r<0)	{
 			fprintf(stderr,"Error seting RTL AGC mode ON");
-			exit(1);
+			return NULL;
 		}
 		else {
 			fprintf(stderr,"RTL AGC mode ON\n");
@@ -621,10 +628,10 @@ struct rtl_ais_context *rtl_ais_start(struct rtl_ais_config *config)
 	verbose_ppm_set(ctx->dev, config->ppm_error);
 	
 	/* Set the tuner frequency */
-	verbose_set_frequency(ctx->dev, config->dongle_freq);
+	verbose_set_frequency(ctx->dev, dongle_freq);
 
 	/* Set the sample rate */
-	verbose_set_sample_rate(ctx->dev, config->dongle_rate);
+	verbose_set_sample_rate(ctx->dev, dongle_rate);
 
 	/* Reset endpoint before we start reading from it (mandatory) */
 	verbose_reset_buffer(ctx->dev);
@@ -654,6 +661,7 @@ void rtl_ais_cleanup(struct rtl_ais_context *ctx)
 {
 	rtlsdr_cancel_async(ctx->dev);
         ctx->active = 0;
+	safe_cond_signal(&ctx->ready, &ctx->ready_m);
 
         pthread_join(ctx->demod_thread, NULL);
         pthread_join(ctx->rtlsdr_thread, NULL);
@@ -664,7 +672,6 @@ void rtl_ais_cleanup(struct rtl_ais_context *ctx)
 	}
 
 	rtlsdr_cancel_async(ctx->dev);
-	safe_cond_signal(&ctx->ready, &ctx->ready_m);
 	pthread_cond_destroy(&ctx->ready);
 	pthread_mutex_destroy(&ctx->ready_m);
 

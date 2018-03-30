@@ -16,7 +16,7 @@ SET(CPACK_PACKAGE_CONTACT "Sean D'Epagnier ")
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
 SET(VERSION_MAJOR "1")
-SET(VERSION_MINOR "0")
+SET(VERSION_MINOR "2")
 
 INCLUDE("cmake/PluginConfigure.cmake")
 
@@ -33,6 +33,7 @@ IF(UNIX AND NOT APPLE)
     DOC "The rtlsdr library"
     )
   IF(RTLSDR_LIBRARY)
+    MESSAGE (STATUS "Found rtlsdr:  ${RTLSDR_LIBRARY}")
 
     ADD_DEFINITIONS( "-DBUILTIN_RTLAIS" )
     SET(SRC_AISDECODER
@@ -47,7 +48,12 @@ IF(UNIX AND NOT APPLE)
 
     SET(EXTRA_LIBS ${EXTRA_LIBS} ${RTLSDR_LIBRARY})
   ELSE()
-    MESSAGE (STATUS "*** Warning: rtlsdr library not found!!!")
+    MESSAGE (STATUS "")
+    MESSAGE (STATUS "================ WARNING ===================")
+    MESSAGE (STATUS "rtlsdr library not found, no builtin decoder")
+    MESSAGE (STATUS "You may want to install librtlsdr-dev and run cmake again")
+    MESSAGE (STATUS "============================================")
+    MESSAGE (STATUS "")
   ENDIF()
 ENDIF(UNIX AND NOT APPLE)
 

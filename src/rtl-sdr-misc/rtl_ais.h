@@ -22,8 +22,8 @@ extern "C" {
 struct rtl_ais_config
 {
     int gain, dev_index, dev_given, ppm_error, rtl_agc, custom_ppm;
-    int left_freq, right_freq, sample_rate, output_rate, dongle_freq;
-    int dongle_rate, delta, edge;
+    int left_freq, right_freq, sample_rate, output_rate;
+    int edge;
 
     int oversample, dc_filter, use_internal_aisdecoder;
     int seconds_for_decoder_stats;

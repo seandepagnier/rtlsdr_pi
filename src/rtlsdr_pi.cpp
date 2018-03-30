@@ -385,12 +385,16 @@ void rtlsdr_pi::OnTerminate(wxProcessEvent& event)
 
         if(m_bNeedStart)
             Start();
-        else {
-            m_bEnabled = false;
-            if(m_prtlsdrDialog)
-                m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
-        }
+        else
+            Disable();
     }
+}
+
+void rtlsdr_pi::Disable()
+{
+    m_bEnabled = false;
+    if(m_prtlsdrDialog)
+        m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
 }
 
 double VHFFrequencyMHZ(int channel, bool WX)
@@ -447,9 +451,18 @@ void rtlsdr_pi::Start()
         if(m_AISProgram == _T("builtin rtl_ais")) {
             struct rtl_ais_config config;
             rtl_ais_default_config(&config);
+            config.ppm_error = m_AISError;
+            config.custom_ppm = 1;
             context = rtl_ais_start(&config);
-            if(m_prtlsdrDialog)
-                m_prtlsdrDialog->m_tMessages->AppendText(_("Started builtin rtl_ais") + _T("\n"));
+            if(context) {
+                if(m_prtlsdrDialog)
+                    m_prtlsdrDialog->m_tMessages->AppendText(_("Started builtin rtl_ais") + _T("\n"));
+            } else {
+                if(m_prtlsdrDialog)
+                    m_prtlsdrDialog->m_tMessages->AppendText(_("failed to start builtin rtl_ais") + _T("\n") +
+                                                             _("is an rtlsdr device available?\n") + _T("\n"));
+                Disable();
+            }
             return;
         } else
 #endif            
@@ -457,13 +470,13 @@ void rtlsdr_pi::Start()
             m_command2 = PATH() + wxString::Format(_T("rtl_ais -n -p %d ") + m_P1args,
                                           m_AISError);
         } else if(m_AISProgram == _T("rtl_fm")) {
-            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k ") + m_P1args,
-                                          m_AISError);
+            m_command1 = PATH() + wxString::Format(_T("rtl_fm -f 161975000 -p %d -s 48k ")
+                                                   + m_P1args, m_AISError);
             m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin "
                  + m_P2args);
         } else if(m_AISProgram == _T("soft_fm")) {
-            m_command1 = PATH() + wxString::Format(_T("soft_fm -f 161975000 -p %d -s 48k ") + m_P1args,
-                                          m_AISError);
+            m_command1 = PATH() + wxString::Format(_T("soft_fm -f 161975000 -p %d -s 48k ")
+                                                   + m_P1args, m_AISError);
             m_command2 = PATH() + _T("aisdecoder -h 127.0.0.1 -p 10110 -a file -c mono -d -f /dev/stdin "
                  + m_P2args);
         } else if(m_AISProgram == _T("ais_rx")) {
@@ -492,7 +505,7 @@ void rtlsdr_pi::Start()
                                 ( rtlsdr_pi::OnTerminate ), NULL, this);
 
             if(m_prtlsdrDialog)
-                m_prtlsdrDialog->m_tMessages->AppendText(_("Executed: ") + m_command1 + _T("\n"));
+                m_prtlsdrDialog->m_tMessages->AppendText(_("Executing: ") + m_command1 + _T("\n"));
         else {
             wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command1,
                                  _("rtlsdr"), wxOK | wxICON_ERROR);
@@ -520,6 +533,11 @@ void rtlsdr_pi::Stop()
     if(context) {
         rtl_ais_cleanup(context);
         context = NULL;
+
+        if(m_prtlsdrDialog)
+            m_prtlsdrDialog->m_tMessages->AppendText(_("Stopped builtin rtl_ais") + _T("\n"));
+
+        Disable();
     }
 #endif
     if(m_Process1) {
@@ -590,6 +608,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         wxString AISProgram = dialog->m_cAISProgram->GetString(dialog->m_cAISProgram->GetSelection());
         wxString AISPrograms[] = {_T("rtl_ais"), _T("rtl_fm"), _T("soft_fm"), _T("ais_rx")};
 
+        if(!AISProgram.Contains("builtin"))
         for(unsigned int i=0; i < (sizeof AISPrograms) / (sizeof *AISPrograms); i++)
             if(AISProgram.Contains(AISPrograms[i]))
                AISProgram = AISPrograms[i];

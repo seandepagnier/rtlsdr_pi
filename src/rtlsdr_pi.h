@@ -111,6 +111,7 @@ private:
       void ReportErrorStream(wxProcess *process);
       void OnTestTerminate(wxProcessEvent&);
       void OnTerminate(wxProcessEvent&);
+      void Disable();
 
       bool              LoadConfig(void);
       bool              SaveConfig(void);
