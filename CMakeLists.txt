@@ -46,6 +46,8 @@ IF(UNIX AND NOT APPLE)
       src/rtl-sdr-misc/aisdecoder/lib/receiver.c)
 
     SET(EXTRA_LIBS ${EXTRA_LIBS} ${RTLSDR_LIBRARY})
+  ELSE()
+    MESSAGE (STATUS "*** Warning: rtlsdr library not found!!!")
   ENDIF()
 ENDIF(UNIX AND NOT APPLE)
 
