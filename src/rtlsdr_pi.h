@@ -29,7 +29,7 @@
 
 #include <wx/wx.h>
 #include <wx/fileconf.h>
-
+#include <future>
 #include "version.h"
 
 #define     MY_API_VERSION_MAJOR    1
@@ -67,6 +67,8 @@ public:
       wxString GetCommonName();
       wxString GetShortDescription();
       wxString GetLongDescription();
+
+      std::future<void> thread_pipe;
 
       int GetToolbarToolCount(void);
 
