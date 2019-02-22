@@ -40,6 +40,7 @@
 #include "rtlsdrPrefs.h"
 #include "icons.h"
 
+
 static void KillProcess(wxProcess *process)
 {
     if(!process)
@@ -322,7 +323,7 @@ void rtlsdr_pi::OnTimer( wxTimerEvent & )
         return;
 
     if(m_Mode == FM || m_Mode == VHF)
-        return;
+	return;
 
     /* manually pipe the data */
     if(m_Process1) {
@@ -489,11 +490,11 @@ void rtlsdr_pi::Start()
         break;
     case FM:
         m_command1 = PlayFM(m_dFMFrequency, 48, 250, 0);
-        m_command2 = _T("aplay -r 48k -f S16_le -t raw -c 1");
+        m_command2 = _T("aplay -r 48 -f S16_le -t raw -c 1");
         break;
     case VHF:
         m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12, m_iVHFSquelch);
-        m_command2 = _T("aplay -r 12k -f S16_le -t raw -c 1");
+        m_command2 = _T("aplay -r 12 -f S16_le -t raw -c 1");
         break;
     default:
         m_command2 = _("Unknown mode");
@@ -524,6 +525,18 @@ void rtlsdr_pi::Start()
         wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command2,
                              _("rtlsdr"), wxOK | wxICON_ERROR);
         mdlg.ShowModal();
+    }
+
+    //In the case we are in FM or VHF we pipe the output of rtl_fm to aplay. We do it in a new thread
+    if (m_Mode == FM || m_Mode == VHF)
+    {
+	thread_pipe = std::async([this]() // add "auto f = "
+	{
+		wxOutputStream *out = m_Process2->GetOutputStream();
+        	wxInputStream *in = m_Process1->GetInputStream();
+        	wxBufferedInputStream buf(*in,200);
+        	out->Write(buf);
+	});
     }
 }
 
