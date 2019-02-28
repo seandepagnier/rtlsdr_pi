@@ -409,22 +409,87 @@ double VHFFrequencyMHZ(int channel, bool WX)
         case 5: return 162.450;
         case 6: return 162.500;
         case 7: return 162.525;
+        case 8: return 161.650;  // Those frequencies are also used in Canada
+        case 9: return 161.775;
         default: return 0;
         }
             
-    if(channel >= 0 && channel <= 28)
-        return 156 + (double)channel*.05;
-    if(channel >= 60 && channel <= 88)
-        return 156.025 + (double)(channel-60)*.05;
-    return 0;
+/*
+        Duplex frequencies are received 4.6 MHz higher than the transmit frequency
+        Not all channels are duplex
+        This is according to the intl band plan
+        There is no apparent logic for the repartition of simplex and duplex channels
+        There are also a US and a Canadian band plans which are slightly different
+        That could be integrated if we could select between WX, Intl US and CAN channels
+*/
+        switch(channel) {
+        case 1: return 160.650;
+        case 2: return 160.700;
+        case 3: return 160.750;
+        case 4: return 160.800;
+        case 5: return 160.860;
+        case 6: return 156.300;
+        case 7: return 160.950;
+        case 8: return 156.400;
+        case 9: return 156.450;
+        case 10: return 156.500;
+        case 11: return 156.550;
+        case 12: return 156.600;
+        case 13: return 156.650;
+        case 14: return 156.700;
+        case 15: return 156.750;
+        case 16: return 156.800;
+        case 17: return 156.850;
+        case 18: return 161.500;
+        case 19: return 161.550;
+        case 20: return 161.600;
+        case 21: return 161.650;
+        case 22: return 161.700;
+        case 23: return 161.750;
+        case 24: return 161.800;
+        case 25: return 161.850;
+        case 26: return 161.900;
+        case 27: return 161.950;
+        case 28: return 162.000;
+        case 60: return 160.625;
+        case 61: return 160.675;
+        case 62: return 160.725;
+        case 63: return 160.775;
+        case 64: return 160.825;
+        case 65: return 160.875;
+        case 66: return 160.925;
+        case 67: return 156.375;
+        case 68: return 156.425;
+        case 69: return 156.475;
+        case 70: return 156.525;
+        case 71: return 156.575;
+        case 72: return 156.625;
+        case 73: return 156.675;
+        case 74: return 156.725;
+        case 75: return 156.775;
+        case 76: return 156.825;
+        case 77: return 156.875;
+        case 78: return 161.525;
+        case 79: return 161.575;
+        case 80: return 161.625;
+        case 81: return 161.675;
+        case 82: return 161.725;
+        case 83: return 161.775;
+        case 84: return 161.825;
+        case 85: return 161.875;
+        case 86: return 161.925;
+        case 87: return 157.375;
+        case 88: return 157.425;
+        default: return 0;
+        }
 }
 
 wxString PlayFM(double frequency, int samplerate, int outputrate, int squelch)
 {
     if(frequency == 0)
         return _("Invalid FM frequency");
-    return wxString::Format(_T("rtl_fm -r %dk -s %dk -f %.1fM -l %d"),
-                            samplerate, outputrate, frequency, squelch);
+    return wxString::Format(_T("rtl_fm -r %dk -s %dk -f %.3fM -l %d"),
+                            samplerate, outputrate, frequency, squelch); // We need resolution to the kHz
 }
 
 void rtlsdr_pi::Restart()
