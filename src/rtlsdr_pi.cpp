@@ -427,7 +427,7 @@ double VHFFrequencyMHZ(int channel, bool WX)
         case 2: return 160.700;
         case 3: return 160.750;
         case 4: return 160.800;
-        case 5: return 160.860;
+        case 5: return 160.850;
         case 6: return 156.300;
         case 7: return 160.950;
         case 8: return 156.400;
