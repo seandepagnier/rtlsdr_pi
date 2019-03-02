@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec  8 2015)
+// C++ code generated with wxFormBuilder (version May 19 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #ifndef __RTLSDRUI_H__
@@ -106,6 +106,7 @@ class rtlsdrPrefsBase : public wxDialog
 		wxTextCtrl* m_tVHFChannel;
 		wxCheckBox* m_cbVHFWX;
 		wxSpinCtrl* m_sVHFSquelch;
+		wxChoice* m_cVHFSet;
 		
 		rtlsdrPrefsBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("rtlsdr Preferences"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxCAPTION|wxDEFAULT_DIALOG_STYLE ); 
 		~rtlsdrPrefsBase();

@@ -1,8 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version Dec  8 2015)
+// C++ code generated with wxFormBuilder (version May 19 2018)
 // http://www.wxformbuilder.org/
 //
-// PLEASE DO "NOT" EDIT THIS FILE!
+// PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
 #include "rtlsdrUI.h"
@@ -30,7 +30,7 @@ rtlsdrDialogBase::rtlsdrDialogBase( wxWindow* parent, wxWindowID id, const wxStr
 	fgSizer13->SetFlexibleDirection( wxBOTH );
 	fgSizer13->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_tMessages = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 420,70 ), wxTE_MULTILINE|wxTE_READONLY );
+	m_tMessages = new wxTextCtrl( sbSizer10->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 420,70 ), wxTE_MULTILINE|wxTE_READONLY );
 	fgSizer13->Add( m_tMessages, 0, wxALL|wxEXPAND, 5 );
 	
 	
@@ -105,7 +105,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer12->SetFlexibleDirection( wxBOTH );
 	fgSizer12->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbAIS = new wxRadioButton( this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_rbAIS = new wxRadioButton( sbSizer3->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer12->Add( m_rbAIS, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer121;
@@ -113,13 +113,13 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer121->SetFlexibleDirection( wxBOTH );
 	fgSizer121->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText5 = new wxStaticText( this, wxID_ANY, _("Program"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, _("Program"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText5->Wrap( -1 );
 	fgSizer121->Add( m_staticText5, 0, wxALL, 5 );
 	
 	wxString m_cAISProgramChoices[] = { _("builtin rtl_ais"), _("rtl_ais"), _("rtl_fm | aisdecoder"), _("soft_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
 	int m_cAISProgramNChoices = sizeof( m_cAISProgramChoices ) / sizeof( wxString );
-	m_cAISProgram = new wxChoice( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
+	m_cAISProgram = new wxChoice( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
 	m_cAISProgram->SetSelection( 0 );
 	fgSizer121->Add( m_cAISProgram, 0, wxALL, 5 );
 	
@@ -127,7 +127,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer12->Add( fgSizer121, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer71;
-	sbSizer71 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("extra args (blank default)") ), wxVERTICAL );
+	sbSizer71 = new wxStaticBoxSizer( new wxStaticBox( sbSizer3->GetStaticBox(), wxID_ANY, _("extra args (blank default)") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer15;
 	fgSizer15 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -135,18 +135,18 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer15->SetFlexibleDirection( wxBOTH );
 	fgSizer15->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_stP1args = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_stP1args = new wxStaticText( sbSizer71->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_stP1args->Wrap( -1 );
 	fgSizer15->Add( m_stP1args, 0, wxALL, 5 );
 	
-	m_tP1args = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_tP1args = new wxTextCtrl( sbSizer71->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer15->Add( m_tP1args, 0, wxALL|wxEXPAND, 5 );
 	
-	m_stP2args = new wxStaticText( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_stP2args = new wxStaticText( sbSizer71->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	m_stP2args->Wrap( -1 );
 	fgSizer15->Add( m_stP2args, 0, wxALL, 5 );
 	
-	m_tP2args = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	m_tP2args = new wxTextCtrl( sbSizer71->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer15->Add( m_tP2args, 0, wxALL|wxEXPAND, 5 );
 	
 	
@@ -160,38 +160,38 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer24->SetFlexibleDirection( wxBOTH );
 	fgSizer24->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText29 = new wxStaticText( this, wxID_ANY, _("Sample Rate (khz)"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText29 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, _("Sample Rate (khz)"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText29->Wrap( -1 );
 	fgSizer24->Add( m_staticText29, 0, wxALL, 5 );
 	
-	m_sAISSampleRate = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16384, 256 );
+	m_sAISSampleRate = new wxSpinCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16384, 256 );
 	fgSizer24->Add( m_sAISSampleRate, 0, wxALL, 5 );
 	
 	
 	fgSizer12->Add( fgSizer24, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer9;
-	sbSizer9 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("Error Correction Calibration") ), wxVERTICAL );
+	sbSizer9 = new wxStaticBoxSizer( new wxStaticBox( sbSizer3->GetStaticBox(), wxID_ANY, _("Error Correction Calibration") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer10;
 	fgSizer10 = new wxFlexGridSizer( 0, 2, 0, 0 );
 	fgSizer10->SetFlexibleDirection( wxBOTH );
 	fgSizer10->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText30 = new wxStaticText( this, wxID_ANY, _("Error Correction"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText30 = new wxStaticText( sbSizer9->GetStaticBox(), wxID_ANY, _("Error Correction"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText30->Wrap( -1 );
 	fgSizer10->Add( m_staticText30, 0, wxALL, 5 );
 	
-	m_sAISError = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, -256, 256, 50 );
+	m_sAISError = new wxSpinCtrl( sbSizer9->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, -256, 256, 50 );
 	fgSizer10->Add( m_sAISError, 0, wxALL, 5 );
 	
-	m_button7 = new wxButton( this, wxID_ANY, _("Auto Calibrate"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_button7 = new wxButton( sbSizer9->GetStaticBox(), wxID_ANY, _("Auto Calibrate"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer10->Add( m_button7, 0, wxALL, 5 );
 	
-	m_bLaunchCompanion = new wxButton( this, wxID_ANY, _("Manual via grc"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_bLaunchCompanion = new wxButton( sbSizer9->GetStaticBox(), wxID_ANY, _("Manual via grc"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer10->Add( m_bLaunchCompanion, 0, wxALL, 5 );
 	
-	m_bInfo = new wxButton( this, wxID_ANY, _("Info"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_bInfo = new wxButton( sbSizer9->GetStaticBox(), wxID_ANY, _("Info"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer10->Add( m_bInfo, 0, wxALL, 5 );
 	
 	
@@ -227,10 +227,10 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer6->SetFlexibleDirection( wxBOTH );
 	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbADSB = new wxRadioButton( this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_rbADSB = new wxRadioButton( sbSizer4->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( m_rbADSB, 0, wxALL, 5 );
 	
-	m_cbADSBPlot = new wxCheckBox( this, wxID_ANY, _("Plot"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_cbADSBPlot = new wxCheckBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Plot"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_cbADSBPlot->SetValue(true); 
 	m_cbADSBPlot->Enable( false );
 	
@@ -250,13 +250,13 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbFM = new wxRadioButton( this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_rbFM = new wxRadioButton( sbSizer7->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer8->Add( m_rbFM, 0, wxALL, 5 );
 	
-	m_tFMFrequency = new wxTextCtrl( this, wxID_ANY, _("100.4"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_tFMFrequency = new wxTextCtrl( sbSizer7->GetStaticBox(), wxID_ANY, _("100.4"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer8->Add( m_tFMFrequency, 0, wxALL, 5 );
 	
-	m_staticText4 = new wxStaticText( this, wxID_ANY, _("Mhz"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4 = new wxStaticText( sbSizer7->GetStaticBox(), wxID_ANY, _("Mhz"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
 	fgSizer8->Add( m_staticText4, 0, wxALL, 5 );
 	
@@ -274,21 +274,27 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer9->SetFlexibleDirection( wxBOTH );
 	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbVHF = new wxRadioButton( this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_rbVHF = new wxRadioButton( sbSizer8->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_rbVHF, 0, wxALL, 5 );
 	
-	m_tVHFChannel = new wxTextCtrl( this, wxID_ANY, _("16"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_tVHFChannel = new wxTextCtrl( sbSizer8->GetStaticBox(), wxID_ANY, _("16"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_tVHFChannel, 0, wxALL, 5 );
 	
-	m_cbVHFWX = new wxCheckBox( this, wxID_ANY, _("WX"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_cbVHFWX = new wxCheckBox( sbSizer8->GetStaticBox(), wxID_ANY, _("WX"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_cbVHFWX, 0, wxALL, 5 );
 	
-	m_staticText7 = new wxStaticText( this, wxID_ANY, _("Squelch"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText7 = new wxStaticText( sbSizer8->GetStaticBox(), wxID_ANY, _("Squelch"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText7->Wrap( -1 );
 	fgSizer9->Add( m_staticText7, 0, wxALL, 5 );
 	
-	m_sVHFSquelch = new wxSpinCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 30 );
+	m_sVHFSquelch = new wxSpinCtrl( sbSizer8->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 30 );
 	fgSizer9->Add( m_sVHFSquelch, 0, wxALL, 5 );
+	
+	wxString m_cVHFSetChoices[] = { _("International"), _("US") };
+	int m_cVHFSetNChoices = sizeof( m_cVHFSetChoices ) / sizeof( wxString );
+	m_cVHFSet = new wxChoice( sbSizer8->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cVHFSetNChoices, m_cVHFSetChoices, 0 );
+	m_cVHFSet->SetSelection( 0 );
+	fgSizer9->Add( m_cVHFSet, 0, wxALL, 5 );
 	
 	
 	sbSizer8->Add( fgSizer9, 1, wxEXPAND, 5 );

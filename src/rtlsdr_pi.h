@@ -98,7 +98,7 @@ public:
       int m_AISSampleRate, m_AISError;
       bool m_bADSBPlot;
       double m_dFMFrequency;
-      int m_iVHFChannel, m_iVHFSquelch;
+      int m_iVHFChannel, m_iVHFSquelch, m_iVHFSet;
       bool m_bVHFWX;
 
       int m_AISCount;

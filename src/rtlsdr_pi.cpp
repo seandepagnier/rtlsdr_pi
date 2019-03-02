@@ -5,7 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2015 by Sean D'Epagnier                                 *
+ *   Copyright (C) 2019 by Sean D'Epagnier                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -119,11 +119,6 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
 #endif    
 }
 
-//---------------------------------------------------------------------------------------------------------
-//
-//          PlugIn initialization and de-init
-//
-//---------------------------------------------------------------------------------------------------------
 
 int rtlsdr_pi::Init(void)
 {
@@ -398,7 +393,7 @@ void rtlsdr_pi::Disable()
         m_prtlsdrDialog->m_cbEnabled->SetValue(m_bEnabled);
 }
 
-double VHFFrequencyMHZ(int channel, bool WX)
+double VHFFrequencyMHZ(int channel, bool WX, bool US)
 {
     if(WX)
         switch(channel) {
@@ -413,7 +408,7 @@ double VHFFrequencyMHZ(int channel, bool WX)
         case 9: return 161.775;
         default: return 0;
         }
-            
+    
 /*
         Duplex frequencies are received 4.6 MHz higher than the transmit frequency
         Not all channels are duplex
@@ -422,35 +417,33 @@ double VHFFrequencyMHZ(int channel, bool WX)
         There are also a US and a Canadian band plans which are slightly different
         That could be integrated if we could select between WX, Intl US and CAN channels
 */
+
+    // these are the same for US and international
+    switch(channel) {
+        case 24: return 161.800;
+        case 25: return 161.850;
+        case 26: return 161.900;
+        case 27: return 161.950;
+        case 28: return 162.000;
+        case 84: return 161.825;
+        case 85: return 161.875;
+        case 86: return 161.925;
+    }
+    
+    if(!US)
         switch(channel) {
         case 1: return 160.650;
         case 2: return 160.700;
         case 3: return 160.750;
         case 4: return 160.800;
         case 5: return 160.850;
-        case 6: return 156.300;
         case 7: return 160.950;
-        case 8: return 156.400;
-        case 9: return 156.450;
-        case 10: return 156.500;
-        case 11: return 156.550;
-        case 12: return 156.600;
-        case 13: return 156.650;
-        case 14: return 156.700;
-        case 15: return 156.750;
-        case 16: return 156.800;
-        case 17: return 156.850;
         case 18: return 161.500;
         case 19: return 161.550;
         case 20: return 161.600;
         case 21: return 161.650;
         case 22: return 161.700;
         case 23: return 161.750;
-        case 24: return 161.800;
-        case 25: return 161.850;
-        case 26: return 161.900;
-        case 27: return 161.950;
-        case 28: return 162.000;
         case 60: return 160.625;
         case 61: return 160.675;
         case 62: return 160.725;
@@ -458,30 +451,22 @@ double VHFFrequencyMHZ(int channel, bool WX)
         case 64: return 160.825;
         case 65: return 160.875;
         case 66: return 160.925;
-        case 67: return 156.375;
-        case 68: return 156.425;
-        case 69: return 156.475;
-        case 70: return 156.525;
-        case 71: return 156.575;
-        case 72: return 156.625;
-        case 73: return 156.675;
-        case 74: return 156.725;
-        case 75: return 156.775;
-        case 76: return 156.825;
-        case 77: return 156.875;
         case 78: return 161.525;
         case 79: return 161.575;
         case 80: return 161.625;
         case 81: return 161.675;
         case 82: return 161.725;
         case 83: return 161.775;
-        case 84: return 161.825;
-        case 85: return 161.875;
-        case 86: return 161.925;
         case 87: return 157.375;
         case 88: return 157.425;
-        default: return 0;
         }
+
+
+    if(channel >= 0 && channel <= 28)
+        return 156 + (double)channel*.05;
+    if(channel >= 60 && channel <= 88)
+        return 156.025 + (double)(channel-60)*.05;
+    return 0;
 }
 
 wxString PlayFM(double frequency, int samplerate, int outputrate, int squelch)
@@ -558,7 +543,7 @@ void rtlsdr_pi::Start()
         m_command2 = _T("aplay -r 48 -f S16_le -t raw -c 1");
         break;
     case VHF:
-        m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX), 12, 12, m_iVHFSquelch);
+        m_command1 = PlayFM(VHFFrequencyMHZ(m_iVHFChannel, m_bVHFWX, m_iVHFSet), 12, 12, m_iVHFSquelch);
         m_command2 = _T("aplay -r 12 -f S16_le -t raw -c 1");
         break;
     default:
@@ -566,13 +551,13 @@ void rtlsdr_pi::Start()
     }
 
     if(m_command1.size()) {
-        if((m_Process1 = wxProcess::Open(m_command1)))
+        if((m_Process1 = wxProcess::Open(m_command1))) {
             m_Process1->Connect(wxEVT_END_PROCESS, wxProcessEventHandler
                                 ( rtlsdr_pi::OnTerminate ), NULL, this);
 
             if(m_prtlsdrDialog)
                 m_prtlsdrDialog->m_tMessages->AppendText(_("Executing: ") + m_command1 + _T("\n"));
-        else {
+        } else {
             wxMessageDialog mdlg(m_parent_window, _("Failed to open: ") + m_command1,
                                  _("rtlsdr"), wxOK | wxICON_ERROR);
             mdlg.ShowModal();
@@ -661,6 +646,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
     dialog->m_rbVHF->SetValue(m_Mode == VHF);
     dialog->m_tVHFChannel->SetValue(wxString::Format(_T("%d"), m_iVHFChannel));
     dialog->m_sVHFSquelch->SetValue(wxString::Format(_T("%d"), m_iVHFSquelch));
+    dialog->m_cVHFSet->SetSelection(m_iVHFSet);
     dialog->m_cbVHFWX->SetValue(m_bVHFWX);
 
     wxCommandEvent d;
@@ -704,6 +690,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         long VHFChannel;
         dialog->m_tVHFChannel->GetValue().ToLong(&VHFChannel);
         int VHFSquelch = dialog->m_sVHFSquelch->GetValue();
+        int VHFSet = dialog->m_cVHFSet->GetSelection();
         bool VHFWX = dialog->m_cbVHFWX->GetValue();
 
         bool restart =
@@ -716,6 +703,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
             (mode == FM && m_dFMFrequency != FMFrequency) ||
             (mode == VHF && (m_iVHFChannel != VHFChannel ||
                              m_iVHFSquelch != VHFSquelch ||
+                             m_iVHFSet != VHFSet ||
                              m_bVHFWX != VHFWX));
 
         m_Mode = (rtlsdrMode)mode;
@@ -730,6 +718,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
 
         m_iVHFChannel = VHFChannel;
         m_iVHFSquelch = VHFSquelch;
+        m_iVHFSet = VHFSet;
         m_bVHFWX = VHFWX;
 
         if(restart)
@@ -769,6 +758,7 @@ bool rtlsdr_pi::LoadConfig(void)
 
     pConf->Read ( _T ( "VHFChannel" ), &m_iVHFChannel, 16 );
     pConf->Read ( _T ( "VHFSquelch" ), &m_iVHFSquelch, 30 );
+    pConf->Read ( _T ( "VHFSet" ), &m_iVHFSet, 0L );
     pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
 
     if(m_bEnabled)
@@ -804,6 +794,7 @@ bool rtlsdr_pi::SaveConfig(void)
 
     pConf->Write ( _T ( "VHFChannel" ), m_iVHFChannel );
     pConf->Write ( _T ( "VHFSquelch" ), m_iVHFSquelch );
+    pConf->Write ( _T ( "VHFSet" ), m_iVHFSet );
     pConf->Write ( _T ( "VHFWX" ), m_bVHFWX );
 
     return true;
