@@ -15,9 +15,6 @@ SET(CPACK_PACKAGE_CONTACT "Sean D'Epagnier ")
 
 MESSAGE (STATUS "*** Building ${PACKAGE_NAME} ***")
 
-SET(VERSION_MAJOR "1")
-SET(VERSION_MINOR "2")
-
 INCLUDE("cmake/PluginConfigure.cmake")
 
 SET(SRC_RTLSDR
