@@ -139,6 +139,6 @@ private:
       int TestPid[PROCESS_COUNT];
 };
 
-double VHFFrequencyMHZ(int channel, bool WX=0, bool US=0);
+double VHFFrequencyMHZ(int channel, bool WX=false, bool US);
 
 #endif
