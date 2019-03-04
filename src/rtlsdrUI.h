@@ -22,6 +22,7 @@
 #include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
+#include <wx/listctrl.h>
 #include <wx/radiobut.h>
 #include <wx/stattext.h>
 #include <wx/choice.h>
@@ -59,6 +60,25 @@ class rtlsdrDialogBase : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+/// Class FlightsDialogBase
+///////////////////////////////////////////////////////////////////////////////
+class FlightsDialogBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxListCtrl* m_lFlights;
+		wxStdDialogButtonSizer* m_sdbSizer2;
+		wxButton* m_sdbSizer2OK;
+	
+	public:
+		
+		FlightsDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Flights"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ); 
+		~FlightsDialogBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
 /// Class rtlsdrPrefsBase
 ///////////////////////////////////////////////////////////////////////////////
 class rtlsdrPrefsBase : public wxDialog 
@@ -74,6 +94,7 @@ class rtlsdrPrefsBase : public wxDialog
 		wxButton* m_button7;
 		wxButton* m_bLaunchCompanion;
 		wxButton* m_bInfo;
+		wxStaticText* m_staticText8;
 		wxStaticText* m_staticText4;
 		wxStaticText* m_staticText7;
 		wxButton* m_bAboutAuthor;
@@ -87,6 +108,7 @@ class rtlsdrPrefsBase : public wxDialog
 		virtual void OnAutoCalibrate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLaunchGnuRadioCompanion( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInfo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnExecuteDump1090( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInformation( wxCommandEvent& event ) { event.Skip(); }
 		
@@ -99,7 +121,8 @@ class rtlsdrPrefsBase : public wxDialog
 		wxSpinCtrl* m_sAISSampleRate;
 		wxSpinCtrl* m_sAISError;
 		wxRadioButton* m_rbADSB;
-		wxCheckBox* m_cbADSBPlot;
+		wxCheckBox* m_cbExecuteDump1090;
+		wxTextCtrl* m_tDump1090Server;
 		wxRadioButton* m_rbFM;
 		wxTextCtrl* m_tFMFrequency;
 		wxRadioButton* m_rbVHF;

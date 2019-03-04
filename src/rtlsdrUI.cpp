@@ -83,6 +83,39 @@ rtlsdrDialogBase::~rtlsdrDialogBase()
 	
 }
 
+FlightsDialogBase::FlightsDialogBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxFlexGridSizer* fgSizer17;
+	fgSizer17 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer17->AddGrowableCol( 0 );
+	fgSizer17->AddGrowableRow( 0 );
+	fgSizer17->SetFlexibleDirection( wxBOTH );
+	fgSizer17->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_lFlights = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT );
+	fgSizer17->Add( m_lFlights, 0, wxALL|wxEXPAND, 5 );
+	
+	m_sdbSizer2 = new wxStdDialogButtonSizer();
+	m_sdbSizer2OK = new wxButton( this, wxID_OK );
+	m_sdbSizer2->AddButton( m_sdbSizer2OK );
+	m_sdbSizer2->Realize();
+	
+	fgSizer17->Add( m_sdbSizer2, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( fgSizer17 );
+	this->Layout();
+	fgSizer17->Fit( this );
+	
+	this->Centre( wxBOTH );
+}
+
+FlightsDialogBase::~FlightsDialogBase()
+{
+}
+
 rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
@@ -230,11 +263,15 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_rbADSB = new wxRadioButton( sbSizer4->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer6->Add( m_rbADSB, 0, wxALL, 5 );
 	
-	m_cbADSBPlot = new wxCheckBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Plot"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_cbADSBPlot->SetValue(true); 
-	m_cbADSBPlot->Enable( false );
+	m_cbExecuteDump1090 = new wxCheckBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Execute dump1090"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( m_cbExecuteDump1090, 0, wxALL, 5 );
 	
-	fgSizer6->Add( m_cbADSBPlot, 0, wxALL, 5 );
+	m_staticText8 = new wxStaticText( sbSizer4->GetStaticBox(), wxID_ANY, _("dump1090 Server"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText8->Wrap( -1 );
+	fgSizer6->Add( m_staticText8, 0, wxALL, 5 );
+	
+	m_tDump1090Server = new wxTextCtrl( sbSizer4->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer6->Add( m_tDump1090Server, 0, wxALL|wxEXPAND, 5 );
 	
 	
 	sbSizer4->Add( fgSizer6, 1, wxEXPAND, 5 );
@@ -344,6 +381,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_button7->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAutoCalibrate ), NULL, this );
 	m_bLaunchCompanion->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
+	m_cbExecuteDump1090->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnExecuteDump1090 ), NULL, this );
 	m_bAboutAuthor->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 	m_button8->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInformation ), NULL, this );
 }
@@ -355,6 +393,7 @@ rtlsdrPrefsBase::~rtlsdrPrefsBase()
 	m_button7->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAutoCalibrate ), NULL, this );
 	m_bLaunchCompanion->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
+	m_cbExecuteDump1090->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnExecuteDump1090 ), NULL, this );
 	m_bAboutAuthor->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 	m_button8->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInformation ), NULL, this );
 	

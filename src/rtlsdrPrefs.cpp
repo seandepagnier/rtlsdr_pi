@@ -5,8 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2014 by Sean D'Epagnier                                 *
- *   sean at depagnier dot com                                             *
+ *   Copyright (C) 2019 by Sean D'Epagnier                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -67,7 +66,7 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
     if(pindex == 0)
         m_rbAIS->Disable();
 
-    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_ADSB])
+    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::DUMP1090])
         m_rbADSB->Disable();
 
     if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_FM] ||

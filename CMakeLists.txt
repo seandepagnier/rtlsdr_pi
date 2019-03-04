@@ -22,6 +22,9 @@ SET(SRC_RTLSDR
             src/rtlsdrDialog.cpp
             src/rtlsdrPrefs.cpp
             src/rtlsdrUI.cpp
+            src/flights.cpp
+            src/FlightsDialog.cpp
+            src/georef.c
             src/icons.cpp
 	    )
 

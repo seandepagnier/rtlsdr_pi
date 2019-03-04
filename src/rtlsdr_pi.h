@@ -38,6 +38,8 @@
 #define ABOUT_AUTHOR_URL "http://seandepagnier.users.sourceforge.net"
 
 #include "ocpn_plugin.h"
+#include "flights.h"
+#include "FlightsDialog.h"
 
 //----------------------------------------------------------------------------------------------------------
 //    The PlugIn Class Definition
@@ -73,6 +75,7 @@ public:
       int GetToolbarToolCount(void);
 
       void OnToolbarToolCallback(int id);
+      void OnContextMenuItemCallback(int id);
 
 //    Optional plugin overrides
       void SetColorScheme(PI_ColorScheme cs);
@@ -96,7 +99,7 @@ public:
       wxString m_AISProgram;
       wxString m_P1args, m_P2args;
       int m_AISSampleRate, m_AISError;
-      bool m_bADSBPlot;
+      wxString m_Dump1090Server;
       double m_dFMFrequency;
       int m_iVHFChannel, m_iVHFSquelch, m_iVHFSet;
       bool m_bVHFWX;
@@ -104,12 +107,18 @@ public:
       int m_AISCount;
 
       // should we support sox as a cross platform alternative to aplay?
-      enum Processes { RTL_AIS, RTL_FM, SOFT_FM, AISDECODER, AIS_RX, RTL_ADSB, APLAY, PROCESS_COUNT };
+      enum Processes { RTL_AIS, RTL_FM, SOFT_FM, AISDECODER, AIS_RX, DUMP1090, APLAY, PROCESS_COUNT };
       bool have_processes[PROCESS_COUNT];
 
+      Flights flights;
+
 private:
+      bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
+
       void ProcessInputStream( wxInputStream *in );
       void OnTimer( wxTimerEvent & );
+      void OnRefreshTimer( wxTimerEvent & );
+
       void ReportErrorStream(wxProcess *process);
       void OnTestTerminate(wxProcessEvent&);
       void OnTerminate(wxProcessEvent&);
@@ -122,7 +131,7 @@ private:
 
       bool m_bNeedStart;
 
-      wxTimer            m_Timer;
+      wxTimer            m_RefreshTimer, m_Timer;
 #ifdef BUILTIN_RTLAIS
       struct rtl_ais_context *context;
 #endif      
@@ -130,6 +139,8 @@ private:
       wxProcess         *m_Process1, *m_Process2;
       wxString           m_command1, m_command2;
       rtlsdrDialog      *m_prtlsdrDialog;
+      FlightsDialog     *m_flightsDialog;
+      int m_flights_menu_id;
 
       wxString m_sLastMessage;
 
@@ -139,6 +150,6 @@ private:
       int TestPid[PROCESS_COUNT];
 };
 
-double VHFFrequencyMHZ(int channel, bool WX=false);
+double VHFFrequencyMHZ(int channel, bool WX=false, bool US=false);
 
 #endif

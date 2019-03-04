@@ -38,6 +38,7 @@
 #include "rtlsdr_pi.h"
 #include "rtlsdrDialog.h"
 #include "rtlsdrPrefs.h"
+#include "georef.h"
 #include "icons.h"
 
 
@@ -89,8 +90,7 @@ void rtlsdr_pi::OnTestTerminate(wxProcessEvent& event)
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
     : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process1(NULL), m_Process2(NULL),
-      m_prtlsdrDialog(NULL)
-
+      m_prtlsdrDialog(NULL), m_flightsDialog(NULL)
 {
     // Create the PlugIn icons
     initialize_images();
@@ -102,7 +102,7 @@ rtlsdr_pi::rtlsdr_pi(void *ppimgr)
 
     // detect helper programs
     const wxString ProcessNames[] = {_T("rtl_ais"), _T("rtl_fm"), _T("soft_fm"),
-                                     _T("aisdecoder"), _T("ais_rx"), _T("rtl_adsb"), _T("aplay")};
+                                     _T("aisdecoder"), _T("ais_rx"), _T("dump1090"), _T("aplay")};
     for(int i=0; i<PROCESS_COUNT; i++) {
         // pass -h because we are only testing the binary exists in the path
 
@@ -134,14 +134,22 @@ int rtlsdr_pi::Init(void)
             _("rtlsdr"), _T(""), NULL,
              RTLSDR_TOOL_POSITION, 0, this);
 
+      wxMenu dummy_menu;
+      m_flights_menu_id = AddCanvasContextMenuItem
+          (new wxMenuItem(&dummy_menu, -1, _("Flights")), this );
+      
       m_prtlsdrDialog = NULL;
+      m_flightsDialog = NULL;
 
       /* periodically check for updates from computation thread */
+      m_RefreshTimer.Connect(wxEVT_TIMER, wxTimerEventHandler
+                      ( rtlsdr_pi::OnRefreshTimer ), NULL, this);
       m_Timer.Connect(wxEVT_TIMER, wxTimerEventHandler
                       ( rtlsdr_pi::OnTimer ), NULL, this);
       m_Timer.Start(1000);
 
       return (WANTS_TOOLBAR_CALLBACK    |
+              WANTS_OPENGL_OVERLAY_CALLBACK |
               INSTALLS_TOOLBAR_TOOL     |
               WANTS_PREFERENCES         |
               WANTS_CONFIG
@@ -262,6 +270,73 @@ void rtlsdr_pi::OnToolbarToolCallback(int id)
     m_prtlsdrDialog->Move(p);
 }
 
+void rtlsdr_pi::OnContextMenuItemCallback(int id)
+{
+    if(id == m_flights_menu_id) {
+        if(!m_flightsDialog)
+            m_flightsDialog = new FlightsDialog(flights, m_parent_window);
+        m_flightsDialog->Show(!m_flightsDialog->IsShown());
+    }
+}
+
+double deg2rad(double a) { return a/180.0*M_PI; }
+double resolv(double degrees, double offset)
+{
+    while(degrees < offset-180)
+        degrees += 360;
+    while(degrees >= offset+180)
+        degrees -= 360;
+    return degrees;
+}
+
+
+bool rtlsdr_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
+{
+    for(std::map<int, FlightInfo>::iterator i = flights.flights.begin(); i != flights.flights.end(); i++) {
+        FlightInfo &info = i->second;
+
+        if(!info.position_age.IsValid())
+            continue;
+
+        if(info.Lat < vp->lat_min || info.Lat > vp->lat_max)
+            continue;
+
+        double lon = resolv(lon, (vp->lon_min + vp->lon_max)/2);
+        if(lon < vp->lon_min || lon < vp->lon_max)
+            continue;
+
+        wxPoint p, q;
+        GetCanvasPixLL(vp, &p, info.Lat, info.Lon);
+        double hdgs[2] = {info.Hdg-30, info.Hdg+30};
+
+        wxTimeSpan dt = wxDateTime::UNow() - info.position_age;
+        long milli = dt.GetMilliseconds().ToLong();
+
+        if(milli > 60*1000)
+            info.position_age = wxDateTime(); // invalidate
+
+        double dist = milli/1000.0/3600*info.Speed, lat;
+        ll_gc_ll(info.Lat, info.Lon, info.Hdg, dist, &lat, &lon);
+        GetCanvasPixLL(vp, &q, lat, lon);
+        glColor3f(1, 0, 0);
+        glBegin(GL_LINES);
+        glVertex2f(p.x, p.y);
+        glVertex2f(q.x, q.y);
+        glColor3f(.4, 0, 0);
+        for(int i=0; i<2; i++) {
+            int cx = sin(deg2rad(hdgs[i])) * 10, cy = cos(deg2rad(hdgs[i])) * 10;
+            glVertex2f(q.x, q.y);
+            glVertex2f(q.x-cx, q.y+cy);
+        }
+        glEnd();
+
+        if(!m_RefreshTimer.IsRunning())
+            m_RefreshTimer.Start(200, true); // refresh in 200 milliseconds
+    }
+
+    return true;
+}
+
 void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
 {
     int c;
@@ -280,9 +355,6 @@ void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
                     m_AISCount++;
                 }
                 break;
-            case ADSB:
-                /* need to decode ADSB messages, and be able to plot */
-                break;
             default:
                 break;
             }
@@ -296,6 +368,9 @@ void rtlsdr_pi::ProcessInputStream( wxInputStream *in )
 
 void rtlsdr_pi::OnTimer( wxTimerEvent & )
 {
+    if(!flights.connected())
+        flights.connect(m_Dump1090Server);
+    
 #ifdef BUILTIN_RTLAIS
     if(context) {
         if(rtl_ais_isactive(context)) {
@@ -335,6 +410,11 @@ void rtlsdr_pi::OnTimer( wxTimerEvent & )
 
     ProcessInputStream(m_Process2->GetInputStream());
     ProcessInputStream(m_Process2->GetErrorStream());
+}
+
+void rtlsdr_pi::OnRefreshTimer( wxTimerEvent & )
+{
+    m_parent_window->Refresh(false);
 }
 
 void rtlsdr_pi::ReportErrorStream(wxProcess *process)
@@ -536,7 +616,7 @@ void rtlsdr_pi::Start()
         }
         break;
     case ADSB:
-        m_command2 = PATH() + wxString::Format(_T("rtl_adsb"));
+        m_command2 = PATH() + wxString::Format(_T("dump1090 --net"));
         break;
     case FM:
         m_command1 = PlayFM(m_dFMFrequency, 48, 250, 0);
@@ -638,7 +718,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
     dialog->m_sAISError->SetValue(m_AISError);
 
     dialog->m_rbADSB->SetValue(m_Mode == ADSB);
-    dialog->m_cbADSBPlot->SetValue(m_bADSBPlot);
+    dialog->m_tDump1090Server->SetValue(m_Dump1090Server);
 
     dialog->m_rbFM->SetValue(m_Mode == FM);
     dialog->m_tFMFrequency->SetValue(wxString::Format(_T("%.1f"), m_dFMFrequency));
@@ -682,7 +762,7 @@ void rtlsdr_pi::ShowPreferencesDialog( wxWindow* parent )
         int AISSampleRate = dialog->m_sAISSampleRate->GetValue();
         int AISError = dialog->m_sAISError->GetValue();
 
-        m_bADSBPlot = dialog->m_cbADSBPlot->GetValue();
+        m_Dump1090Server = dialog->m_tDump1090Server->GetValue();
 
         double FMFrequency;
         dialog->m_tFMFrequency->GetValue().ToDouble(&FMFrequency);
@@ -752,7 +832,7 @@ bool rtlsdr_pi::LoadConfig(void)
     m_AISSampleRate = pConf->Read ( _T ( "AISSampleRate" ), 256 );
     m_AISError = pConf->Read ( _T ( "AISError" ), 50 );
 
-    pConf->Read ( _T ( "ADSBPlot" ), &m_bADSBPlot, 1 );
+    m_Dump1090Server = pConf->Read ( _T ( "Dump1090Server" ), "127.0.0.1" );
 
     pConf->Read ( _T ( "FMFrequency" ), &m_dFMFrequency, 104.4 );
 
@@ -788,7 +868,7 @@ bool rtlsdr_pi::SaveConfig(void)
     pConf->Write ( _T ( "AISSampleRate" ), m_AISSampleRate );
     pConf->Write ( _T ( "AISError" ), m_AISError );
 
-    pConf->Write ( _T ( "ADSBPlot" ), m_bADSBPlot );
+    pConf->Write ( _T ( "Dump1090Server" ), m_Dump1090Server);
 
     pConf->Write ( _T ( "FMFrequency" ), m_dFMFrequency );
 
