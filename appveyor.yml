@@ -1,4 +1,4 @@
-clone_folder: c:\project\projections_pi
+clone_folder: c:\project\rtlsdr_pi
 shallow_clone: true
 image:
 - Visual Studio 2015
@@ -36,12 +36,12 @@ install:
   - cmd: nmake -f makefile.vc BUILD=debug SHARED=1 CFLAGS=/D_USING_V120_SDK71_ CXXFLAGS=/D_USING_V120_SDK71_
 
 before_build:
-  - cd c:\project\projections_pi
+  - cd c:\project\rtlsdr_pi
   - mkdir build
   - cd build
   - ps: Start-FileDownload https://downloads.sourceforge.net/project/opencpnplugins/opencpn_lib/4.2-vc120_xp/opencpn.lib
   - ps: Start-FileDownload https://downloads.sourceforge.net/project/opencpnplugins/opencpn_packaging_data/OpenCPN_buildwin.7z
-  - cmd: 7z x -y OpenCPN_buildwin.7z -oc:\project\projections_pi
+  - cmd: 7z x -y OpenCPN_buildwin.7z -oc:\project\rtlsdr_pi
   - cmake -T v120_xp ..
 
 build_script:
@@ -49,7 +49,7 @@ build_script:
   - cmake --build . --target package --config release
 
 artifacts:
-  - path: 'build\*.exe'
+  - path: 'build\rtlsdr_pi*.exe'
     name: installer
 
 deploy:
