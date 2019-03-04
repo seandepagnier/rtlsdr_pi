@@ -26,11 +26,9 @@ install:
   - cmd: nsis-3.04-setup.exe /S
 
   # Download and unzip wxwidgets
-  - ps: Start-FileDownload http://downloads.sourceforge.net/project/wxwindows/3.1.2/wxWidgets-3.0.2.zip
-  - cmd: 7z x wxwidgets-3.1.2.zip -o%WXWIN% > null
-
-  #- set #Use only while debugging - it reveals the deploy token set on Appveyor
-
+  - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/wxWidgets-3.1.2.7z
+  - cmd: 7z x wxWidgets-3.1.2.7z -o%WXWIN% > null
+   #- set #Use only while debugging - it reveals the deploy token set on Appveyor
 
 before_build:
   - cd c:\project\rtlsdr_pi
@@ -42,6 +40,7 @@ before_build:
   - cmake -T v141_xp ..
 
 build_script:
+  # - cmake --build . --config debug
  - cmake --build . --config Release --target package
 
 artifacts:
