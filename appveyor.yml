@@ -1,10 +1,11 @@
-version: 0.9.{build}					
-clone_folder: c:\project\rtlsdr_pi_pi
+version: 0.9.{build}
+
+clone_folder: c:\project\rtlsdr_pi
 shallow_clone: true
 image:
 - Visual Studio 2017
 
-platform: 
+platform:
   - Win32
 
 configuration: Release
@@ -21,6 +22,7 @@ install:
 
   # install dependencies:
   - choco install poedit
+
   - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/nsis-3.04-setup.exe
   - cmd: nsis-3.04-setup.exe /S
 
@@ -40,7 +42,6 @@ before_build:
   - cmake -T v141_xp ..
 
 build_script:
-  # - cmake --build . --config debug
   - cmake --build . --config Release --target package
 
 artifacts:
@@ -48,12 +49,12 @@ artifacts:
     name: installer
 
 deploy:
-   description: 'release created by AppVeyor CI'
-   provider: GitHub
-   auth_token: '%GitHub_auth_token%'
-   artifact: installer
-   draft: true
-   prerelease: true
-   on:
-     appveyor_repo_tag: true # deploy on tag push only
-     configuration: Release  # Debug contains non-redist MS DLLs
+    description: 'release created by AppVeyor CI'
+    provider: GitHub
+    auth_token: '%GitHub_auth_token%'
+    artifact: installer,portable
+    draft: true
+    prerelease: true
+    on:
+      appveyor_repo_tag: true # deploy on tag push only
+      configuration: Release  # Debug contains non-redist MS DLLs
