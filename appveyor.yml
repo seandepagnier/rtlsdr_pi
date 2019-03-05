@@ -27,6 +27,7 @@ install:
   # Download and unzip wxwidgets
   - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/wxWidgets-3.1.2.7z
   - cmd: 7z x wxWidgets-3.1.2.7z -o%WXWIN% > null
+
   #- set #Use only while debugging - it reveals the deploy token set on Appveyor
 
 before_build:
