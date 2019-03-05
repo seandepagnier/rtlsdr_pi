@@ -43,16 +43,16 @@ build_script:
   - cmake --build . --config Release --target package
 
 artifacts:
-  - path: 'build\rtlsdr_pi*.exe'
+  - path: build\rtlsdr_pi*.exe
     name: installer
 
 deploy:
-  description: 'release created by AppVeyor CI'
-  provider: GitHub
-  auth_token: '%GitHub_auth_token%'
-  artifact: installer
-  draft: true
-  prerelease: true
-  on:
-    appveyor_repo_tag: true # deploy on tag push only
-    configuration: Release  # Debug contains non-redist MS DLLs
+   description: 'release created by AppVeyor CI'
+   provider: GitHub
+   auth_token: '%GitHub_auth_token%'
+   artifact: installer
+   draft: true
+   prerelease: true
+   on:
+     appveyor_repo_tag: true # deploy on tag push only
+     configuration: Release  # Debug contains non-redist MS DLLs
