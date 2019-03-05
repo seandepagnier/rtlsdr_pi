@@ -5,14 +5,13 @@ image:
 - Visual Studio 2017
 
 platform: 
-# - x64
-- Win32
+  - Win32
 
 configuration: Release
 test: OFF
 
 install:
-   - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars32.bat"
 
   # sent environment variables for wxWidgets
   - set WXWIN=C:\wxWidgets-3.1.2
@@ -28,7 +27,7 @@ install:
   # Download and unzip wxwidgets
   - ps: Start-FileDownload http://opencpn.navnux.org/build_deps/wxWidgets-3.1.2.7z
   - cmd: 7z x wxWidgets-3.1.2.7z -o%WXWIN% > null
-   #- set #Use only while debugging - it reveals the deploy token set on Appveyor
+  #- set #Use only while debugging - it reveals the deploy token set on Appveyor
 
 before_build:
   - cd c:\project\rtlsdr_pi
@@ -41,7 +40,7 @@ before_build:
 
 build_script:
   # - cmake --build . --config debug
- - cmake --build . --config Release --target package
+  - cmake --build . --config Release --target package
 
 artifacts:
   - path: 'build\rtlsdr_pi*.exe'
