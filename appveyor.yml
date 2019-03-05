@@ -45,7 +45,7 @@ build_script:
   - cmake --build . --config Release --target package
 
 artifacts:
-  - path: build\rtlsdr_pi*.exe
+  - path: build\*.exe
     name: installer
 
 deploy:
