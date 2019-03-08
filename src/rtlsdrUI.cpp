@@ -97,12 +97,28 @@ FlightsDialogBase::FlightsDialogBase( wxWindow* parent, wxWindowID id, const wxS
 	m_lFlights = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_HRULES|wxLC_REPORT );
 	fgSizer17->Add( m_lFlights, 0, wxALL|wxEXPAND, 5 );
 	
+	wxFlexGridSizer* fgSizer20;
+	fgSizer20 = new wxFlexGridSizer( 0, 3, 0, 0 );
+	fgSizer20->AddGrowableCol( 2 );
+	fgSizer20->SetFlexibleDirection( wxBOTH );
+	fgSizer20->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_stConnected = new wxStaticText( this, wxID_ANY, _("N/A"), wxDefaultPosition, wxSize( 180,-1 ), 0 );
+	m_stConnected->Wrap( -1 );
+	fgSizer20->Add( m_stConnected, 0, wxALL|wxEXPAND, 5 );
+	
+	m_bGoto = new wxButton( this, wxID_ANY, _("Goto"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer20->Add( m_bGoto, 0, wxALL, 5 );
+	
 	m_sdbSizer2 = new wxStdDialogButtonSizer();
 	m_sdbSizer2OK = new wxButton( this, wxID_OK );
 	m_sdbSizer2->AddButton( m_sdbSizer2OK );
 	m_sdbSizer2->Realize();
 	
-	fgSizer17->Add( m_sdbSizer2, 1, wxEXPAND, 5 );
+	fgSizer20->Add( m_sdbSizer2, 1, wxEXPAND, 5 );
+	
+	
+	fgSizer17->Add( fgSizer20, 1, wxEXPAND, 5 );
 	
 	
 	this->SetSizer( fgSizer17 );
@@ -110,10 +126,16 @@ FlightsDialogBase::FlightsDialogBase( wxWindow* parent, wxWindowID id, const wxS
 	fgSizer17->Fit( this );
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	m_bGoto->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FlightsDialogBase::OnGoto ), NULL, this );
 }
 
 FlightsDialogBase::~FlightsDialogBase()
 {
+	// Disconnect Events
+	m_bGoto->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( FlightsDialogBase::OnGoto ), NULL, this );
+	
 }
 
 rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
@@ -122,37 +144,30 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	
 	wxFlexGridSizer* fgSizer14;
 	fgSizer14 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer14->AddGrowableCol( 0 );
 	fgSizer14->SetFlexibleDirection( wxBOTH );
 	fgSizer14->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	wxFlexGridSizer* fgSizer7;
-	fgSizer7 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer7->SetFlexibleDirection( wxBOTH );
-	fgSizer7->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxStaticBoxSizer* sbSizer3;
-	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("AIS") ), wxVERTICAL );
-	
+	m_cMode = new wxChoicebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxCHB_DEFAULT );
+	m_panel1 = new wxPanel( m_cMode, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* fgSizer12;
 	fgSizer12 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer12->AddGrowableCol( 0 );
 	fgSizer12->SetFlexibleDirection( wxBOTH );
 	fgSizer12->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	m_rbAIS = new wxRadioButton( sbSizer3->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer12->Add( m_rbAIS, 0, wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer121;
 	fgSizer121 = new wxFlexGridSizer( 0, 2, 0, 0 );
 	fgSizer121->SetFlexibleDirection( wxBOTH );
 	fgSizer121->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText5 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, _("Program"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText5 = new wxStaticText( m_panel1, wxID_ANY, _("Program"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText5->Wrap( -1 );
 	fgSizer121->Add( m_staticText5, 0, wxALL, 5 );
 	
 	wxString m_cAISProgramChoices[] = { _("builtin rtl_ais"), _("rtl_ais"), _("rtl_fm | aisdecoder"), _("soft_fm | aisdecoder"), _("ais_rx  (gnuradio)") };
 	int m_cAISProgramNChoices = sizeof( m_cAISProgramChoices ) / sizeof( wxString );
-	m_cAISProgram = new wxChoice( sbSizer3->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
+	m_cAISProgram = new wxChoice( m_panel1, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cAISProgramNChoices, m_cAISProgramChoices, 0 );
 	m_cAISProgram->SetSelection( 0 );
 	fgSizer121->Add( m_cAISProgram, 0, wxALL, 5 );
 	
@@ -160,7 +175,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer12->Add( fgSizer121, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer71;
-	sbSizer71 = new wxStaticBoxSizer( new wxStaticBox( sbSizer3->GetStaticBox(), wxID_ANY, _("extra args (blank default)") ), wxVERTICAL );
+	sbSizer71 = new wxStaticBoxSizer( new wxStaticBox( m_panel1, wxID_ANY, _("extra args (blank default)") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer15;
 	fgSizer15 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -193,21 +208,21 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer24->SetFlexibleDirection( wxBOTH );
 	fgSizer24->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_staticText29 = new wxStaticText( sbSizer3->GetStaticBox(), wxID_ANY, _("Sample Rate (khz)"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText29 = new wxStaticText( m_panel1, wxID_ANY, _("Sample Rate (khz)"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText29->Wrap( -1 );
 	fgSizer24->Add( m_staticText29, 0, wxALL, 5 );
 	
-	m_sAISSampleRate = new wxSpinCtrl( sbSizer3->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16384, 256 );
+	m_sAISSampleRate = new wxSpinCtrl( m_panel1, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 1, 16384, 251 );
 	fgSizer24->Add( m_sAISSampleRate, 0, wxALL, 5 );
 	
 	
 	fgSizer12->Add( fgSizer24, 1, wxEXPAND, 5 );
 	
 	wxStaticBoxSizer* sbSizer9;
-	sbSizer9 = new wxStaticBoxSizer( new wxStaticBox( sbSizer3->GetStaticBox(), wxID_ANY, _("Error Correction Calibration") ), wxVERTICAL );
+	sbSizer9 = new wxStaticBoxSizer( new wxStaticBox( m_panel1, wxID_ANY, _("Error Correction Calibration") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer10;
-	fgSizer10 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer10 = new wxFlexGridSizer( 0, 3, 0, 0 );
 	fgSizer10->SetFlexibleDirection( wxBOTH );
 	fgSizer10->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
@@ -242,108 +257,99 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	fgSizer12->Add( fgSizer11, 1, wxEXPAND, 5 );
 	
 	
-	sbSizer3->Add( fgSizer12, 1, wxEXPAND, 5 );
+	m_panel1->SetSizer( fgSizer12 );
+	m_panel1->Layout();
+	fgSizer12->Fit( m_panel1 );
+	m_cMode->AddPage( m_panel1, _("AIS"), false );
+	m_panel2 = new wxPanel( m_cMode, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	sbSizer81 = new wxStaticBoxSizer( new wxStaticBox( m_panel2, wxID_ANY, _("Plotting Planes (ADSB)") ), wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer18;
+	fgSizer18 = new wxFlexGridSizer( 0, 1, 0, 0 );
+	fgSizer18->AddGrowableCol( 0 );
+	fgSizer18->SetFlexibleDirection( wxBOTH );
+	fgSizer18->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_cbEnableFlights = new wxCheckBox( sbSizer81->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_cbEnableFlights->SetValue(true); 
+	fgSizer18->Add( m_cbEnableFlights, 0, wxALL, 5 );
+	
+	wxFlexGridSizer* fgSizer19;
+	fgSizer19 = new wxFlexGridSizer( 0, 3, 0, 0 );
+	fgSizer19->AddGrowableCol( 1 );
+	fgSizer19->SetFlexibleDirection( wxBOTH );
+	fgSizer19->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText10 = new wxStaticText( sbSizer81->GetStaticBox(), wxID_ANY, _("dump1090 Server"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10->Wrap( -1 );
+	fgSizer19->Add( m_staticText10, 0, wxALL, 5 );
+	
+	m_tDump1090Server = new wxTextCtrl( sbSizer81->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer19->Add( m_tDump1090Server, 0, wxALL|wxEXPAND, 5 );
+	
+	m_bAboutDump109Server = new wxButton( sbSizer81->GetStaticBox(), wxID_ANY, _("?"), wxDefaultPosition, wxSize( 30,-1 ), 0 );
+	fgSizer19->Add( m_bAboutDump109Server, 0, wxALL, 5 );
 	
 	
-	fgSizer7->Add( sbSizer3, 1, wxEXPAND, 5 );
-	
-	wxFlexGridSizer* fgSizer16;
-	fgSizer16 = new wxFlexGridSizer( 0, 1, 0, 0 );
-	fgSizer16->SetFlexibleDirection( wxBOTH );
-	fgSizer16->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	wxStaticBoxSizer* sbSizer4;
-	sbSizer4 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("ADS-B") ), wxVERTICAL );
-	
-	wxFlexGridSizer* fgSizer6;
-	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
-	fgSizer6->SetFlexibleDirection( wxBOTH );
-	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
-	
-	m_rbADSB = new wxRadioButton( sbSizer4->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( m_rbADSB, 0, wxALL, 5 );
-	
-	m_cbExecuteDump1090 = new wxCheckBox( sbSizer4->GetStaticBox(), wxID_ANY, _("Execute dump1090"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( m_cbExecuteDump1090, 0, wxALL, 5 );
-	
-	m_staticText8 = new wxStaticText( sbSizer4->GetStaticBox(), wxID_ANY, _("dump1090 Server"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText8->Wrap( -1 );
-	fgSizer6->Add( m_staticText8, 0, wxALL, 5 );
-	
-	m_tDump1090Server = new wxTextCtrl( sbSizer4->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer6->Add( m_tDump1090Server, 0, wxALL|wxEXPAND, 5 );
+	fgSizer18->Add( fgSizer19, 1, wxEXPAND, 5 );
 	
 	
-	sbSizer4->Add( fgSizer6, 1, wxEXPAND, 5 );
+	sbSizer81->Add( fgSizer18, 1, wxEXPAND, 5 );
 	
 	
-	fgSizer16->Add( sbSizer4, 1, wxEXPAND, 5 );
-	
-	wxStaticBoxSizer* sbSizer7;
-	sbSizer7 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("FM Radio") ), wxVERTICAL );
-	
+	m_panel2->SetSizer( sbSizer81 );
+	m_panel2->Layout();
+	sbSizer81->Fit( m_panel2 );
+	m_cMode->AddPage( m_panel2, _("ADSB"), false );
+	m_panel3 = new wxPanel( m_cMode, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* fgSizer8;
 	fgSizer8 = new wxFlexGridSizer( 0, 3, 0, 0 );
 	fgSizer8->SetFlexibleDirection( wxBOTH );
 	fgSizer8->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbFM = new wxRadioButton( sbSizer7->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer8->Add( m_rbFM, 0, wxALL, 5 );
-	
-	m_tFMFrequency = new wxTextCtrl( sbSizer7->GetStaticBox(), wxID_ANY, _("100.4"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_tFMFrequency = new wxTextCtrl( m_panel3, wxID_ANY, _("100.4"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer8->Add( m_tFMFrequency, 0, wxALL, 5 );
 	
-	m_staticText4 = new wxStaticText( sbSizer7->GetStaticBox(), wxID_ANY, _("Mhz"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText4 = new wxStaticText( m_panel3, wxID_ANY, _("Mhz"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText4->Wrap( -1 );
 	fgSizer8->Add( m_staticText4, 0, wxALL, 5 );
 	
 	
-	sbSizer7->Add( fgSizer8, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer16->Add( sbSizer7, 1, wxEXPAND, 5 );
-	
-	wxStaticBoxSizer* sbSizer8;
-	sbSizer8 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("VHF Audio") ), wxVERTICAL );
-	
+	m_panel3->SetSizer( fgSizer8 );
+	m_panel3->Layout();
+	fgSizer8->Fit( m_panel3 );
+	m_cMode->AddPage( m_panel3, _("FM Radio"), false );
+	m_panel4 = new wxPanel( m_cMode, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxFlexGridSizer* fgSizer9;
 	fgSizer9 = new wxFlexGridSizer( 0, 3, 0, 0 );
 	fgSizer9->SetFlexibleDirection( wxBOTH );
 	fgSizer9->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
 	
-	m_rbVHF = new wxRadioButton( sbSizer8->GetStaticBox(), wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, 0 );
-	fgSizer9->Add( m_rbVHF, 0, wxALL, 5 );
-	
-	m_tVHFChannel = new wxTextCtrl( sbSizer8->GetStaticBox(), wxID_ANY, _("16"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_tVHFChannel = new wxTextCtrl( m_panel4, wxID_ANY, _("16"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_tVHFChannel, 0, wxALL, 5 );
 	
-	m_cbVHFWX = new wxCheckBox( sbSizer8->GetStaticBox(), wxID_ANY, _("WX"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_cbVHFWX = new wxCheckBox( m_panel4, wxID_ANY, _("WX"), wxDefaultPosition, wxDefaultSize, 0 );
 	fgSizer9->Add( m_cbVHFWX, 0, wxALL, 5 );
 	
-	m_staticText7 = new wxStaticText( sbSizer8->GetStaticBox(), wxID_ANY, _("Squelch"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText7 = new wxStaticText( m_panel4, wxID_ANY, _("Squelch"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText7->Wrap( -1 );
 	fgSizer9->Add( m_staticText7, 0, wxALL, 5 );
 	
-	m_sVHFSquelch = new wxSpinCtrl( sbSizer8->GetStaticBox(), wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 30 );
+	m_sVHFSquelch = new wxSpinCtrl( m_panel4, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxSP_ARROW_KEYS, 0, 100, 29 );
 	fgSizer9->Add( m_sVHFSquelch, 0, wxALL, 5 );
 	
 	wxString m_cVHFSetChoices[] = { _("International"), _("US") };
 	int m_cVHFSetNChoices = sizeof( m_cVHFSetChoices ) / sizeof( wxString );
-	m_cVHFSet = new wxChoice( sbSizer8->GetStaticBox(), wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cVHFSetNChoices, m_cVHFSetChoices, 0 );
-	m_cVHFSet->SetSelection( 0 );
+	m_cVHFSet = new wxChoice( m_panel4, wxID_ANY, wxDefaultPosition, wxDefaultSize, m_cVHFSetNChoices, m_cVHFSetChoices, 0 );
+	m_cVHFSet->SetSelection( 1 );
 	fgSizer9->Add( m_cVHFSet, 0, wxALL, 5 );
 	
 	
-	sbSizer8->Add( fgSizer9, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer16->Add( sbSizer8, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer7->Add( fgSizer16, 1, wxEXPAND, 5 );
-	
-	
-	fgSizer14->Add( fgSizer7, 1, wxEXPAND, 5 );
+	m_panel4->SetSizer( fgSizer9 );
+	m_panel4->Layout();
+	fgSizer9->Fit( m_panel4 );
+	m_cMode->AddPage( m_panel4, _("VHF Audio"), false );
+	fgSizer14->Add( m_cMode, 1, wxEXPAND | wxALL, 5 );
 	
 	wxFlexGridSizer* fgSizer101;
 	fgSizer101 = new wxFlexGridSizer( 1, 0, 0, 0 );
@@ -381,7 +387,7 @@ rtlsdrPrefsBase::rtlsdrPrefsBase( wxWindow* parent, wxWindowID id, const wxStrin
 	m_button7->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAutoCalibrate ), NULL, this );
 	m_bLaunchCompanion->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
-	m_cbExecuteDump1090->Connect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnExecuteDump1090 ), NULL, this );
+	m_bAboutDump109Server->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutDump1090Server ), NULL, this );
 	m_bAboutAuthor->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 	m_button8->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInformation ), NULL, this );
 }
@@ -393,7 +399,7 @@ rtlsdrPrefsBase::~rtlsdrPrefsBase()
 	m_button7->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAutoCalibrate ), NULL, this );
 	m_bLaunchCompanion->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnLaunchGnuRadioCompanion ), NULL, this );
 	m_bInfo->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInfo ), NULL, this );
-	m_cbExecuteDump1090->Disconnect( wxEVT_COMMAND_CHECKBOX_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnExecuteDump1090 ), NULL, this );
+	m_bAboutDump109Server->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutDump1090Server ), NULL, this );
 	m_bAboutAuthor->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnAboutAuthor ), NULL, this );
 	m_button8->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( rtlsdrPrefsBase::OnInformation ), NULL, this );
 	

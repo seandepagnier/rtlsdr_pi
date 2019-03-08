@@ -99,11 +99,13 @@ public:
       wxString m_AISProgram;
       wxString m_P1args, m_P2args;
       int m_AISSampleRate, m_AISError;
-      wxString m_Dump1090Server;
       double m_dFMFrequency;
       int m_iVHFChannel, m_iVHFSquelch, m_iVHFSet;
       bool m_bVHFWX;
 
+      bool m_bEnableFlights;
+      wxString m_Dump1090Server;
+      
       int m_AISCount;
 
       // should we support sox as a cross platform alternative to aplay?
@@ -113,6 +115,7 @@ public:
       Flights flights;
 
 private:
+      void SetCurrentViewPort(PlugIn_ViewPort &vp);
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
 
       void ProcessInputStream( wxInputStream *in );

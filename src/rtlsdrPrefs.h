@@ -38,6 +38,7 @@ public:
     void OnLaunchGnuRadioCompanion( wxCommandEvent& event );
     void OnInfo( wxCommandEvent& event );
     void OnInformation( wxCommandEvent& event );
+    void OnAboutDump1090Server( wxCommandEvent& event );
     void OnAboutAuthor( wxCommandEvent& event );
 
 protected:

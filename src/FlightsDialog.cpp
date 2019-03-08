@@ -31,7 +31,7 @@
 enum {HEX, NAME, HDG, SPD, LAT, LON, ALT, AGE, MSGS};
 
 FlightsDialog::FlightsDialog( Flights &_flights, wxWindow* parent)
-    : FlightsDialogBase( parent ), m_flights(_flights)
+    : FlightsDialogBase( parent ), last_view_scale_ppm(0), m_flights(_flights)
 {
     m_lFlights->InsertColumn(HEX, "HEX");
     m_lFlights->InsertColumn(NAME, "Name");
@@ -48,36 +48,77 @@ FlightsDialog::FlightsDialog( Flights &_flights, wxWindow* parent)
     m_timer.Start(3000);
 }
 
+void FlightsDialog::OnGoto( wxCommandEvent& event )
+{
+    int index = m_lFlights->GetNextItem(-1, wxLIST_NEXT_ALL, wxLIST_STATE_SELECTED);
+    
+    double lat, lon;
+    if(index >= 0 &&
+       m_lFlights->GetItemText(index, LAT).ToDouble(&lat) &&
+       m_lFlights->GetItemText(index, LON).ToDouble(&lon) &&
+       last_view_scale_ppm)
+         JumpToPosition(lat, lon, last_view_scale_ppm);
+    else {
+        wxString basemsg = _("Failed to go to position!") + "\n";
+        wxMessageDialog mdlg(this, basemsg, _("rtlsdr"), wxOK);
+        mdlg.ShowModal();
+    }
+}
+
 void FlightsDialog::OnTimer( wxTimerEvent & )
 {
     if(!IsShown())
         return;
 
+    m_stConnected->SetLabel(m_flights.connected() ? _("Connected") : _("Not Connected"));
+
+    // remove flights not in list
+    long index = 0;
+    while(index<m_lFlights->GetItemCount()) {
+        long hex = 0;
+        m_lFlights->GetItemText(index, HEX).ToCLong(&hex, 16);
+        std::map<int, FlightInfo>::iterator i;
+        for(i = m_flights.flights.begin(); i != m_flights.flights.end(); i++) {
+            FlightInfo &info = i->second;
+            if(hex == info.hex)
+                break;
+        }
+
+        if(i != m_flights.flights.end())
+            m_lFlights->DeleteItem(index);
+        else
+            index++;
+    }
+    
     // update m_lFlights from m_flights
     for(std::map<int, FlightInfo>::iterator i = m_flights.flights.begin(); i != m_flights.flights.end(); i++) {
         FlightInfo &info = i->second;
-        long index;
         for(index=0; index<m_lFlights->GetItemCount(); index++) {
             long hex = 0;
             m_lFlights->GetItemText(index, HEX).ToCLong(&hex, 16);
-            if(hex == i->second.hex)
+            if(hex == info.hex)
                 break;
         }
 
         if(index == m_lFlights->GetItemCount()) {
+            if(info.Lat==0 && info.Lon==0)
+                continue;
+            
             wxListItem item;
             index = m_lFlights->InsertItem(m_lFlights->GetItemCount(), item);
         }
 
         m_lFlights->SetItem(index, HEX, wxString::Format("%x", info.hex));
-        m_lFlights->SetItem(index, NAME, wxString::Format("%d", info.Name));
-        m_lFlights->SetItem(index, HDG, wxString::Format("%f", info.Hdg));
-        m_lFlights->SetItem(index, SPD, wxString::Format("%f", info.Speed));
+        m_lFlights->SetItem(index, NAME, info.Name);
+        m_lFlights->SetItem(index, HDG, wxString::Format("%.0f", info.Hdg));
+        m_lFlights->SetItem(index, SPD, wxString::Format("%.0f", info.Speed));
         m_lFlights->SetItem(index, LAT, wxString::Format("%f", info.Lat));
         m_lFlights->SetItem(index, LON, wxString::Format("%f", info.Lon));
         m_lFlights->SetItem(index, ALT, wxString::Format("%f", info.Altitude));
-        m_lFlights->SetItem(index, AGE, wxString::Format("%06d", (wxDateTime::Now() - info.age).GetSeconds()));
+        m_lFlights->SetItem(index, AGE, wxString::Format("%d", (wxDateTime::Now() - info.age).GetSeconds()));
         m_lFlights->SetItem(index, MSGS, wxString::Format("%d", info.messages));
-        m_lFlights->SetColumnWidth(AGE, wxLIST_AUTOSIZE);
     }
+
+    for(int i=0; i<MSGS; i++)
+        m_lFlights->SetColumnWidth(i, wxLIST_AUTOSIZE);
 }

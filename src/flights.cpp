@@ -99,7 +99,7 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                 std::string line = sock_buffer.substr(0, line_end);
                 int c = -1, n, index;
                 FlightInfo info;
-                for(index = 0; n < line.length(); index++) {
+                for(index = 0; n < (int)line.length(); index++) {
                     n = c+1;
                     c = line.find(",", n);
                     if(c == -1)
@@ -110,17 +110,17 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                     const char *cstr = sub.c_str();
                     switch(index) {
                     case 0: if(sub != "MSG") goto ignore_message; break;
-                    case 1: info.Sqwk = strtol(cstr, 0, 10); break;
-                    case 2: /* ?? */ break;
-                    case 3: /* ?? */ break;
+                    case 1: info.msg_type = strtol(cstr, 0, 10); break;
+                    case 2: /* 111 */ break;
+                    case 3: /* 11111 */ break;
                     case 4:
                         info.hex = strtol(cstr, 0, 16);
                         if(flights.find(info.hex) != flights.end())
                             info = flights[info.hex];
                     break;
-                    case 5: /* ?? */ break;
+                    case 5: /* 111111 */ break;
                     case 6: info.datetime.ParseISODate(sub); break;
-                    case 7:
+                    case 7: // message reception time and date
                     {
                         wxDateTime time;
                         time.ParseISOTime(sub);
@@ -130,18 +130,29 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                             info.datetime.SetSecond(time.GetSecond());
                         }
                     } break;
-                    case 8: /* ?? */
-                    case 9: /* ?? */
+                    case 8: // time and date when dump1090 processed (don't care)
+                    case 9:
+                        break;
                     case 10: info.Name = sub; break;
                     case 11: info.Altitude = strtod(cstr, 0) / 3.28; break;
                     case 12: info.Speed = strtol(cstr, 0, 10); break;
                     case 13: info.Hdg = strtol(cstr, 0, 10); break;
                     case 14: info.Lat = strtod(cstr, 0); break;
                     case 15: info.Lon = strtod(cstr, 0); info.position_age = wxDateTime::UNow(); break;
-                    case 20:
+                    case 16: // vertical rate
+                    case 17: // Squawk
+                    case 18: // Squawk Changing Alert flag
+                    case 19: // Squawk Changing Alert flag
+                    case 20: // Squawk Ident flag (if we have it)
+                        break;
+                    case 21: // On The Ground Flag
+                        info.on_the_ground = sub == "0" ? false : true;
                     default: break;
                     }
                 }
+
+                if(info.on_the_ground || info.Speed == 0)
+                    goto ignore_message;
 
                 if(index>20) {
                     // add / update flight
@@ -158,10 +169,10 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                     sock_buffer = sock_buffer.substr(line_end+1);                
             }
 
-            // remove flights older than 20 minutes
+            // remove flights older than 5 minutes
             wxDateTime now = wxDateTime::Now();
             for(std::map<int, FlightInfo>::iterator i = flights.begin(); i != flights.end(); i++)
-                if((now - i->second.age).GetSeconds() > 60*20) {
+                if((now - i->second.age).GetSeconds() > 60*5) {
                     flights.erase(i);
                     continue;
                 }
@@ -169,13 +180,3 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
     default:;
     }
 }
-
-    /*
-std::list<FlightInfo*> GetFlights(int maxcount, int sort)
-{
-    std::list<FlightInfo*> r;
-    for(std::map<int, FlightInfo>::iterator i = flights.begin(); i != flights.end(); i++)
-        r.push_back(&*i);
-    return r;
-}
-    */

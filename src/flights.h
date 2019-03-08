@@ -33,12 +33,12 @@ struct FlightInfo
 {
     FlightInfo() {
         Altitude = Speed = Hdg = Lat = Lon = Signal = 0;
-        messages = 0;
+        messages = on_the_ground = 0;
     }
     unsigned int hex;
     enum Mode {S} mode;
     wxDateTime datetime;
-    int Sqwk; // ?
+    int msg_type; // ?
     wxString Name;
     double Altitude; // in meters
     double Speed; // in knots
@@ -46,6 +46,7 @@ struct FlightInfo
     double Lat, Lon;
     double Signal;
     int messages;
+    int on_the_ground;
 
     wxDateTime age, position_age;
 };
@@ -59,8 +60,6 @@ public:
     bool connected() { return sock.IsConnected(); }
 
     void OnSocketEvent(wxSocketEvent& event);
-
-//    std::list<FlightInfo*> GetFlights(int maxcount, int sort);
 
     std::string         sock_buffer;
     std::map<int, FlightInfo> flights;

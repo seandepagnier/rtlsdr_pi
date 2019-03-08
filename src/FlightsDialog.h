@@ -32,6 +32,11 @@ class FlightsDialog : public FlightsDialogBase
 {
 public:
     FlightsDialog(Flights &flights, wxWindow *parent);
+
+    void OnGoto( wxCommandEvent& event );
+
+    double last_view_scale_ppm;
+
 private:
     void OnTimer(wxTimerEvent &);
     wxTimer m_timer;
