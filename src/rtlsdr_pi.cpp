@@ -152,6 +152,7 @@ int rtlsdr_pi::Init(void)
       return (WANTS_TOOLBAR_CALLBACK    |
               WANTS_ONPAINT_VIEWPORT    |
               WANTS_OPENGL_OVERLAY_CALLBACK |
+              WANTS_NMEA_EVENTS         |
               INSTALLS_TOOLBAR_TOOL     |
               WANTS_PREFERENCES         |
               WANTS_CONFIG
@@ -276,7 +277,7 @@ void rtlsdr_pi::OnContextMenuItemCallback(int id)
 {
     if(id == m_flights_menu_id) {
         if(!m_flightsDialog)
-            m_flightsDialog = new FlightsDialog(flights, m_parent_window);
+            m_flightsDialog = new FlightsDialog(flights, m_lastfix, m_parent_window);
         m_flightsDialog->Show(!m_flightsDialog->IsShown());
     }
 }
@@ -295,6 +296,11 @@ void rtlsdr_pi::SetCurrentViewPort(PlugIn_ViewPort &vp)
 {
     if(m_flightsDialog)
         m_flightsDialog->last_view_scale_ppm = vp.view_scale_ppm;
+}
+
+void rtlsdr_pi::SetPositionFixEx(PlugIn_Position_Fix_Ex &pfix)
+{
+    m_lastfix = pfix;
 }
 
 bool rtlsdr_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)

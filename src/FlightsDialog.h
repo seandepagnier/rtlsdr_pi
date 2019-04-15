@@ -31,7 +31,7 @@ class rtlsdr_pi;
 class FlightsDialog : public FlightsDialogBase
 {
 public:
-    FlightsDialog(Flights &flights, wxWindow *parent);
+    FlightsDialog( Flights &_flights, PlugIn_Position_Fix_Ex &fix, wxWindow* parent);
 
     void OnGoto( wxCommandEvent& event );
 
@@ -42,5 +42,6 @@ private:
     wxTimer m_timer;
 
     Flights &m_flights;
+    PlugIn_Position_Fix_Ex &m_lastfix;
 };
 

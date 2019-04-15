@@ -116,6 +116,7 @@ public:
 
 private:
       void SetCurrentViewPort(PlugIn_ViewPort &vp);
+      void SetPositionFixEx(PlugIn_Position_Fix_Ex &pfix);
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
 
       void ProcessInputStream( wxInputStream *in );
@@ -151,6 +152,7 @@ private:
       int               m_leftclick_tool_id;
 
       int TestPid[PROCESS_COUNT];
+      PlugIn_Position_Fix_Ex m_lastfix;
 };
 
 double VHFFrequencyMHZ(int channel, bool WX=false, bool US=false);

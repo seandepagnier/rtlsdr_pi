@@ -28,10 +28,10 @@
 
 #include "rtlsdr_pi.h"
 
-enum {HEX, NAME, HDG, SPD, LAT, LON, ALT, AGE, MSGS};
+enum {HEX, NAME, HDG, SPD, LAT, LON, ALT, AGE, DIST, MSGS};
 
-FlightsDialog::FlightsDialog( Flights &_flights, wxWindow* parent)
-    : FlightsDialogBase( parent ), last_view_scale_ppm(0), m_flights(_flights)
+FlightsDialog::FlightsDialog( Flights &_flights, PlugIn_Position_Fix_Ex &fix, wxWindow* parent)
+    : FlightsDialogBase( parent ), last_view_scale_ppm(0), m_flights(_flights), m_lastfix(fix)
 {
     m_lFlights->InsertColumn(HEX, "HEX");
     m_lFlights->InsertColumn(NAME, "Name");
@@ -41,6 +41,7 @@ FlightsDialog::FlightsDialog( Flights &_flights, wxWindow* parent)
     m_lFlights->InsertColumn(LON, "Lon");
     m_lFlights->InsertColumn(ALT, "Altitude");
     m_lFlights->InsertColumn(AGE, "Age");
+    m_lFlights->InsertColumn(DIST, "Distance");
     m_lFlights->InsertColumn(MSGS, "Messages");
 
     m_timer.Connect(wxEVT_TIMER, wxTimerEventHandler
@@ -75,8 +76,8 @@ void FlightsDialog::OnTimer( wxTimerEvent & )
     // remove flights not in list
     long index = 0;
     while(index<m_lFlights->GetItemCount()) {
-        long hex = 0;
-        m_lFlights->GetItemText(index, HEX).ToCLong(&hex, 16);
+        unsigned long hex = 0;
+        m_lFlights->GetItemText(index, HEX).ToCULong(&hex, 16);
         std::map<int, FlightInfo>::iterator i;
         for(i = m_flights.flights.begin(); i != m_flights.flights.end(); i++) {
             FlightInfo &info = i->second;
@@ -94,8 +95,8 @@ void FlightsDialog::OnTimer( wxTimerEvent & )
     for(std::map<int, FlightInfo>::iterator i = m_flights.flights.begin(); i != m_flights.flights.end(); i++) {
         FlightInfo &info = i->second;
         for(index=0; index<m_lFlights->GetItemCount(); index++) {
-            long hex = 0;
-            m_lFlights->GetItemText(index, HEX).ToCLong(&hex, 16);
+            unsigned long hex = 0;
+            m_lFlights->GetItemText(index, HEX).ToCULong(&hex, 16);
             if(hex == info.hex)
                 break;
         }
@@ -116,6 +117,7 @@ void FlightsDialog::OnTimer( wxTimerEvent & )
         m_lFlights->SetItem(index, LON, wxString::Format("%f", info.Lon));
         m_lFlights->SetItem(index, ALT, wxString::Format("%f", info.Altitude));
         m_lFlights->SetItem(index, AGE, wxString::Format("%d", (wxDateTime::Now() - info.age).GetSeconds()));
+        m_lFlights->SetItem(index, DIST, wxString::Format("%.0f", DistGreatCircle(m_lastfix.Lat, m_lastfix.Lon, info.Lat, info.Lon)));
         m_lFlights->SetItem(index, MSGS, wxString::Format("%d", info.messages));
     }
 
