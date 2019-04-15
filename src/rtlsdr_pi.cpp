@@ -151,6 +151,7 @@ int rtlsdr_pi::Init(void)
 
       return (WANTS_TOOLBAR_CALLBACK    |
               WANTS_ONPAINT_VIEWPORT    |
+              WANTS_OVERLAY_CALLBACK |
               WANTS_OPENGL_OVERLAY_CALLBACK |
               INSTALLS_TOOLBAR_TOOL     |
               WANTS_PREFERENCES         |
@@ -297,7 +298,17 @@ void rtlsdr_pi::SetCurrentViewPort(PlugIn_ViewPort &vp)
         m_flightsDialog->last_view_scale_ppm = vp.view_scale_ppm;
 }
 
+bool rtlsdr_pi::RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp)
+{
+    return Render(&dc, vp);
+}
+
 bool rtlsdr_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
+{
+    return Render(NULL, vp);
+}
+
+bool rtlsdr_pi::Render(wxDC *dc, PlugIn_ViewPort *vp)
 {
     if(!m_bEnableFlights)
         return false;
@@ -328,20 +339,32 @@ bool rtlsdr_pi::RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp)
         double dist = milli/1000.0/3600*info.Speed, lat;
         ll_gc_ll(info.Lat, info.Lon, info.Hdg, dist, &lat, &lon);
         GetCanvasPixLL(vp, &q, lat, lon);
-        glColor3f(1, 0, 0);
-        glBegin(GL_LINES);
-        glVertex2f(p.x, p.y);
-        glVertex2f(q.x, q.y);
-        glColor3f(.4, 0, 0);
+
+        if(dc) {
+            dc->DrawLine(p, q);
+        } else {
+            glColor3f(1, 0, 0);
+            glBegin(GL_LINES);
+            glVertex2f(p.x, p.y);
+            glVertex2f(q.x, q.y);
+            glColor3f(.4, 0, 0);
+        }
+        
         for(int i=0; i<2; i++) {
             int cx = sin(deg2rad(hdgs[i])) * 10, cy = cos(deg2rad(hdgs[i])) * 10;
-            glVertex2f(q.x, q.y);
-            glVertex2f(q.x-cx, q.y+cy);
+            if(dc)
+                dc->DrawLine(q.x, q.y, q.x-cx, q.y+cy);
+            else {
+                glVertex2f(q.x, q.y);
+                glVertex2f(q.x-cx, q.y+cy);
+            }
         }
-        glEnd();
+
+        if(!dc)
+            glEnd();
 
         if(!m_RefreshTimer.IsRunning())
-            m_RefreshTimer.Start(500, true); // refresh in 500 milliseconds
+            m_RefreshTimer.Start(800, true); // refresh in 500 milliseconds
     }
 
     return true;
@@ -626,7 +649,7 @@ void rtlsdr_pi::Start()
         }
         break;
     case ADSB:
-        m_command2 = PATH() + wxString::Format(_T("dump1090 --quiet --net"));
+        m_command2 = PATH() + wxString::Format(_T("dump1090 --quiet --net --net-http-port 0"));
         break;
     case FM:
         m_command1 = PlayFM(m_dFMFrequency, 48, 250, 0);

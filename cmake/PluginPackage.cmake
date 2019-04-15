@@ -74,7 +74,7 @@ IF(UNIX AND NOT APPLE)
 #    ENDIF(RPMTools_FOUND)
 
 # need apt-get install rpm, for rpmbuild
-    SET(PACKAGE_DEPS "opencpn, bzip2, gzip")
+    SET(PACKAGE_DEPS "opencpn")
     SET(PACKAGE_RELEASE 1)
 
 

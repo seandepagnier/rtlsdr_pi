@@ -116,7 +116,9 @@ public:
 
 private:
       void SetCurrentViewPort(PlugIn_ViewPort &vp);
+      bool RenderOverlay(wxDC &dc, PlugIn_ViewPort *vp);
       bool RenderGLOverlay(wxGLContext *pcontext, PlugIn_ViewPort *vp);
+      bool Render(wxDC *dc, PlugIn_ViewPort *vp);
 
       void ProcessInputStream( wxInputStream *in );
       void OnTimer( wxTimerEvent & );

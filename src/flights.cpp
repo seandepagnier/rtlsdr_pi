@@ -97,7 +97,7 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                 if(line_end <= 0)
                     break;
                 std::string line = sock_buffer.substr(0, line_end);
-                int c = -1, n, index;
+                int c = -1, n=0, index;
                 FlightInfo info;
                 for(index = 0; n < (int)line.length(); index++) {
                     n = c+1;
