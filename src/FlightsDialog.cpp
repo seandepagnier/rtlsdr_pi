@@ -116,7 +116,7 @@ void FlightsDialog::OnTimer( wxTimerEvent & )
         m_lFlights->SetItem(index, LAT, wxString::Format("%f", info.Lat));
         m_lFlights->SetItem(index, LON, wxString::Format("%f", info.Lon));
         m_lFlights->SetItem(index, ALT, wxString::Format("%f", info.Altitude));
-        m_lFlights->SetItem(index, AGE, wxString::Format("%d", (wxDateTime::Now() - info.age).GetSeconds()));
+        m_lFlights->SetItem(index, AGE, wxString::Format("%ld", (wxDateTime::Now() - info.age).GetSeconds().ToLong()));
         m_lFlights->SetItem(index, DIST, wxString::Format("%.0f", DistGreatCircle(m_lastfix.Lat, m_lastfix.Lon, info.Lat, info.Lon)));
         m_lFlights->SetItem(index, MSGS, wxString::Format("%d", info.messages));
     }

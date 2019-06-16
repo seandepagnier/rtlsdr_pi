@@ -97,7 +97,7 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
                 if(line_end <= 0)
                     break;
                 std::string line = sock_buffer.substr(0, line_end);
-                int c = -1, n, index;
+                int c = -1, n=0, index;
                 FlightInfo info;
                 for(index = 0; n < (int)line.length(); index++) {
                     n = c+1;
@@ -174,7 +174,7 @@ void Flights::OnSocketEvent(wxSocketEvent& event)
             for(std::map<int, FlightInfo>::iterator i = flights.begin(); i != flights.end(); i++)
                 if((now - i->second.age).GetSeconds() > 60*5) {
                     flights.erase(i);
-                    continue;
+                    break;
                 }
         } break;
     default:;
