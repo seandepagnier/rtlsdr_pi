@@ -22,10 +22,12 @@
 #include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/dialog.h>
-#include <wx/radiobut.h>
+#include <wx/listctrl.h>
 #include <wx/stattext.h>
 #include <wx/choice.h>
 #include <wx/spinctrl.h>
+#include <wx/panel.h>
+#include <wx/choicebk.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -59,6 +61,31 @@ class rtlsdrDialogBase : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+/// Class FlightsDialogBase
+///////////////////////////////////////////////////////////////////////////////
+class FlightsDialogBase : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxListCtrl* m_lFlights;
+		wxButton* m_bGoto;
+		wxStdDialogButtonSizer* m_sdbSizer2;
+		wxButton* m_sdbSizer2OK;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnGoto( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		wxStaticText* m_stConnected;
+		
+		FlightsDialogBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Flights"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER ); 
+		~FlightsDialogBase();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
 /// Class rtlsdrPrefsBase
 ///////////////////////////////////////////////////////////////////////////////
 class rtlsdrPrefsBase : public wxDialog 
@@ -66,6 +93,7 @@ class rtlsdrPrefsBase : public wxDialog
 	private:
 	
 	protected:
+		wxPanel* m_panel1;
 		wxStaticText* m_staticText5;
 		wxStaticText* m_stP1args;
 		wxStaticText* m_stP2args;
@@ -74,7 +102,13 @@ class rtlsdrPrefsBase : public wxDialog
 		wxButton* m_button7;
 		wxButton* m_bLaunchCompanion;
 		wxButton* m_bInfo;
+		wxPanel* m_panel2;
+		wxStaticBoxSizer* sbSizer81;
+		wxStaticText* m_staticText10;
+		wxButton* m_bAboutDump109Server;
+		wxPanel* m_panel3;
 		wxStaticText* m_staticText4;
+		wxPanel* m_panel4;
 		wxStaticText* m_staticText7;
 		wxButton* m_bAboutAuthor;
 		wxButton* m_button8;
@@ -87,22 +121,21 @@ class rtlsdrPrefsBase : public wxDialog
 		virtual void OnAutoCalibrate( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnLaunchGnuRadioCompanion( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInfo( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnAboutDump1090Server( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnAboutAuthor( wxCommandEvent& event ) { event.Skip(); }
 		virtual void OnInformation( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
-		wxRadioButton* m_rbAIS;
+		wxChoicebook* m_cMode;
 		wxChoice* m_cAISProgram;
 		wxTextCtrl* m_tP1args;
 		wxTextCtrl* m_tP2args;
 		wxSpinCtrl* m_sAISSampleRate;
 		wxSpinCtrl* m_sAISError;
-		wxRadioButton* m_rbADSB;
-		wxCheckBox* m_cbADSBPlot;
-		wxRadioButton* m_rbFM;
+		wxCheckBox* m_cbEnableFlights;
+		wxTextCtrl* m_tDump1090Server;
 		wxTextCtrl* m_tFMFrequency;
-		wxRadioButton* m_rbVHF;
 		wxTextCtrl* m_tVHFChannel;
 		wxCheckBox* m_cbVHFWX;
 		wxSpinCtrl* m_sVHFSquelch;

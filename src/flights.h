@@ -24,23 +24,46 @@
  ***************************************************************************
  */
 
-#include "rtlsdrUI.h"
+#include <wx/socket.h>
 
-class rtlsdr_pi;
+#include <list>
+#include <map>
 
-class rtlsdrPrefs: public rtlsdrPrefsBase
+struct FlightInfo
+{
+    FlightInfo() {
+        Altitude = Speed = Hdg = Lat = Lon = Signal = 0;
+        messages = on_the_ground = 0;
+    }
+    unsigned int hex;
+    enum Mode {S} mode;
+    wxDateTime datetime;
+    int msg_type; // ?
+    wxString Name;
+    double Altitude; // in meters
+    double Speed; // in knots
+    double Hdg; // true north
+    double Lat, Lon;
+    double Signal;
+    int messages;
+    int on_the_ground;
+
+    wxDateTime age, position_age;
+};
+
+class Flights : public wxEvtHandler
 {
 public:
-    rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent);
+    Flights();
+    void connect(wxString host);
+    void disconnect();
+    bool connected() { return sock.IsConnected(); }
 
-    void OnAISProgram( wxCommandEvent& event );
-    void OnAutoCalibrate( wxCommandEvent& event );
-    void OnLaunchGnuRadioCompanion( wxCommandEvent& event );
-    void OnInfo( wxCommandEvent& event );
-    void OnInformation( wxCommandEvent& event );
-    void OnAboutDump1090Server( wxCommandEvent& event );
-    void OnAboutAuthor( wxCommandEvent& event );
+    void OnSocketEvent(wxSocketEvent& event);
 
-protected:
-    rtlsdr_pi &m_rtlsdr_pi;
+    std::string         sock_buffer;
+    std::map<int, FlightInfo> flights;
+    wxSocketClient       sock;
+
+    DECLARE_EVENT_TABLE()
 };

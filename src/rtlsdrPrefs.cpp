@@ -5,8 +5,7 @@
  * Author:   Sean D'Epagnier
  *
  ***************************************************************************
- *   Copyright (C) 2014 by Sean D'Epagnier                                 *
- *   sean at depagnier dot com                                             *
+ *   Copyright (C) 2019 by Sean D'Epagnier                                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -63,18 +62,6 @@ rtlsdrPrefs::rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent)
         m_cAISProgram->Delete(pindex);
     else
         pindex++;
-
-    if(pindex == 0)
-        m_rbAIS->Disable();
-
-    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_ADSB])
-        m_rbADSB->Disable();
-
-    if(!m_rtlsdr_pi.have_processes[rtlsdr_pi::RTL_FM] ||
-       !m_rtlsdr_pi.have_processes[rtlsdr_pi::APLAY]) {
-        m_rbFM->Disable();
-        m_rbVHF->Disable();
-    }
 }
 
 void rtlsdrPrefs::OnAISProgram( wxCommandEvent& event )
@@ -236,6 +223,17 @@ Under Windows Operating system, you must first run the utility program 'zadig'\
 to install the needed usb driver once the device is plugged in.\n\
 You can find this program at http://zadig.akeo.ie\n\n") +
 #endif
+                             basemsg, _("rtlsdr"), wxOK);
+    mdlg.ShowModal();
+}
+
+
+void rtlsdrPrefs::OnAboutDump1090Server( wxCommandEvent& event )
+{
+    wxString basemsg = _("\
+Where dump1090 is providing data on port 30003\n\
+Normally set to 127.0.0.1 (localhost)");
+    wxMessageDialog mdlg(this,
                              basemsg, _("rtlsdr"), wxOK);
     mdlg.ShowModal();
 }

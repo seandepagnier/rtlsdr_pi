@@ -28,19 +28,20 @@
 
 class rtlsdr_pi;
 
-class rtlsdrPrefs: public rtlsdrPrefsBase
+class FlightsDialog : public FlightsDialogBase
 {
 public:
-    rtlsdrPrefs( rtlsdr_pi &_rtlsdr_pi, wxWindow* parent);
+    FlightsDialog( Flights &_flights, PlugIn_Position_Fix_Ex &fix, wxWindow* parent);
 
-    void OnAISProgram( wxCommandEvent& event );
-    void OnAutoCalibrate( wxCommandEvent& event );
-    void OnLaunchGnuRadioCompanion( wxCommandEvent& event );
-    void OnInfo( wxCommandEvent& event );
-    void OnInformation( wxCommandEvent& event );
-    void OnAboutDump1090Server( wxCommandEvent& event );
-    void OnAboutAuthor( wxCommandEvent& event );
+    void OnGoto( wxCommandEvent& event );
 
-protected:
-    rtlsdr_pi &m_rtlsdr_pi;
+    double last_view_scale_ppm;
+
+private:
+    void OnTimer(wxTimerEvent &);
+    wxTimer m_timer;
+
+    Flights &m_flights;
+    PlugIn_Position_Fix_Ex &m_lastfix;
 };
+
