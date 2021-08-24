@@ -1,7 +1,7 @@
 site:
   title: AIS Data Source Plugin Manual
   url:  https://nowhere.net
-  start_page: rtlsdr:ROOT:rtlsdr.adoc
+  start_page: rtlsdr:ROOT:index.adoc
 
 content:
   sources:
