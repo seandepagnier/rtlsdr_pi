@@ -71,7 +71,7 @@ For gnuradio with gr-ais: <not completed>
 ==== Windows
 
 You must run the program zadig to install the driver available here
-http://zadig.akeo.ie/ The default settings should be fine.
+https://zadig.akeo.ie/ The default settings should be fine.
 
 The receiver program (rtl_fm) and decoder (aisdecoder) are included as
 pre-built binaries, so from here, install the plugin setup package. So
