@@ -104,5 +104,5 @@ Defined Radio by Tom Dove]
 https://www.rtl-sdr.com/rtl-sdr-tutorial-cheap-ais-ship-tracking/[RTL-SDR
 Tutorial Cheap AIS Ship Tracking]
 
-https://opencpn.org/wiki/dokuwiki/doku.php?id=opencpn:supplementary_hardware:ais_devices[dAISy
+xref:opencpn-manuals:misc:ais-devices.adoc#_daisy_ais_receivers[dAISy
 AIS Reciever Alternative]
