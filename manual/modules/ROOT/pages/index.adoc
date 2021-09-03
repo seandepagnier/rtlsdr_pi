@@ -1,4 +1,4 @@
-== Rtlsdr USB
+= Rtlsdr USB
 
 For AIS vhf and more on tv tuner usb dongle
 
@@ -8,7 +8,7 @@ also the cheapest (typically $8 US)
 
 image:r820t.jpeg[]
 
-=== Links
+== Links
 
 * Sources: https://github.com/seandepagnier/rtlsdr_pi[Github
 Repository] +
@@ -21,19 +21,19 @@ Plugin] +
 https://1plus1blog.com/2017/04/19/fabriquer-un-recepteur-ais-avec-antenne-rtl-sdr-et-opencpn/[rtlsdr
 and Opencpn]
 
-==== Notes for Mac RTLSDR
+=== Notes for Mac RTLSDR
 
 https://github.com/nohal/OpenCPN/wiki/RTL-SDR-AIS-on-macOS
 
-==== Hardware Setup:
+=== Hardware Setup:
 
 You must use a proper vhf antenna, not the one included with the dongle.
 I cut the antenna coax included with the dongle, and spliced it to the
 vhf coax. You must solder both inner and outer (shield) connections.
 
-==== Software Setup:
+=== Software Setup:
 
-==== Linux
+=== Linux
 
 You must now compile rtl-sdr from source:
 
@@ -68,7 +68,7 @@ sudo make install
 
 For gnuradio with gr-ais: <not completed>
 
-==== Windows
+=== Windows
 
 You must run the program zadig to install the driver available here
 https://zadig.akeo.ie/ The default settings should be fine.
@@ -80,7 +80,7 @@ be useful if provided. If there are issues it may be helpful to install
 the sdrsharp program to determine if the dongle is receiving data at
 all.
 
-==== All Platforms
+=== All Platforms
 
 It should be possible (from the preferences dialog) to calibrate the
 dongle with the Auto Calibrate button:
@@ -96,7 +96,7 @@ From here, install the plugin package, or build from source and install.
 This works best in an area with a lot of ais traffic. Once calibrated,
 ships should appear on the chart.
 
-==== Links
+=== Links
 
 http://tomdove.com/blog/ham-radio/software-defined-radio-sdr/[Software
 Defined Radio by Tom Dove]
