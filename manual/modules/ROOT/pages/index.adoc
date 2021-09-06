@@ -20,7 +20,15 @@ and Opencpn]
 
 == 1. Installation
 
-The OpenCPN Manual has general information in xref:opencpn-plugins:misc:plugin-install.adoc[Plugin Download, Install and Enable] for installing this plugin. This is the preferred way.
+* Install and Enable the plugin: xref:opencpn-plugins:misc:plugin-install.adoc[Instructions] +
+RtlsdR_pi is available as a managed plugin. The OpenCPN Manual has general information in xref:opencpn-plugins:misc:plugin-install.adoc[Plugin Download, Install and Enable] for installing this plugin. This is the preferred way.
+
+In OpenCPN, go to the _Options → Plugins_ and download, install and enable the LogbookKonni plugin (no settings are required).
+
+* First "Update" the master plugins catalog.
+* Select the rtlsdr_pi entry and "Install" the plugin.
+* In the list of installed plugins "Enable" the sQuiddio plugin.
+* After successful installation, the plugin should be available in the plugins tab of your OpenCPN options dialog box.
 
 === A. Notes for Mac RTLSDR
 
