@@ -1,5 +1,5 @@
 site:
-  title: AIS Data Source Plugin Manual
+  title: RTLsdr AIS Plugin Manual
   url:  https://nowhere.net
   start_page: rtlsdr:ROOT:index.adoc
 
