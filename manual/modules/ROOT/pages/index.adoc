@@ -1,4 +1,4 @@
-= Rtlsdr USB
+= RTLsdr USB AIS 
 
 For AIS vhf and more on tv tuner usb dongle
 

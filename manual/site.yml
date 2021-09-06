@@ -1,5 +1,5 @@
 site:
-  title: RTLsdr AIS Plugin Manual
+  title: RTLsdr USB AIS Plugin Manual
   url:  https://nowhere.net
   start_page: rtlsdr:ROOT:index.adoc
 
