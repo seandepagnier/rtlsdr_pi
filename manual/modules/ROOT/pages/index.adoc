@@ -113,5 +113,4 @@ Defined Radio by Tom Dove]
 https://www.rtl-sdr.com/rtl-sdr-tutorial-cheap-ais-ship-tracking/[RTL-SDR
 Tutorial Cheap AIS Ship Tracking]
 
-https://opencpn-manuals.github.io/plugins/opencpn-plugins/0.1/misc/ais-devices.html
-xref:opencpn-manuals:misc:ais-devices.adoc[dAISy AIS Receiver Alternative]
+xref:opencpn-plugins:misc:ais-devices.adoc[dAISy AIS Receiver Alternative]
