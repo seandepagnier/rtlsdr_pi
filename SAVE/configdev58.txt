@@ -1,0 +1,11 @@
+Rem So I could make a batch file configdev58.bat with
+
+REM  wxWidgets_INCLUDE_DIRS   %WXWIN%\include
+REM  wxWidgets_LIB_DIR   %WXWIN%\lib\vc_dll
+REM  wxWidgets_LIBRARIES    %WXWIN%\lib\vc_dll
+REM  wxWidgets_ROOT_DIR   %WXWIN%
+REM  WXWIN   C:\Users\fcgle\source\repos2\OpenCPN\cache\buildwxWidgets\
+
+set "wxDIR=C:\Users\fcgle\source\repos2\OpenCPN\buildwin\..\cache\buildwxWidgets" 
+set "wxWidgets_ROOT_DIR=C:\Users\fcgle\source\repos2\OpenCPN\buildwin\..\cache\buildwxWidgets" 
+set "wxWidgets_LIB_DIR=C:\Users\fcgle\source\repos2\OpenCPN\buildwin\..\cache\buildwxWidgets\lib\vc_dll" 
