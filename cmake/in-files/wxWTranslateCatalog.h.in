@@ -25,17 +25,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,  USA.             *
  ***************************************************************************
  */
-#ifndef _ODCATTRANS_H_
-#define _ODCATTRANS_H_
+#ifndef _PICATTRANS_H_
+#define _PICATTRANS_H_
 
 #ifndef WXINTL_NO_GETTEXT_MACRO
 #ifdef _
 #undef _
 #endif // _
 #if wxCHECK_VERSION(3,0,0)
-#define _(s) wxGetTranslation((s), wxS("opencpn-${PROJECT_NAME}"))
+    #define _(s) wxGetTranslation((s), wxS("opencpn-${PACKAGE_NAME}"))
 #else // wxCHECK_VERSION(3,0,0)
-    #define _(s) wxGetTranslation(wxT(s), wxT("opencpn-${PROJECT_NAME}"))
+#define _(s) wxGetTranslation(wxT(s), wxT("opencpn-${PACKAGE_NAME}"))
 #endif // wxCHECK_VERSION(3,0,0)
 #endif // WXINTL_NO_GETTEXT_MACRO
 

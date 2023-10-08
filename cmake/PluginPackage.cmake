@@ -1,183 +1,176 @@
-##---------------------------------------------------------------------------
-## Author:      Pavel Kalian (Based on the work of Sean D'Epagnier)
-## Copyright:   2014
-## License:     GPLv3+
-##---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Author:      Pavel Kalian (Based on the work of Sean D'Epagnier) Copyright:   2014 License:     GPLv3+
+# ---------------------------------------------------------------------------
+
+set(SAVE_CMLOC ${CMLOC})
+set(CMLOC "PluginPackage: ")
+
+# build a FLATPAK installer package
+message(STATUS "${CMLOC}Package: OCPN_FLATPAK_CONFIG: ${OCPN_FLATPAK_CONFIG}")
+
+if(OCPN_FLATPAK_CONFIG)
+    # On a flatpak build lib libraries such as LibGL and wxWidgets are only available in the flatpak sandbox. Thus, building flatpak must be done before attempts to locate these non-existing libraries in the host i. e., before any FindLibrary(), FindWxWidgets(), etc.
+    find_program(TAR NAMES gtar tar)
+    if(NOT TAR)
+        message(FATAL_ERROR "${CMLOC}tar not found, required for OCPN_FLATPAK")
+    endif()
+    add_custom_target(
+        flatpak-build ALL
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/flatpak
+        COMMAND cat ${CMAKE_CURRENT_BINARY_DIR}/flatpak/org.opencpn.OpenCPN.Plugin.${PACKAGE}.yaml
+        COMMAND /usr/bin/flatpak-builder --force-clean -v ${CMAKE_CURRENT_BINARY_DIR}/app ${CMAKE_CURRENT_BINARY_DIR}/flatpak/org.opencpn.OpenCPN.Plugin.${PACKAGE}.yaml)
+    add_custom_target("flatpak-pkg")
+    add_custom_command(
+        TARGET flatpak-pkg
+        COMMAND ${TAR} -czf ${PKG_NVR}-${ARCH}${PKG_TARGET_WX_VER}_${PKG_TARGET_NVR}.tar.gz --verbose --transform 's|.*/files/|${PACKAGE}-flatpak-${PACKAGE_VERSION}/|' ${CMAKE_CURRENT_BINARY_DIR}/app/files
+        COMMAND chmod -R a+wr ../build)
+
+        message(STATUS "${CMLOC}Zip file name: ${PKG_NVR}-${ARCH}${PKG_TARGET_WX_VER}_${PKG_TARGET_NVR}.tar.gz")
+    set(CMLOC ${SAVE_CMLOC})
+    return()
+endif(OCPN_FLATPAK_CONFIG)
 
 # build a CPack driven installer package
-#include (InstallRequiredSystemLibraries)
+#SET(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
+set(CPACK_PACKAGE_CONTACT ${PACKAGE_CONTACT})
+set(CPACK_PACKAGE_VENDOR "opencpn.org")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${CPACK_PACKAGE_NAME} ${PACKAGE_VERSION})
+set(CPACK_PACKAGE_VERSION "${PACKAGE_VERSION}-${OCPN_MIN_VERSION}")
+set(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_CURRENT_BINARY_DIR};${PACKAGE_NAME};ALL;/")
+message(STATUS "${CMLOC}CPACK_PACKAGE_NAME: ${CPACK_PACKAGE_NAME}")
 
-SET(CPACK_PACKAGE_NAME "${PACKAGE_NAME}")
-SET(CPACK_PACKAGE_VENDOR "opencpn.org")
-SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY ${CPACK_PACKAGE_NAME} ${PACKAGE_VERSION})
-SET(CPACK_PACKAGE_VERSION ${PACKAGE_VERSION})
-SET(CPACK_PACKAGE_VERSION_MAJOR ${PLUGIN_VERSION_MAJOR})
-SET(CPACK_PACKAGE_VERSION_MINOR ${PLUGIN_VERSION_MINOR})
-SET(CPACK_PACKAGE_VERSION_PATCH ${PLUGIN_VERSION_PATCH})
-SET(CPACK_INSTALL_CMAKE_PROJECTS "${CMAKE_CURRENT_BINARY_DIR};${PACKAGE_NAME};ALL;/")
-SET(CPACK_PACKAGE_EXECUTABLES OpenCPN ${PACKAGE_NAME})
+if(WIN32)
+    # The TGZ (tar.gz) is used by experimental plugin manager,
+    set(CPACK_GENERATOR "NSIS;TGZ")
 
-IF(WIN32)
-# to protect against confusable windows users, let us _not_ generate zip packages
-#  SET(CPACK_GENERATOR "NSIS;ZIP")
+    # override install directory to put package files in the opencpn directory
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY "OpenCPN")
 
-  # override install directory to put package files in the opencpn directory
-  SET(CPACK_PACKAGE_INSTALL_DIRECTORY "OpenCPN")
+    set(CPACK_NSIS_PACKAGE_NAME "${PACKAGE_NAME}")
 
-# CPACK_NSIS_DIR ??
-# CPACK_BUILDWIN_DIR ??
-# CPACK_PACKAGE_ICON ??
+    # Let cmake find NSIS.template.in
+    list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/buildwin")
 
-  SET(CPACK_NSIS_PACKAGE_NAME "${PACKAGE_NAME}")
+    # These lines set the name of the Windows Start Menu shortcut and the icon that goes with it
+    set(CPACK_NSIS_DISPLAY_NAME "OpenCPN ${PACKAGE_NAME}")
 
-  # Let cmake find NSIS.template.in
-  SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/buildwin")
+    set(CPACK_PACKAGE_FILE_NAME "${PACKAGE_FILE_NAME}_${CPACK_PACKAGE_VERSION}-${OCPN_MIN_VERSION}_win32")
+    message(STATUS "${CMLOC}CPACK_PACKAGE_VERSION ${CPACK_PACKAGE_VERSION}")
 
-#  These lines set the name of the Windows Start Menu shortcut and the icon that goes with it
-#  SET(CPACK_NSIS_INSTALLED_ICON_NAME "${PACKAGE_NAME}")
-SET(CPACK_NSIS_DISPLAY_NAME "OpenCPN ${PACKAGE_NAME}")
+    set(CPACK_NSIS_DIR "${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode") # Gunther
+    set(CPACK_BUILDWIN_DIR "${PROJECT_SOURCE_DIR}/buildwin") # Gunther
 
-#  SET(CPACK_PACKAGE_FILE_NAME "${PACKAGE_NAME}_${VERSION_MAJOR}.${VERSION_MINOR}_setup" )
+    message(STATUS "${CMLOC}FILE: ${CPACK_PACKAGE_FILE_NAME}")
+else(WIN32)
+    set(CPACK_PACKAGE_INSTALL_DIRECTORY ${PACKAGE_NAME})
+endif(WIN32)
 
-  SET(CPACK_NSIS_DIR "${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode")  #Gunther
-  SET(CPACK_BUILDWIN_DIR "${PROJECT_SOURCE_DIR}/buildwin")  #Gunther
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(CPACK_STRIP_FILES FALSE)
+    message(STATUS "${CMLOC}Not stripping debug information from module")
+else(CMAKE_BUILD_TYPE STREQUAL "DEBUG")
+    set(CPACK_STRIP_FILES TRUE)
+    message(STATUS "${CMLOC}Stripping debug information from module")
+endif(CMAKE_BUILD_TYPE STREQUAL "Debug")
 
-ELSE(WIN32)
-  SET(CPACK_PACKAGE_INSTALL_DIRECTORY ${PACKAGE_NAME})
-ENDIF(WIN32)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/gpl.txt")
 
-SET(CPACK_STRIP_FILES "${PACKAGE_NAME}")
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/README")
+    message(STATUS "${CMLOC}Using generic cpack package description file.")
+    set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+    set(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README")
+endif()
 
-SET(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/cmake/gpl.txt")
+# SET(CPACK_SOURCE_GENERATOR "TGZ")
 
-IF (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/README")
-#    MESSAGE(STATUS "Using generic cpack package description file.")
-    SET(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
-    SET(CPACK_RESOURCE_FILE_README "${CMAKE_CURRENT_SOURCE_DIR}/README")
-ENDIF ()
+# The following components are regex's to match anywhere (unless anchored) in absolute path + filename to find files or directories to be excluded from source tarball.
+set(CPACK_SOURCE_IGNORE_FILES "^${CMAKE_CURRENT_SOURCE_DIR}/.git/*" "^${CMAKE_CURRENT_SOURCE_DIR}/build*" "^${CPACK_PACKAGE_INSTALL_DIRECTORY}/*")
 
-#SET(CPACK_SOURCE_GENERATOR "TGZ")
+if(UNIX AND NOT APPLE)
 
-# The following components are regex's to match anywhere (unless anchored)
-# in absolute path + filename to find files or directories to be excluded
-# from source tarball.
-set(CPACK_SOURCE_IGNORE_FILES
-"^${CMAKE_CURRENT_SOURCE_DIR}/.git/*"
-"^${CMAKE_CURRENT_SOURCE_DIR}/build*"
-"^${CPACK_PACKAGE_INSTALL_DIRECTORY}/*"
-)
+    # need apt-get install rpm, for rpmbuild
+    set(PACKAGE_DEPS "${PACKAGE_DEPS},opencpn, bzip2, gzip")
+    message(STATUS "${CMLOC}PACKAGE_DEPS: ${PACKAGE_DEPS}")
+    if(NOT QT_ANDROID)
+        set(CPACK_GENERATOR "DEB;TGZ")
+    else()
+        set(CPACK_GENERATOR "TGZ")
+    endif()
 
-IF(UNIX AND NOT APPLE)
-#    INCLUDE(UseRPMTools)
-#    IF(RPMTools_FOUND)
-#        RPMTools_ADD_RPM_TARGETS(packagename ${PROJECT_SOURCE_DIR}/package.spec)
-#    ENDIF(RPMTools_FOUND)
+    set(CPACK_DEBIAN_PACKAGE_NAME ${PACKAGING_NAME})
+    set(CPACK_DEBIAN_PACKAGE_DEPENDS ${PACKAGE_DEPS})
+    set(CPACK_DEBIAN_PACKAGE_RECOMMENDS ${PACKAGE_RECS})
+    set(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${ARCH})
+    set(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}")
+    set(CPACK_DEBIAN_PACKAGE_SECTION "misc")
+    set(CPACK_DEBIAN_COMPRESSION_TYPE "xz") # requires my patches to cmake
+    set(CPACK_CMAKE_GENERATOR Ninja)
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE_NAME} PlugIn for OpenCPN")
+    set(CPACK_PACKAGE_DESCRIPTION "${PACKAGE_NAME} PlugIn for OpenCPN")
+    set(CPACK_SET_DESTDIR ON)
 
-# need apt-get install rpm, for rpmbuild
-    SET(PACKAGE_DEPS "opencpn")
-    SET(PACKAGE_RELEASE 1)
-
-
-  IF (CMAKE_SYSTEM_PROCESSOR MATCHES "arm*")
-    SET (ARCH "armhf")
-    # don't bother with rpm on armhf
-    SET(CPACK_GENERATOR "DEB;RPM;TBZ2")
-  ELSE ()
-    SET(CPACK_GENERATOR "DEB;RPM;TBZ2")
-
-    IF (CMAKE_SIZEOF_VOID_P MATCHES "8")
-      SET (ARCH "amd64")
-      SET(CPACK_RPM_PACKAGE_ARCHITECTURE "x86_64")
-    ELSE (CMAKE_SIZEOF_VOID_P MATCHES "8")
-      SET (ARCH "i386")
-      # note: in a chroot must use "setarch i686 make package"
-      SET(CPACK_RPM_PACKAGE_ARCHITECTURE "i686")
-    ENDIF (CMAKE_SIZEOF_VOID_P MATCHES "8")
-  ENDIF ()
-
-    SET(CPACK_DEBIAN_PACKAGE_DEPENDS ${PACKAGE_DEPS})
-    SET(CPACK_DEBIAN_PACKAGE_RECOMMENDS ${PACKAGE_RECS})
-    SET(CPACK_DEBIAN_PACKAGE_ARCHITECTURE ${ARCH})
-    SET(CPACK_DEBIAN_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}")
-    SET(CPACK_DEBIAN_PACKAGE_SECTION "misc")
-    SET(CPACK_DEBIAN_COMPRESSION_TYPE "xz") # requires my patches to cmake
-
-    SET(CPACK_RPM_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION}")
-    SET(CPACK_RPM_PACKAGE_REQUIRES  ${PACKAGE_DEPS})
-#    SET(CPACK_RPM_PACKAGE_GROUP "Applications/Engineering")
-    SET(CPACK_RPM_PACKAGE_LICENSE "gplv3+")
-
-    SET(CPACK_RPM_COMPRESSION_TYPE "xz")
-#    SET(CPACK_RPM_USER_BINARY_SPECFILE "${PROJECT_SOURCE_DIR}/opencpn.spec.in")
-
-    SET(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE_NAME} PlugIn for OpenCPN")
-    SET(CPACK_PACKAGE_DESCRIPTION "${PACKAGE_NAME} PlugIn for OpenCPN")
-#    SET(CPACK_SET_DESTDIR ON)
-    SET(CPACK_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
+endif(UNIX AND NOT APPLE)
 
 
-    SET(CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_NAME}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}-${PACKAGE_RELEASE}_${ARCH}" )
-ENDIF(UNIX AND NOT APPLE)
+if(NOT STANDALONE MATCHES "BUNDLED")
+    # MacOS .pkg installer is deprecated in OCPN 5.6.2+
+    #if(APPLE)
+    if(FALSE)
+        message(STATUS "${CMLOC}*** Staging to build PlugIn OSX Package ***")
 
-IF(TWIN32 AND NOT UNIX)
-# configure_file(${PROJECT_SOURCE_DIR}/src/opencpn.rc.in ${PROJECT_SOURCE_DIR}/src/opencpn.rc)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_GERMAN.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_GERMAN.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_FRENCH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_FRENCH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_CZECH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_CZECH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_DANISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_DANISH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_SPANISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_SPANISH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_ITALIAN.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_ITALIAN.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_DUTCH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_DUTCH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_POLISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_POLISH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_PORTUGUESEBR.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_PORTUGUESEBR.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_PORTUGUESE.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_PORTUGUESE.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_RUSSIAN.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_RUSSIAN.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_SWEDISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_SWEDISH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_FINNISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_FINNISH.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_NORWEGIAN.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_NORWEGIAN.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_CHINESETW.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_CHINESETW.nsh" @ONLY)
- configure_file("${PROJECT_SOURCE_DIR}/buildwin/NSIS_Unicode/Language files/Langstrings_TURKISH.nsh.in" "${PROJECT_SOURCE_DIR}//buildwin/NSIS_Unicode/Include/Langstrings_TURKISH.nsh" @ONLY)
-ENDIF(TWIN32 AND NOT UNIX)
+        # Copy a bunch of files so the Packages installer builder can find them relative to ${CMAKE_CURRENT_BINARY_DIR} This avoids absolute paths in the chartdldr_pi.pkgproj file
 
+        configure_file(${PROJECT_SOURCE_DIR}/cmake/gpl.txt ${CMAKE_CURRENT_BINARY_DIR}/license.txt COPYONLY)
 
-# this dummy target is necessary to make sure the ADDITIONAL_MAKE_CLEAN_FILES directive is executed.
-# apparently, the base CMakeLists.txt file must have "some" target to activate all the clean steps.
-#ADD_CUSTOM_TARGET(dummy COMMENT "dummy: Done." DEPENDS ${PACKAGE_NAME})
+        configure_file(${PROJECT_SOURCE_DIR}/buildosx/InstallOSX/pkg_background.jpg ${CMAKE_CURRENT_BINARY_DIR}/pkg_background.jpg COPYONLY)
 
+        # Patch the pkgproj.in file to make the output package name conform to Xxx-Plugin_x.x.pkg format Key is: <key>NAME</key> <string>${VERBOSE_NAME}-Plugin_${VERSION_MAJOR}.${VERSION_MINOR}</string>
 
-INCLUDE(CPack)
+        configure_file(${PROJECT_SOURCE_DIR}/buildosx/InstallOSX/plugin.pkgproj.in ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}.pkgproj)
 
+        add_custom_command(
+            OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}-Plugin_${PACKAGE_VERSION}_${OCPN_MIN_VERSION}.pkg
+            COMMAND /usr/local/bin/packagesbuild -F ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}.pkgproj
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            DEPENDS ${PACKAGE_NAME}
+            COMMENT "create-pkg [${PACKAGE_NAME}]: Generating pkg file.")
 
-IF(APPLE)
+        add_custom_target(
+            create-pkg
+            COMMENT "create-pkg: Done."
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}-Plugin_${PACKAGE_VERSION}_${OCPN_MIN_VERSION}.pkg)
 
- #  Copy a bunch of files so the Packages installer builder can find them
- #  relative to ${CMAKE_CURRENT_BINARY_DIR}
- #  This avoids absolute paths in the chartdldr_pi.pkgproj file
+        set(CPACK_GENERATOR "TGZ")
+	endif(FALSE)
 
-configure_file(${PROJECT_SOURCE_DIR}/cmake/gpl.txt
-            ${CMAKE_CURRENT_BINARY_DIR}/license.txt COPYONLY)
+    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PACKAGE_NAME} PlugIn for OpenCPN")
+    set(CPACK_PACKAGE_DESCRIPTION "${PACKAGE_NAME} PlugIn for OpenCPN")
+    set(CPACK_PACKAGE_FILE_NAME "${PACKAGING_NAME_XML}")
+    message(STATUS "${CMLOC}CPACK_PACKAGE_FILE_NAME: ${CPACK_PACKAGE_FILE_NAME}")
 
-configure_file(${PROJECT_SOURCE_DIR}/buildosx/InstallOSX/pkg_background.jpg
-            ${CMAKE_CURRENT_BINARY_DIR}/pkg_background.jpg COPYONLY)
+    if(WIN32)
+        set(CPACK_SET_DESTDIR OFF)
+        message(STATUS "${CMLOC}FILE: ${CPACK_PACKAGE_FILE_NAME}")
+        add_custom_command(
+            OUTPUT ${CPACK_PACKAGE_FILE_NAME}
+            COMMAND signtool sign /v /f \\cert\\OpenCPNSPC.pfx /d http://www.opencpn.org /t http://timestamp.verisign.com/scripts/timstamp.dll ${CPACK_PACKAGE_FILE_NAME}
+            WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+            DEPENDS ${PACKAGE_NAME}
+            COMMENT "Code-Signing: ${CPACK_PACKAGE_FILE_NAME}")
+        add_custom_target(
+            codesign
+            COMMENT "code signing: Done."
+            DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${CPACK_PACKAGE_FILE_NAME})
+    endif(WIN32)
 
- # Patch the pkgproj.in file to make the output package name conform to Xxx-Plugin_x.x.pkg format
- #  Key is:
- #  <key>NAME</key>
- #  <string>${VERBOSE_NAME}-Plugin_${VERSION_MAJOR}.${VERSION_MINOR}</string>
-
- configure_file(${PROJECT_SOURCE_DIR}/buildosx/InstallOSX/${PACKAGE_NAME}.pkgproj.in
-            ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}.pkgproj)
-
- ADD_CUSTOM_COMMAND(
-   OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}-Plugin.pkg
-   COMMAND /usr/local/bin/packagesbuild -F ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}.pkgproj
-   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-   DEPENDS ${PACKAGE_NAME}
-   COMMENT "create-pkg [${PACKAGE_NAME}]: Generating pkg file."
-)
-
- ADD_CUSTOM_TARGET(create-pkg COMMENT "create-pkg: Done."
- DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${VERBOSE_NAME}-Plugin.pkg )
+    message(STATUS "${CMLOC}CPACK_PACKAGE_VERSION: ${CPACK_PACKAGE_VERSION}, PACKAGE_VERSION ${PACKAGE_VERSION}, CPACK_PACKAGE_FILE_NAME: ${CPACK_PACKAGE_FILE_NAME}")
 
 
-ENDIF(APPLE)
+    set(CPACK_PROJECT_CONFIG_FILE "${CMAKE_CURRENT_BINARY_DIR}/PluginCPackOptions.cmake")
+    message(STATUS "${CMLOC}PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR}, CPACK_PROJECT_CONFIG_FILE: ${CPACK_PROJECT_CONFIG_FILE}")
+
+    include(CPack)
+
+endif(NOT STANDALONE MATCHES "BUNDLED")
+
+set(CMLOC ${SAVE_CMLOC})

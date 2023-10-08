@@ -1,13 +1,23 @@
 REM FE2  Testplugin
 
+
+REM  Requires wxWidgets setup
+REM  C:\Users\fcgle\source\wxWidgets-3.1.2
+REM  C:\Users\fcgle\source\wxWidgets-3.2.2
+REM  Visual Studio 15 2017  installed
+REM  Visual Studio 17 2022  installed
 REM --------------------------------------
 REM  For Opencpn 5.8 and wxWidgets-3.2.2 using Visual Studio 15 2017
 REM --------------------------------------
 REM Used for local builds and testing.
-REM Use bash prompt because of the cloudsmith-upload.sh at the end.
+REM Create an empty "[plugin]/build" directory 
+REM Use MSVC Command Prompt from [plugin]root directory   ".\bld.bat"
+REM Find the errors in the build\output.txt file
+REM Then use bash prompt to run cloudsmith-upload.sh command  "BASH ./bld.bat"
+REM This adds the metadata file to the tarball gz file.
 REM Set local environment using wxWidgets-3.2.2
-set "wxDIR=%WXWIN%
-set "wxWidgets_ROOT_DIR=%WXWIN% 
+set "wxDIR=%WXWIN%"
+set "wxWidgets_ROOT_DIR=%WXWIN%"
 set "wxWidgets_LIB_DIR=%WXWIN%\lib\vc14x_dll" 
 set "WXWIN=C:\Users\fcgle\source\wxWidgets-3.2.2"
 REM  For Opencpn 5.8 and wxWidgets-3.2.2
@@ -20,8 +30,8 @@ REM --------------------------------------
 REM  For Opencpn 5.6.2 and wxWidgets-3.1.2  release
 REM --------------------------------------
 REM  Using built C:\Users\fcgle\source\wxWidgets-3.1.2 and local settings
-REM set "wxDIR=%WXWIN%
-REM set "wxWidgets_ROOT_DIR=%WXWIN% 
+REM set "wxDIR=%WXWIN%"
+REM set "wxWidgets_ROOT_DIR=%WXWIN%" 
 REM set "wxWidgets_LIB_DIR=%WXWIN%\lib\vc14x_dll" 
 REM set "WXWIN=C:\Users\fcgle\source\wxWidgets-3.1.2"
 REM cd build
@@ -33,7 +43,7 @@ REM --------------------------------------
 REM  For Opencpn 5.8 and wxWidgets-3.2.2 using Visual Studio 15 2017
 REM --------------------------------------
 REM  Using built C:\Users\fcgle\source\wxWidgets-3.2.2 and local settings
-REM set "wxDIR=%WXWIN%
+REM set "wxDIR=%WXWIN%"
 REM set "wxWidgets_LIB_DIR=%WXWIN%\lib\vc14x_dll" 
 REM set "WXWIN=C:\Users\fcgle\source\wxWidgets-3.2.2"
 REM cd build

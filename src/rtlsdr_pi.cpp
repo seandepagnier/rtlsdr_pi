@@ -89,7 +89,7 @@ void rtlsdr_pi::OnTestTerminate(wxProcessEvent& event)
 
 
 rtlsdr_pi::rtlsdr_pi(void *ppimgr)
-    : opencpn_plugin_18(ppimgr), m_bNeedStart(false), m_Process1(NULL), m_Process2(NULL),
+    : opencpn_plugin_117(ppimgr), m_bNeedStart(false), m_Process1(NULL), m_Process2(NULL),
       m_prtlsdrDialog(NULL), m_flightsDialog(NULL)
 {
     // Create the PlugIn icons
@@ -193,12 +193,12 @@ bool rtlsdr_pi::DeInit(void)
 
 int rtlsdr_pi::GetAPIVersionMajor()
 {
-      return MY_API_VERSION_MAJOR;
+      return OCPN_API_VERSION_MAJOR;
 }
 
 int rtlsdr_pi::GetAPIVersionMinor()
 {
-      return MY_API_VERSION_MINOR;
+      return OCPN_API_VERSION_MINOR;
 }
 
 int rtlsdr_pi::GetPlugInVersionMajor()
@@ -211,6 +211,17 @@ int rtlsdr_pi::GetPlugInVersionMinor()
       return PLUGIN_VERSION_MINOR;
 }
 
+int rtlsdr_pi::GetPlugInVersionPatch()
+{ 
+      return PLUGIN_VERSION_PATCH; 
+}
+
+int rtlsdr_pi::GetPlugInVersionPost()
+{ 
+      return PLUGIN_VERSION_TWEAK;
+}
+
+
 wxBitmap *rtlsdr_pi::GetPlugInBitmap()
 {
     return new wxBitmap(_img_rtlsdr->ConvertToImage().Copy());
@@ -218,21 +229,18 @@ wxBitmap *rtlsdr_pi::GetPlugInBitmap()
 
 wxString rtlsdr_pi::GetCommonName()
 {
-      return _T("rtlsdr");
+      return _T(PLUGIN_COMMON_NAME);
 }
 
 
 wxString rtlsdr_pi::GetShortDescription()
 {
-      return _("rtlsdr PlugIn for OpenCPN");
+      return _(PLUGIN_SHORT_DESCRIPTION);
 }
 
 wxString rtlsdr_pi::GetLongDescription()
 {
-      return _("rtlsdr PlugIn for OpenCPN\n\
-This plugin automatically controls external command-line tools for software radio.\n\
-There are several options for AIS data, as well as ADS-b FM radio and vhf audio.\
-");
+      return _(PLUGIN_LONG_DESCRIPTION);
 }
 
 int rtlsdr_pi::GetToolbarToolCount(void)
