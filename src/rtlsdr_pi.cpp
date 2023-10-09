@@ -40,7 +40,8 @@
 #include "rtlsdrPrefs.h"
 #include "georef.h"
 #include "icons.h"
-
+#include "GL/gl.h"
+#include <wx/config.h>
 
 static void KillProcess(wxProcess *process)
 {
@@ -883,8 +884,11 @@ bool rtlsdr_pi::LoadConfig(void)
     pConf->Read ( _T ( "VHFSet" ), &m_iVHFSet, 0L );
     pConf->Read ( _T ( "VHFWX" ), &m_bVHFWX, false );
 
-    m_bEnableFlights = pConf->Read ( _T ( "EnableFlights" ), false );
-    m_Dump1090Server = pConf->Read ( _T ( "Dump1090Server" ), "127.0.0.1" );
+//    m_bEnableFlights = pConf->Read ( _T ( "EnableFlights" ), false );
+//    m_Dump1090Server = pConf->Read ( _T ( "Dump1090Server" ), "127.0.0.1" );
+    pConf->Read ( _T ( "EnableFlights" ), &m_bEnableFlights, false );
+    pConf->Read ( _T ( "Dump1090Server" ), &m_Dump1090Server, "127.0.0.1" );	
+	
     
     if(m_bEnabled)
         Start();
