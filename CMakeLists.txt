@@ -55,7 +55,7 @@ set(LONG_DESCRIPTION "Automatically controls external command-line tools for sof
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "4")
-set(VERSION_PATCH "4")
+set(VERSION_PATCH "5")
 set(VERSION_TWEAK "0")
 set(VERSION_DATE  "09/10/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
@@ -151,6 +151,7 @@ SET(SRCS
             src/icons.cpp
 			src/flights.cpp
 			src/flightsDialog.cpp
+			src/georef.c
 	)
 	
 SET(HDRS
@@ -216,15 +217,11 @@ IF(UNIX AND NOT APPLE)
 ENDIF(UNIX AND NOT APPLE)
 
 #ADD_LIBRARY(${PACKAGE_NAME} SHARED ${SRC} ${SRC_AISDECODER})
-
 # ERROR cannot create target another target with same name exists.
 #       ADD_LIBRARY cannot create target "rtlsdr_pi" because another target with
 #      the same name already exists.  The existing target is a shared library
 #      created in source directory "C:/Users/fcgle/source/rtlsdr_pi".  See
 #      documentation for policy CMP0002 for more details.
-
-
-
 
 # note, we don't need to include some dll files if they are already included
 # with a mingw opencpn, for now, copy them anyway (makes installer large)
