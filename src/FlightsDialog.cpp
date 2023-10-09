@@ -27,6 +27,7 @@
 #include <wx/wx.h>
 
 #include "rtlsdr_pi.h"
+#include "georef.h"
 
 enum {HEX, NAME, HDG, SPD, LAT, LON, ALT, AGE, DIST, MSGS};
 

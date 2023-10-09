@@ -183,6 +183,8 @@ SET(SRC ${SRCS} ${HDRS} )
 ##=============================================================
 
 #include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+include_directories(BEFORE ${PLUGIN_SOURCE_DIR}/src/libaudiofile)
+
 
 IF(UNIX AND NOT APPLE)
   find_library(RTLSDR_LIBRARY NAMES rtlsdr
@@ -222,8 +224,6 @@ ENDIF(UNIX AND NOT APPLE)
 #      documentation for policy CMP0002 for more details.
 
 
-#include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
-include_directories(BEFORE ${PLUGIN_SOURCE_DIR}/src/libaudiofile)
 
 
 # note, we don't need to include some dll files if they are already included

@@ -8,3 +8,4 @@ src/flightsDialog.cpp
 src/rtlsdrDialog.h
 src/rtlsdrPrefs.h
 src/rtlsdrUI.h
+src/georef.h
