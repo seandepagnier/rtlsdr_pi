@@ -5,6 +5,7 @@ src/rtlsdrUI.cpp
 src/icons.cpp
 src/flights.cpp
 src/flightsDialog.cpp
+src/georef.c
 src/rtlsdrDialog.h
 src/rtlsdrPrefs.h
 src/rtlsdrUI.h

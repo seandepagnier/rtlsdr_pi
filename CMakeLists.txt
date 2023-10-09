@@ -150,7 +150,7 @@ SET(SRCS
             src/rtlsdrUI.cpp
             src/icons.cpp
 			src/flights.cpp
-			src/flightsDialog.cpp
+			src/FlightsDialog.cpp
 			src/georef.c
 	)
 	
