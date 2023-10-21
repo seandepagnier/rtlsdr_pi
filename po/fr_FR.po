@@ -3,18 +3,19 @@ msgstr ""
 "Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-27 14:11-0300\n"
-"PO-Revision-Date: 2016-02-27 12:12-0500\n"
-"Last-Translator: nohal <pavel@kalian.cz>\n"
+"PO-Revision-Date: 2023-10-19 09:17\n"
+"Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: opencpn\n"
+"X-Crowdin-Project-ID: 49843\n"
 "X-Crowdin-Language: fr\n"
 "X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
+"X-Crowdin-File-ID: 119\n"
 
 #: src/rtlsdrPrefs.cpp:67
 msgid "ais_rx"
@@ -79,7 +80,7 @@ msgstr "Sous Windows, vous pouvez exécuter l'utilitaire \"Zadig\" pour installe
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr "Méssages"
+msgstr "Messages"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:108 src/rtlsdrUI.cpp:225
 #: src/rtlsdrUI.cpp:248 src/rtlsdrUI.cpp:272
@@ -192,7 +193,7 @@ msgstr "Préférences rtlsdr"
 
 #: src/rtlsdr_pi.cpp:202
 msgid "rtlsdr PlugIn for OpenCPN"
-msgstr "Complément rtlsdr pour openCPN"
+msgstr "rtlsdr"
 
 #: src/rtlsdr_pi.cpp:207
 msgid "rtlsdr PlugIn for OpenCPN\n"

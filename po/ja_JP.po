@@ -3,26 +3,27 @@ msgstr ""
 "Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-27 14:11-0300\n"
-"PO-Revision-Date: 2016-02-27 12:12-0500\n"
-"Last-Translator: nohal <pavel@kalian.cz>\n"
+"PO-Revision-Date: 2023-10-04 18:33\n"
+"Last-Translator: \n"
 "Language-Team: Japanese\n"
 "Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: crowdin.com\n"
 "X-Crowdin-Project: opencpn\n"
+"X-Crowdin-Project-ID: 49843\n"
 "X-Crowdin-Language: ja\n"
 "X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
+"X-Crowdin-File-ID: 119\n"
 
 #: src/rtlsdrPrefs.cpp:67
 msgid "ais_rx"
-msgstr ""
+msgstr "ais_rx"
 
 #: src/rtlsdrPrefs.cpp:69
 msgid "rtl_fm"
-msgstr ""
+msgstr "rtl_fm"
 
 #: src/rtlsdrPrefs.cpp:70
 msgid "aisdecoder"
@@ -35,7 +36,7 @@ msgstr "rtlsdr 誤差補正"
 #: src/rtlsdrPrefs.cpp:166
 msgid "No AIS messages received\n"
 "Calibration Failed"
-msgstr "AIS メッセージレシーバがありません\n"
+msgstr "AIS メッセージが受信できません\n"
 "キャリブレーション 失敗"
 
 #: src/rtlsdrPrefs.cpp:183
@@ -58,7 +59,7 @@ msgstr ") \n"
 #: src/rtlsdrPrefs.cpp:196 src/rtlsdrPrefs.cpp:220 src/rtlsdrUI.h:56
 #: src/rtlsdr_pi.cpp:121 src/rtlsdr_pi.cpp:448 src/rtlsdr_pi.cpp:462
 msgid "rtlsdr"
-msgstr ""
+msgstr "rtlsdr"
 
 #: src/rtlsdrPrefs.cpp:202
 msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
@@ -69,11 +70,10 @@ msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongle
 msgstr "このプラグインはrtlsdrプロジェクトでopencpnに統合しています。\n"
 "DVBドングルをSDR受信機にします。\n"
 "参照：http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
-"\n"
 "著者は、標準的なVHFアンテナとr820t型DVB-Tのドングルを使用しているが、他の多くが動作します。\n"
 "アンテナ同軸ケーブルはDVB-Tケーブルに接続され、内側と外側の両方の接続がなされなければなりません。\n\n"
 "現在、rtl_fmとaisdecoderモードではAISチャンネルAのみ使用可能です。\n"
-"この方法は、限られたCPUを使用して、非常に効率的です。\n\n"
+"この方法は、限られたCPUを使用して、非常に効率的です。\n"
 "gnuradioの実装は、自動的にチャンネルAとBの両方を受信します\n"
 "しかし、ずっと多くのCPUを使用しています(これはPythonの実装)"
 
@@ -85,12 +85,12 @@ msgstr "Windowsオペレーティングシステムの下では、 必要なUSB
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr ""
+msgstr "メッセージ"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:108 src/rtlsdrUI.cpp:225
 #: src/rtlsdrUI.cpp:248 src/rtlsdrUI.cpp:272
 msgid "Enable"
-msgstr ""
+msgstr "有効"
 
 #: src/rtlsdrUI.cpp:50
 msgid "Preferences"
@@ -106,15 +106,15 @@ msgstr "閉じる"
 
 #: src/rtlsdrUI.cpp:101
 msgid "AIS"
-msgstr ""
+msgstr "AIS"
 
 #: src/rtlsdrUI.cpp:116
 msgid "Program"
-msgstr ""
+msgstr "プログラム"
 
 #: src/rtlsdrUI.cpp:120
 msgid "rtl_fm | aisdecoder"
-msgstr ""
+msgstr "rtl_fm | aisdecoder"
 
 #: src/rtlsdrUI.cpp:120
 msgid "ais_rx  (gnuradio)"
@@ -122,7 +122,7 @@ msgstr "ais_rx (gnuradio)"
 
 #: src/rtlsdrUI.cpp:130
 msgid "extra args (blank default)"
-msgstr "余分な引数 (空白のデフォルト)"
+msgstr "追加の引数 (デフォルトは空白)"
 
 #: src/rtlsdrUI.cpp:163
 msgid "Sample Rate (khz)"
@@ -142,19 +142,19 @@ msgstr "自動キャリブレーション"
 
 #: src/rtlsdrUI.cpp:191
 msgid "Manual via grc"
-msgstr ""
+msgstr "Grc を介して手動"
 
 #: src/rtlsdrUI.cpp:194
 msgid "Info"
-msgstr ""
+msgstr "情報"
 
 #: src/rtlsdrUI.cpp:218
 msgid "ADS-B"
-msgstr ""
+msgstr "ADS-B"
 
 #: src/rtlsdrUI.cpp:228
 msgid "Plot"
-msgstr ""
+msgstr "プロット"
 
 #: src/rtlsdrUI.cpp:241
 msgid "FM Radio"
@@ -162,11 +162,11 @@ msgstr "FMラジオ"
 
 #: src/rtlsdrUI.cpp:251
 msgid "100.4"
-msgstr ""
+msgstr "100.4"
 
 #: src/rtlsdrUI.cpp:254
 msgid "Mhz"
-msgstr ""
+msgstr "Mhz"
 
 #: src/rtlsdrUI.cpp:265
 msgid "VHF Audio"
@@ -174,11 +174,11 @@ msgstr "VHF オーディオ"
 
 #: src/rtlsdrUI.cpp:275
 msgid "16"
-msgstr ""
+msgstr "16"
 
 #: src/rtlsdrUI.cpp:278
 msgid "WX"
-msgstr ""
+msgstr "WX"
 
 #: src/rtlsdrUI.cpp:281
 msgid "Squelch"
@@ -206,7 +206,11 @@ msgid "rtlsdr PlugIn for OpenCPN\n"
 "Support ADS-b FM radio and vhf\n"
 "Eventually version will need to link with gnu radio directly.\n\n"
 "The rtlsdr plugin was written by Sean D'Epagnier\n"
-msgstr ""
+msgstr "openCPN 用 rtlsdrプラグイン。\n"
+"rtlsdr NMEAメッセージはGR-AIS ais_rx.pyスクリプトから読みます。\n"
+"ADS-BのFMラジオとVHFのサポート\n"
+"最終的バージョンは直接GNUラジオとリンクする必要があります\n\n"
+"rtlsdrプラグインは Sean D'Epagnier によって書かれました。\n"
 
 #: src/rtlsdr_pi.cpp:346
 msgid "Execution failed"
@@ -230,5 +234,5 @@ msgstr "開けませんでした。 "
 
 #: src/rtlsdr_pi.cpp:475 src/rtlsdr_pi.cpp:484
 msgid "Stopped: "
-msgstr ""
+msgstr "止まった: "
 
