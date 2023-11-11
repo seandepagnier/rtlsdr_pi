@@ -5,15 +5,15 @@ msgstr ""
 "POT-Creation-Date: 2023-10-21 13:09+0200\n"
 "PO-Revision-Date: 2023-11-09 21:22\n"
 "Last-Translator: \n"
-"Language-Team: Catalan\n"
-"Language: ca_ES\n"
+"Language-Team: Filipino\n"
+"Language: fil_PH\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Crowdin-Project: opencpn\n"
 "X-Crowdin-Project-ID: 49843\n"
-"X-Crowdin-Language: ca\n"
+"X-Crowdin-Language: fil\n"
 "X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
 "X-Crowdin-File-ID: 119\n"
 
@@ -37,29 +37,29 @@ msgstr ""
 
 #: src/rtlsdrPrefs.cpp:84 src/rtlsdrPrefs.cpp:174
 msgid "rtlsdr error calibration"
-msgstr "Error de calibració rtlsdr"
+msgstr "rtlsdr pagkakalibrate ng kamalian"
 
 #: src/rtlsdrPrefs.cpp:173
 msgid "No AIS messages received\n"
 "Calibration Failed"
-msgstr "Cap missatge AIS rebut\n"
-"Calibració ha fallat"
+msgstr "Walang mga mensaheng AIS na natanggap\n"
+"Nabigo sa Pagkalibrate"
 
 #: src/rtlsdrPrefs.cpp:190
 msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
 "To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
 "Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
-msgstr "Com que el programari de ràdio no és un dispositiu de precisió, el valor d'error s'ha d'establir per calibrar correctament l'adaptador de ràdio.\n\n"
-"Per realitzar el calibratge, l'Autocalibratge porta algun temps, però explorarà molts valors d'error a la recerca de senyals AIS. Això requereix un trànsit bastant freqüent d'AIS  per funcionar.\n\n"
-"Alternativament, si s'instal·la gnuradio, pot utilitzar el script inclòs i, o bé buscar els pics de trànsit ais, o utilitzar una freqüència coneguda (per exemple, el canal VHF 8 és "
+msgstr "Dahil sa ang radyo ng softwer ay hindi isang aparatong pangkatumpakan. Ang halaga ng pagkakamali ay dapat na itakda upang makalibrate ng maayos ang dongle radyo.\n\n"
+"Upang magawa ang pagkalibrate ang awtomatikong pagkalibrate ay tumatagal ng ilang oras, ngunit susuriing mabuti ang halaga ng mga kamalian na naghahanap ng mga signal na AIS. Ito ay nangangailangan ng medyo madalas na trapik sa AIS upang magawa.\n\n"
+"Halilihan kung ang gnuradio ay na-install, maaari mong gamitin ang mga kalakip na skrip at tignan ang alinman para sa mga rurok ng trapik sa AIS, o gumamit ng kilalang prikwensya (halimbawa, vhf channel ay "
 
 #: src/rtlsdrPrefs.cpp:199
 msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
 "Once working, you should be able to see bursts (ais data) from the A and B\n"
 "in the filtered output, and receive ais messages (if any are available)\n"
-msgstr ") a continuació, transmet amb transmissor VHF en aquest canal i compta fins a quin punt el pic és el de la veritable freqüència en kHz, aquest és el valor d'error necessari per calibrar el dispositiu de seguretat.\n\n"
-"Quan funciona, haureu de ser capaços de veure les explosions (dades AIS) des del A i B\n"
-"A la sortida filtrada, i rebre missatges AIS (si n'hi ha algun disponible)\n"
+msgstr ") at magpadala sa prikwensiyang ito upang tandaan ang layo ng rurok mula sa tunay na prikwensiya sa khz. Ang halaga ng kamaliang ito ay kinakailangan upang makalibrate ang dongle.\n\n"
+"Kapag gumana, maaari mo nang makita ang mga pagputok (datos na ais) mula sa A at B\n"
+"sa nasalang kalalabasan, at makatanggap ng mga mensaheng ais (kung meron man)\n"
 
 #: src/rtlsdrPrefs.cpp:209
 msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
@@ -72,8 +72,8 @@ msgstr ""
 #: src/rtlsdrPrefs.cpp:221
 msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
 "You can find this program at http://zadig.akeo.ie\n\n"
-msgstr "Sota el sistema operatiu de Windows, una vegada que el dispositiu està connectat, primer cal que executeu el programa d'utilitat 'zadig' per a instal·lar el controlador usb necessari.\n"
-"Podeu trobar aquest programa en http://zadig.akeo.ie \n\n"
+msgstr "Sa ilalim ng sistema ng Windows Operating, kailangang mo munang paganahin ang kagamitan ng programang \\zadig\\upang ma-install ang mga kinakailangang usb driver pagkatapos mapasak ang aparato.\n"
+"Maaaring makita ang programa sa http://zadig.akeo.ie\n\n"
 
 #: src/rtlsdrPrefs.cpp:233
 msgid "Where dump1090 is providing data on port 30003\n"
@@ -82,23 +82,23 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr "Missatges"
+msgstr "Mensahe"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:273
 msgid "Enable"
-msgstr "Activat"
+msgstr "Paganahin"
 
 #: src/rtlsdrUI.cpp:50
 msgid "Preferences"
-msgstr "Preferències"
+msgstr "Preperensiya"
 
 #: src/rtlsdrUI.cpp:53
 msgid "Clear"
-msgstr "Elimina"
+msgstr "Linawin"
 
 #: src/rtlsdrUI.cpp:56
 msgid "Close"
-msgstr "Tancar"
+msgstr "Isarado"
 
 #: src/rtlsdrUI.cpp:106
 msgid "N/A"
@@ -134,31 +134,31 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:178
 msgid "extra args (blank default)"
-msgstr "Arguments complementaris (Blanc per defecte)"
+msgstr "karagdagang args (blanko sa default)"
 
 #: src/rtlsdrUI.cpp:211
 msgid "Sample Rate (khz)"
-msgstr "Freqüència de mostreig (khz)"
+msgstr "Halimbawa na Tulin (naka-khz)"
 
 #: src/rtlsdrUI.cpp:222
 msgid "Error Correction Calibration"
-msgstr "Calibratge de correcció d'error"
+msgstr "Pagkalibrate na Nagwawasto ng Kamalian"
 
 #: src/rtlsdrUI.cpp:229
 msgid "Error Correction"
-msgstr "Correcció d'Error"
+msgstr "Pagwawasto ng Kamalian"
 
 #: src/rtlsdrUI.cpp:236
 msgid "Auto Calibrate"
-msgstr "Calibratge automàtic"
+msgstr "Awtomatikong Pagkalibrate"
 
 #: src/rtlsdrUI.cpp:239
 msgid "Manual via grc"
-msgstr "Manual mitjançant grc"
+msgstr "Manwal gamit ang grc"
 
 #: src/rtlsdrUI.cpp:242
 msgid "Info"
-msgstr "Info"
+msgstr "Impormasyon"
 
 #: src/rtlsdrUI.cpp:263
 msgid "AIS"
@@ -190,7 +190,7 @@ msgstr "Mhz"
 
 #: src/rtlsdrUI.cpp:321
 msgid "FM Radio"
-msgstr "Ràdio FM"
+msgstr "Radyong FM"
 
 #: src/rtlsdrUI.cpp:328
 msgid "16"
@@ -202,7 +202,7 @@ msgstr "WX"
 
 #: src/rtlsdrUI.cpp:334
 msgid "Squelch"
-msgstr "Soroll de fons"
+msgstr "Pagpapatahimik"
 
 #: src/rtlsdrUI.cpp:341
 msgid "International"
@@ -214,15 +214,15 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:351
 msgid "VHF Audio"
-msgstr "Àudio VHF"
+msgstr "Audio na VHF"
 
 #: src/rtlsdrUI.cpp:360
 msgid "About Author"
-msgstr "Sobre l'autor"
+msgstr "Tungkol sa May-akda"
 
 #: src/rtlsdrUI.cpp:363
 msgid "Information"
-msgstr "Informació"
+msgstr "Impormasyon"
 
 #: src/rtlsdrUI.h:83 src/rtlsdr_pi.cpp:140
 msgid "Flights"
@@ -230,15 +230,15 @@ msgstr ""
 
 #: src/rtlsdrUI.h:144
 msgid "rtlsdr Preferences"
-msgstr "Preferències rtlsdr"
+msgstr "Preperensiya ng rtlsdr"
 
 #: src/rtlsdr_pi.cpp:502
 msgid "Execution failed"
-msgstr "L´execució ha fallat"
+msgstr "Nabio sa pagpapatupad"
 
 #: src/rtlsdr_pi.cpp:603
 msgid "Invalid FM frequency"
-msgstr "Freqüència d'FM no vàlida"
+msgstr "Hindi balidong prikwensyang FM"
 
 #: src/rtlsdr_pi.cpp:638
 msgid "Started builtin rtl_ais"
@@ -254,7 +254,7 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:678
 msgid "Unknown mode"
-msgstr "Mode de desconegut"
+msgstr "Hindi kilalang moda"
 
 #: src/rtlsdr_pi.cpp:687
 msgid "Executing: "
@@ -262,11 +262,11 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:689 src/rtlsdr_pi.cpp:703
 msgid "Failed to open: "
-msgstr "No s'ha pogut obrir: "
+msgstr "Nabigo sa pagbukas: "
 
 #: src/rtlsdr_pi.cpp:701
 msgid "Executed: "
-msgstr "Executat: "
+msgstr "Napatupad: "
 
 #: src/rtlsdr_pi.cpp:729
 msgid "Stopped builtin rtl_ais"
@@ -274,5 +274,5 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:740 src/rtlsdr_pi.cpp:749
 msgid "Stopped: "
-msgstr "Es va aturar: "
+msgstr "Nahinto: "
 
