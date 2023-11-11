@@ -1,0 +1,278 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: opencpn\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-21 13:09+0200\n"
+"PO-Revision-Date: 2023-11-09 21:22\n"
+"Last-Translator: \n"
+"Language-Team: Filipino\n"
+"Language: fil_PH\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Crowdin-Project: opencpn\n"
+"X-Crowdin-Project-ID: 49843\n"
+"X-Crowdin-Language: fil\n"
+"X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
+"X-Crowdin-File-ID: 119\n"
+
+#: src/FlightsDialog.cpp:64
+msgid "Failed to go to position!"
+msgstr ""
+
+#: src/FlightsDialog.cpp:65 src/rtlsdrPrefs.cpp:203 src/rtlsdrPrefs.cpp:226
+#: src/rtlsdrPrefs.cpp:237 src/rtlsdrUI.h:58 src/rtlsdr_pi.cpp:135
+#: src/rtlsdr_pi.cpp:690 src/rtlsdr_pi.cpp:704
+msgid "rtlsdr"
+msgstr "rtlsdr"
+
+#: src/FlightsDialog.cpp:75
+msgid "Connected"
+msgstr ""
+
+#: src/FlightsDialog.cpp:75
+msgid "Not Connected"
+msgstr ""
+
+#: src/rtlsdrPrefs.cpp:84 src/rtlsdrPrefs.cpp:174
+msgid "rtlsdr error calibration"
+msgstr "rtlsdr pagkakalibrate ng kamalian"
+
+#: src/rtlsdrPrefs.cpp:173
+msgid "No AIS messages received\n"
+"Calibration Failed"
+msgstr "Walang mga mensaheng AIS na natanggap\n"
+"Nabigo sa Pagkalibrate"
+
+#: src/rtlsdrPrefs.cpp:190
+msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
+"To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
+"Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
+msgstr "Dahil sa ang radyo ng softwer ay hindi isang aparatong pangkatumpakan. Ang halaga ng pagkakamali ay dapat na itakda upang makalibrate ng maayos ang dongle radyo.\n\n"
+"Upang magawa ang pagkalibrate ang awtomatikong pagkalibrate ay tumatagal ng ilang oras, ngunit susuriing mabuti ang halaga ng mga kamalian na naghahanap ng mga signal na AIS. Ito ay nangangailangan ng medyo madalas na trapik sa AIS upang magawa.\n\n"
+"Halilihan kung ang gnuradio ay na-install, maaari mong gamitin ang mga kalakip na skrip at tignan ang alinman para sa mga rurok ng trapik sa AIS, o gumamit ng kilalang prikwensya (halimbawa, vhf channel ay "
+
+#: src/rtlsdrPrefs.cpp:199
+msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
+"Once working, you should be able to see bursts (ais data) from the A and B\n"
+"in the filtered output, and receive ais messages (if any are available)\n"
+msgstr ") at magpadala sa prikwensiyang ito upang tandaan ang layo ng rurok mula sa tunay na prikwensiya sa khz. Ang halaga ng kamaliang ito ay kinakailangan upang makalibrate ang dongle.\n\n"
+"Kapag gumana, maaari mo nang makita ang mga pagputok (datos na ais) mula sa A at B\n"
+"sa nasalang kalalabasan, at makatanggap ng mga mensaheng ais (kung meron man)\n"
+
+#: src/rtlsdrPrefs.cpp:209
+msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
+"The author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\n"
+"rtl_ais can efficiently recieve channel A and B simultaneously\n"
+"rtl_fm/softfm and aisdecoder can only receive channel A or B\n"
+"ais_rx (gnuradio) receives both channels A and B but uses much more cpu."
+msgstr ""
+
+#: src/rtlsdrPrefs.cpp:221
+msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
+"You can find this program at http://zadig.akeo.ie\n\n"
+msgstr "Sa ilalim ng sistema ng Windows Operating, kailangang mo munang paganahin ang kagamitan ng programang \\zadig\\upang ma-install ang mga kinakailangang usb driver pagkatapos mapasak ang aparato.\n"
+"Maaaring makita ang programa sa http://zadig.akeo.ie\n\n"
+
+#: src/rtlsdrPrefs.cpp:233
+msgid "Where dump1090 is providing data on port 30003\n"
+"Normally set to 127.0.0.1 (localhost)"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:24
+msgid "Messages"
+msgstr "Mensahe"
+
+#: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:273
+msgid "Enable"
+msgstr "Paganahin"
+
+#: src/rtlsdrUI.cpp:50
+msgid "Preferences"
+msgstr "Preperensiya"
+
+#: src/rtlsdrUI.cpp:53
+msgid "Clear"
+msgstr "Linawin"
+
+#: src/rtlsdrUI.cpp:56
+msgid "Close"
+msgstr "Isarado"
+
+#: src/rtlsdrUI.cpp:106
+msgid "N/A"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:110
+msgid "Goto"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:164
+msgid "Program"
+msgstr "Programa"
+
+#: src/rtlsdrUI.cpp:168
+msgid "ais_rx  (gnuradio)"
+msgstr "ais_rx  (gnuradio)"
+
+#: src/rtlsdrUI.cpp:168
+msgid "builtin rtl_ais"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:168
+msgid "rtl_ais"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:168
+msgid "rtl_fm | aisdecoder"
+msgstr "rtl_fm | aisdecoder"
+
+#: src/rtlsdrUI.cpp:168
+msgid "soft_fm | aisdecoder"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:178
+msgid "extra args (blank default)"
+msgstr "karagdagang args (blanko sa default)"
+
+#: src/rtlsdrUI.cpp:211
+msgid "Sample Rate (khz)"
+msgstr "Halimbawa na Tulin (naka-khz)"
+
+#: src/rtlsdrUI.cpp:222
+msgid "Error Correction Calibration"
+msgstr "Pagkalibrate na Nagwawasto ng Kamalian"
+
+#: src/rtlsdrUI.cpp:229
+msgid "Error Correction"
+msgstr "Pagwawasto ng Kamalian"
+
+#: src/rtlsdrUI.cpp:236
+msgid "Auto Calibrate"
+msgstr "Awtomatikong Pagkalibrate"
+
+#: src/rtlsdrUI.cpp:239
+msgid "Manual via grc"
+msgstr "Manwal gamit ang grc"
+
+#: src/rtlsdrUI.cpp:242
+msgid "Info"
+msgstr "Impormasyon"
+
+#: src/rtlsdrUI.cpp:263
+msgid "AIS"
+msgstr "AIS"
+
+#: src/rtlsdrUI.cpp:265
+msgid "Plotting Planes (ADSB)"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:283
+msgid "dump1090 Server"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:290
+msgid "?"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:303
+msgid "ADSB"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:310
+msgid "100.4"
+msgstr "100.4"
+
+#: src/rtlsdrUI.cpp:313
+msgid "Mhz"
+msgstr "Mhz"
+
+#: src/rtlsdrUI.cpp:321
+msgid "FM Radio"
+msgstr "Radyong FM"
+
+#: src/rtlsdrUI.cpp:328
+msgid "16"
+msgstr "16"
+
+#: src/rtlsdrUI.cpp:331
+msgid "WX"
+msgstr "WX"
+
+#: src/rtlsdrUI.cpp:334
+msgid "Squelch"
+msgstr "Pagpapatahimik"
+
+#: src/rtlsdrUI.cpp:341
+msgid "International"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:341
+msgid "US"
+msgstr ""
+
+#: src/rtlsdrUI.cpp:351
+msgid "VHF Audio"
+msgstr "Audio na VHF"
+
+#: src/rtlsdrUI.cpp:360
+msgid "About Author"
+msgstr "Tungkol sa May-akda"
+
+#: src/rtlsdrUI.cpp:363
+msgid "Information"
+msgstr "Impormasyon"
+
+#: src/rtlsdrUI.h:83 src/rtlsdr_pi.cpp:140
+msgid "Flights"
+msgstr ""
+
+#: src/rtlsdrUI.h:144
+msgid "rtlsdr Preferences"
+msgstr "Preperensiya ng rtlsdr"
+
+#: src/rtlsdr_pi.cpp:502
+msgid "Execution failed"
+msgstr "Nabio sa pagpapatupad"
+
+#: src/rtlsdr_pi.cpp:603
+msgid "Invalid FM frequency"
+msgstr "Hindi balidong prikwensyang FM"
+
+#: src/rtlsdr_pi.cpp:638
+msgid "Started builtin rtl_ais"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:641
+msgid "failed to start builtin rtl_ais"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:642
+msgid "is an rtlsdr device available?\n"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:678
+msgid "Unknown mode"
+msgstr "Hindi kilalang moda"
+
+#: src/rtlsdr_pi.cpp:687
+msgid "Executing: "
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:689 src/rtlsdr_pi.cpp:703
+msgid "Failed to open: "
+msgstr "Nabigo sa pagbukas: "
+
+#: src/rtlsdr_pi.cpp:701
+msgid "Executed: "
+msgstr "Napatupad: "
+
+#: src/rtlsdr_pi.cpp:729
+msgid "Stopped builtin rtl_ais"
+msgstr ""
+
+#: src/rtlsdr_pi.cpp:740 src/rtlsdr_pi.cpp:749
+msgid "Stopped: "
+msgstr "Nahinto: "
+

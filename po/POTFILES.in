@@ -4,7 +4,7 @@ src/rtlsdrPrefs.cpp
 src/rtlsdrUI.cpp
 src/icons.cpp
 src/flights.cpp
-src/flightsDialog.cpp
+src/FlightsDialog.cpp
 src/georef.c
 src/rtlsdrDialog.h
 src/rtlsdrPrefs.h

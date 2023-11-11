@@ -1,21 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the rtlsdr_pi package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rtlsdr_pi 1.4.7.0\n"
+"Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-21 13:09+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2023-11-09 21:22\n"
+"Last-Translator: \n"
+"Language-Team: Russian\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3));\n"
+"X-Crowdin-Project: opencpn\n"
+"X-Crowdin-Project-ID: 49843\n"
+"X-Crowdin-Language: ru\n"
+"X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
+"X-Crowdin-File-ID: 119\n"
 
 #: src/FlightsDialog.cpp:64
 msgid "Failed to go to position!"
@@ -40,59 +40,37 @@ msgid "rtlsdr error calibration"
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:173
-msgid ""
-"No AIS messages received\n"
+msgid "No AIS messages received\n"
 "Calibration Failed"
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:190
-msgid ""
-"Because the software radio is not a precision device, The error value must be "
-"set to properly calibrate the radio dongle.\n"
-"\n"
-"To perform calibration, the autocalibrate takes some time, but will scan many "
-"error values searching for AIS signals.  This requires fairly frequent AIS "
-"traffic to work.\n"
-"\n"
-"Alternately if gnuradio is installed, you may use the included script and "
-"either look for peaks on ais traffic, or use a known frequency (for example, "
-"vhf channel 8 is "
+msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
+"To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
+"Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:199
-msgid ""
-") and transmit on this frequency to note how far the peak is from the true "
-"frequency in khz.  This is the error value needed to calibrate the dongle.\n"
-"\n"
+msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
 "Once working, you should be able to see bursts (ais data) from the A and B\n"
 "in the filtered output, and receive ais messages (if any are available)\n"
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:209
-msgid ""
-"This plugin integrates opencpn with the rtlsdr project to turn DVB dongles "
-"into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n"
-"\n"
-"The author is using the r820t type dvb-t dongle with a standard vhf antenna, "
-"but many others can work.  The antenna coax cable is spliced to the dvb-t "
-"cable, both inner and outer connections must be made.\n"
-"\n"
+msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
+"The author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\n"
 "rtl_ais can efficiently recieve channel A and B simultaneously\n"
 "rtl_fm/softfm and aisdecoder can only receive channel A or B\n"
 "ais_rx (gnuradio) receives both channels A and B but uses much more cpu."
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:221
-msgid ""
-"Under Windows Operating system, you must first run the utility program "
-"'zadig'to install the needed usb driver once the device is plugged in.\n"
-"You can find this program at http://zadig.akeo.ie\n"
-"\n"
+msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
+"You can find this program at http://zadig.akeo.ie\n\n"
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:233
-msgid ""
-"Where dump1090 is providing data on port 30003\n"
+msgid "Where dump1090 is providing data on port 30003\n"
 "Normally set to 127.0.0.1 (localhost)"
 msgstr ""
 
@@ -110,11 +88,11 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:53
 msgid "Clear"
-msgstr ""
+msgstr "Очистить"
 
 #: src/rtlsdrUI.cpp:56
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: src/rtlsdrUI.cpp:106
 msgid "N/A"
@@ -126,7 +104,7 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:164
 msgid "Program"
-msgstr ""
+msgstr "Программа"
 
 #: src/rtlsdrUI.cpp:168
 msgid "ais_rx  (gnuradio)"
@@ -174,11 +152,11 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:242
 msgid "Info"
-msgstr ""
+msgstr "Информация"
 
 #: src/rtlsdrUI.cpp:263
 msgid "AIS"
-msgstr ""
+msgstr "АИС"
 
 #: src/rtlsdrUI.cpp:265
 msgid "Plotting Planes (ADSB)"
@@ -202,11 +180,11 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:313
 msgid "Mhz"
-msgstr ""
+msgstr "МГц"
 
 #: src/rtlsdrUI.cpp:321
 msgid "FM Radio"
-msgstr ""
+msgstr "FM-радио"
 
 #: src/rtlsdrUI.cpp:328
 msgid "16"
@@ -234,11 +212,11 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:360
 msgid "About Author"
-msgstr ""
+msgstr "Об авторе"
 
 #: src/rtlsdrUI.cpp:363
 msgid "Information"
-msgstr ""
+msgstr "Информация"
 
 #: src/rtlsdrUI.h:83 src/rtlsdr_pi.cpp:140
 msgid "Flights"
@@ -291,3 +269,4 @@ msgstr ""
 #: src/rtlsdr_pi.cpp:740 src/rtlsdr_pi.cpp:749
 msgid "Stopped: "
 msgstr ""
+

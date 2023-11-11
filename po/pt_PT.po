@@ -1,21 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the rtlsdr_pi package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: rtlsdr_pi 1.4.7.0\n"
+"Project-Id-Version: opencpn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-21 13:09+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2023-11-09 21:22\n"
+"Last-Translator: \n"
+"Language-Team: Portuguese\n"
+"Language: pt_PT\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: opencpn\n"
+"X-Crowdin-Project-ID: 49843\n"
+"X-Crowdin-Language: pt-PT\n"
+"X-Crowdin-File: /plugins/rtlsdr_pi/po/rtlsdr_pi.pot\n"
+"X-Crowdin-File-ID: 119\n"
 
 #: src/FlightsDialog.cpp:64
 msgid "Failed to go to position!"
@@ -25,7 +25,7 @@ msgstr ""
 #: src/rtlsdrPrefs.cpp:237 src/rtlsdrUI.h:58 src/rtlsdr_pi.cpp:135
 #: src/rtlsdr_pi.cpp:690 src/rtlsdr_pi.cpp:704
 msgid "rtlsdr"
-msgstr ""
+msgstr "rtlsdr"
 
 #: src/FlightsDialog.cpp:75
 msgid "Connected"
@@ -37,84 +37,68 @@ msgstr ""
 
 #: src/rtlsdrPrefs.cpp:84 src/rtlsdrPrefs.cpp:174
 msgid "rtlsdr error calibration"
-msgstr ""
+msgstr "calibração de erros rtlsdr"
 
 #: src/rtlsdrPrefs.cpp:173
-msgid ""
-"No AIS messages received\n"
+msgid "No AIS messages received\n"
 "Calibration Failed"
-msgstr ""
+msgstr "Não recebeu mensagens AIS\n"
+"Falha na Calibração"
 
 #: src/rtlsdrPrefs.cpp:190
-msgid ""
-"Because the software radio is not a precision device, The error value must be "
-"set to properly calibrate the radio dongle.\n"
-"\n"
-"To perform calibration, the autocalibrate takes some time, but will scan many "
-"error values searching for AIS signals.  This requires fairly frequent AIS "
-"traffic to work.\n"
-"\n"
-"Alternately if gnuradio is installed, you may use the included script and "
-"either look for peaks on ais traffic, or use a known frequency (for example, "
-"vhf channel 8 is "
-msgstr ""
+msgid "Because the software radio is not a precision device, The error value must be set to properly calibrate the radio dongle.\n\n"
+"To perform calibration, the autocalibrate takes some time, but will scan many error values searching for AIS signals.  This requires fairly frequent AIS traffic to work.\n\n"
+"Alternately if gnuradio is installed, you may use the included script and either look for peaks on ais traffic, or use a known frequency (for example, vhf channel 8 is "
+msgstr "Porque o Software do rádio não é um dispositivo de precisão, o valor de erro deve ser definido para calibrar correctamente o rádio dongle.\n\n"
+"Para realizar a calibração, a auto calibração levara algum tempo, mas irá varrer muitos valores errados, procurando por sinais de AIS.  Isso requer tráfego AIS bastante freqüente para trabalhar.\n\n"
+"Alternativamento se gnuradio estiver instalado, pode usar o script incluído e também procurar por picos no tráfego ais, ou usar uma freqüência conhecida (por exemplo, vhf canal 8 "
 
 #: src/rtlsdrPrefs.cpp:199
-msgid ""
-") and transmit on this frequency to note how far the peak is from the true "
-"frequency in khz.  This is the error value needed to calibrate the dongle.\n"
-"\n"
+msgid ") and transmit on this frequency to note how far the peak is from the true frequency in khz.  This is the error value needed to calibrate the dongle.\n\n"
 "Once working, you should be able to see bursts (ais data) from the A and B\n"
 "in the filtered output, and receive ais messages (if any are available)\n"
-msgstr ""
+msgstr ") e transmitir nesta freqüência observar a que distância fica o pico é da verdadeira freqüência em khz.  Este é o valor do erro necessário para calibrar o dongle.\n\n"
+"Uma vez trabalhando, você deve ser capaz de ver explosões (dados de ais) de A e B\n"
+"na saída filtrada e receber mensagens de ais (se houverem algumas disponíveis) \n"
 
 #: src/rtlsdrPrefs.cpp:209
-msgid ""
-"This plugin integrates opencpn with the rtlsdr project to turn DVB dongles "
-"into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n"
-"\n"
-"The author is using the r820t type dvb-t dongle with a standard vhf antenna, "
-"but many others can work.  The antenna coax cable is spliced to the dvb-t "
-"cable, both inner and outer connections must be made.\n"
-"\n"
+msgid "This plugin integrates opencpn with the rtlsdr project to turn DVB dongles into a SDR receiver. see:  http://sdr.osmocom.org/trac/wiki/rtl-sdr\n\n"
+"The author is using the r820t type dvb-t dongle with a standard vhf antenna, but many others can work.  The antenna coax cable is spliced to the dvb-t cable, both inner and outer connections must be made.\n\n"
 "rtl_ais can efficiently recieve channel A and B simultaneously\n"
 "rtl_fm/softfm and aisdecoder can only receive channel A or B\n"
 "ais_rx (gnuradio) receives both channels A and B but uses much more cpu."
 msgstr ""
 
 #: src/rtlsdrPrefs.cpp:221
-msgid ""
-"Under Windows Operating system, you must first run the utility program "
-"'zadig'to install the needed usb driver once the device is plugged in.\n"
-"You can find this program at http://zadig.akeo.ie\n"
-"\n"
-msgstr ""
+msgid "Under Windows Operating system, you must first run the utility program 'zadig'to install the needed usb driver once the device is plugged in.\n"
+"You can find this program at http://zadig.akeo.ie\n\n"
+msgstr "No sistema operativo Windows, deve executar o programa utilitário ' zadig' para instalar o driver usb necessário, uma vez que o dispositivo esteja ligado.\n"
+"Poderá encontrar o programa em http://zadig.akeo.ie \n\n"
 
 #: src/rtlsdrPrefs.cpp:233
-msgid ""
-"Where dump1090 is providing data on port 30003\n"
+msgid "Where dump1090 is providing data on port 30003\n"
 "Normally set to 127.0.0.1 (localhost)"
 msgstr ""
 
 #: src/rtlsdrUI.cpp:24
 msgid "Messages"
-msgstr ""
+msgstr "Mensagens"
 
 #: src/rtlsdrUI.cpp:47 src/rtlsdrUI.cpp:273
 msgid "Enable"
-msgstr ""
+msgstr "Activar"
 
 #: src/rtlsdrUI.cpp:50
 msgid "Preferences"
-msgstr ""
+msgstr "Preferências"
 
 #: src/rtlsdrUI.cpp:53
 msgid "Clear"
-msgstr ""
+msgstr "Limpar"
 
 #: src/rtlsdrUI.cpp:56
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
 #: src/rtlsdrUI.cpp:106
 msgid "N/A"
@@ -126,11 +110,11 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:164
 msgid "Program"
-msgstr ""
+msgstr "Programa"
 
 #: src/rtlsdrUI.cpp:168
 msgid "ais_rx  (gnuradio)"
-msgstr ""
+msgstr "ais_rx (gnuradio)"
 
 #: src/rtlsdrUI.cpp:168
 msgid "builtin rtl_ais"
@@ -142,7 +126,7 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:168
 msgid "rtl_fm | aisdecoder"
-msgstr ""
+msgstr "rtl_fm | aisdecodificador"
 
 #: src/rtlsdrUI.cpp:168
 msgid "soft_fm | aisdecoder"
@@ -150,35 +134,35 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:178
 msgid "extra args (blank default)"
-msgstr ""
+msgstr "extra args (padrão em branco)"
 
 #: src/rtlsdrUI.cpp:211
 msgid "Sample Rate (khz)"
-msgstr ""
+msgstr "Taxa de amostragem (khz)"
 
 #: src/rtlsdrUI.cpp:222
 msgid "Error Correction Calibration"
-msgstr ""
+msgstr "Calibração de Correção de erro"
 
 #: src/rtlsdrUI.cpp:229
 msgid "Error Correction"
-msgstr ""
+msgstr "Correção de erro"
 
 #: src/rtlsdrUI.cpp:236
 msgid "Auto Calibrate"
-msgstr ""
+msgstr "Calibragem automática"
 
 #: src/rtlsdrUI.cpp:239
 msgid "Manual via grc"
-msgstr ""
+msgstr "Manual através de grc"
 
 #: src/rtlsdrUI.cpp:242
 msgid "Info"
-msgstr ""
+msgstr "info"
 
 #: src/rtlsdrUI.cpp:263
 msgid "AIS"
-msgstr ""
+msgstr "AIS"
 
 #: src/rtlsdrUI.cpp:265
 msgid "Plotting Planes (ADSB)"
@@ -198,27 +182,27 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:310
 msgid "100.4"
-msgstr ""
+msgstr "100.4"
 
 #: src/rtlsdrUI.cpp:313
 msgid "Mhz"
-msgstr ""
+msgstr "Mhz"
 
 #: src/rtlsdrUI.cpp:321
 msgid "FM Radio"
-msgstr ""
+msgstr "Rádio FM"
 
 #: src/rtlsdrUI.cpp:328
 msgid "16"
-msgstr ""
+msgstr "16"
 
 #: src/rtlsdrUI.cpp:331
 msgid "WX"
-msgstr ""
+msgstr "WX"
 
 #: src/rtlsdrUI.cpp:334
 msgid "Squelch"
-msgstr ""
+msgstr "Atenuação"
 
 #: src/rtlsdrUI.cpp:341
 msgid "International"
@@ -230,15 +214,15 @@ msgstr ""
 
 #: src/rtlsdrUI.cpp:351
 msgid "VHF Audio"
-msgstr ""
+msgstr "Audio VHF"
 
 #: src/rtlsdrUI.cpp:360
 msgid "About Author"
-msgstr ""
+msgstr "Sobre o autor"
 
 #: src/rtlsdrUI.cpp:363
 msgid "Information"
-msgstr ""
+msgstr "Informação"
 
 #: src/rtlsdrUI.h:83 src/rtlsdr_pi.cpp:140
 msgid "Flights"
@@ -246,15 +230,15 @@ msgstr ""
 
 #: src/rtlsdrUI.h:144
 msgid "rtlsdr Preferences"
-msgstr ""
+msgstr "Preferências rtlsdr"
 
 #: src/rtlsdr_pi.cpp:502
 msgid "Execution failed"
-msgstr ""
+msgstr "Falha na execução"
 
 #: src/rtlsdr_pi.cpp:603
 msgid "Invalid FM frequency"
-msgstr ""
+msgstr "Freqüência de FM inválida"
 
 #: src/rtlsdr_pi.cpp:638
 msgid "Started builtin rtl_ais"
@@ -270,7 +254,7 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:678
 msgid "Unknown mode"
-msgstr ""
+msgstr "Modo desconhecido"
 
 #: src/rtlsdr_pi.cpp:687
 msgid "Executing: "
@@ -278,11 +262,11 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:689 src/rtlsdr_pi.cpp:703
 msgid "Failed to open: "
-msgstr ""
+msgstr "Falha ao abrir: "
 
 #: src/rtlsdr_pi.cpp:701
 msgid "Executed: "
-msgstr ""
+msgstr "Executado: "
 
 #: src/rtlsdr_pi.cpp:729
 msgid "Stopped builtin rtl_ais"
@@ -290,4 +274,5 @@ msgstr ""
 
 #: src/rtlsdr_pi.cpp:740 src/rtlsdr_pi.cpp:749
 msgid "Stopped: "
-msgstr ""
+msgstr "Parado: "
+
