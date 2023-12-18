@@ -233,7 +233,10 @@ if(DEFINED ENV{OCPN_TARGET})
     else()
         set(PACKAGING_NAME "${PKG_NVR}-${PKG_TARGET}-${PKG_TARGET_VERSION}${PKG_BUILD_GTK}-$ENV{OCPN_TARGET}")
         set(PACKAGING_NAME_XML "${PKG_NVR}-${PKG_TARGET}-${ARCH}-${PKG_TARGET_VERSION}${PKG_BUILD_GTK}-$ENV{OCPN_TARGET}")
-    endif()
+        if(APPLE AND CMAKE_OSX_ARCHITECTURES)
+            set(PACKAGING_NAME_XML "${PKG_NVR}-${PKG_TARGET}-${COMPOUND_ARCH_DASH}-${PKG_TARGET_VERSION}${PKG_BUILD_GTK}-$ENV{OCPN_TARGET}")
+        endif()
+endif()
 else()
     if(OCPN_FLATPAK_CONFIG OR OCPN_FLATPAK_BUILD OR MINGW OR MSVC)
         set(PACKAGING_NAME "${PKG_NVR}-${PKG_TARGET}-${ARCH}-${PKG_TARGET_VERSION}${PKG_BUILD_GTK}")
@@ -437,8 +440,6 @@ IF(DEFINED _wx_selected_config)
         MESSAGE (STATUS "${CMLOC}Using GLESv2 for Android")
         ADD_DEFINITIONS(-DUSE_ANDROID_GLES2)
         ADD_DEFINITIONS(-DUSE_GLSL)
-        include_directories( ${PROJECT_SOURCE_DIR}/libs/glshim/include/GLES )
-        set(EXTINCLUDE_DIR ${EXTINCLUDE_DIR} ${PROJECT_SOURCE_DIR}/libs/glshim/include/GLES)
 
     ENDIF(_wx_selected_config MATCHES "androideabi-qt")
 ENDIF(DEFINED _wx_selected_config)
@@ -454,7 +455,7 @@ IF(QT_ANDROID)
     set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-soname,libgorp.so ")
 
     #set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-    SET(CMAKE_CXX_FLAGS "-pthread -fPIC")
+    SET(CMAKE_CXX_FLAGS "-pthread -fPIC ")
 
     ## Compiler flags
     add_compile_options("-Wno-inconsistent-missing-override"
@@ -491,21 +492,7 @@ if((NOT OPENGLES_FOUND) AND (NOT QT_ANDROID))
         message(STATUS "${CMLOC}OpenGL disabled by option...")
     endif(USE_GL MATCHES "ON")
 
-   if(USE_LOCAL_GLU)
-        message(STATUS "${CMLOC}    Adding local GLU")
-        if (WIN32)
-            add_subdirectory(opencpn-libs/WindowsHeaders)
-            target_link_libraries(${PACKAGE_NAME} windows::headers)
-        endif(WIN32)
-
-        add_subdirectory(opencpn-libs/glu)
-        message(STATUS "${CMLOC}PACKAGE_NAME: ${PACKAGE_NAME}")
-        target_link_libraries(${PACKAGE_NAME} ocpn::glu_static)
-        add_definitions(-DocpnUSE_GL)
-
-        set(wxWidgets_USE_LIBS ${wxWidgets_USE_LIBS} gl)
-        message(STATUS "${CMLOC}    Revised GL Lib (with local): " ${OPENGL_LIBRARIES})
-    elseif(OPENGL_FOUND)
+    if(OPENGL_FOUND)
 
         set(wxWidgets_USE_LIBS ${wxWidgets_USE_LIBS} gl)
         include_directories(${OPENGL_INCLUDE_DIR})
@@ -649,13 +636,6 @@ else(NOT QT_ANDROID)
     # Needed for android builds
     include_directories(BEFORE ${qt_android_include})
 	
-	if(USE_LOCAL_GLU)
-        message(STATUS "${CMLOC} Android:Adding local GLU")
-        add_subdirectory(opencpn-libs/glu)
-        message(STATUS "${CMLOC}PACKAGE_NAME: ${PACKAGE_NAME}")
-        target_link_libraries(${PACKAGE_NAME} ocpn::glu_static)
-    endif()
-
 endif(NOT QT_ANDROID)
 
 find_package(Gettext REQUIRED)
