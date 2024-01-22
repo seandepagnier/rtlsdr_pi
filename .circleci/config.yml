@@ -26,15 +26,16 @@ std-filters: &std-filters
 workflows:
     build_all:
         jobs:
-###  --------------------
+## ----------------------
 ## OpenCPN 5.8 Plugins
 ## ----------------------
         - build-android-arm64:
              <<: *std-filters
         - build-android-armhf:
              <<: *std-filters
-        - build-macos-wx32:
-             <<: *std-filters
+# macos-universal covers this, duplicate.
+#        - build-macos-wx32:
+#             <<: *std-filters
         - build-flatpak-arm64-2208:
             <<: *std-filters
         - build-flatpak-x86-2208:
@@ -114,7 +115,7 @@ commands:
                     condition: <<parameters.install-python>>
                     steps:
                     - run: sudo apt install -y python3-pip
-                    - run: python3.8 -m pip install cloudsmith-cli
+                    - run: python3 -m pip install cloudsmith-cli
                 - when:
                     condition: <<parameters.DEPLOY-USE-ORB>>
                     steps:
@@ -129,12 +130,12 @@ commands:
     # provide the wxWidgets QT information.
 
 jobs:
-##  --------------------
+## ---------------------
 ## OpenCPN 5.8 Plugins
 ## ---------------------
     build-android-arm64:
         docker:
-        - image: cimg/android:2021.10.2-ndk
+        - image: cimg/android:2023.12-ndk
         resource_class: large
         environment:
         - OCPN_TARGET:  android-arm64
@@ -147,10 +148,11 @@ jobs:
             install-python: true
     build-android-armhf:
         docker:
-        - image: cimg/android:2021.10.2-ndk
+        - image: cimg/android:2023.12-ndk
         resource_class: large
         environment:
         - OCPN_TARGET:  android-armhf
+        - DEPLOY_USE_ORB: true
         steps:
         - checkout
         - run: chmod a+x ci/*.sh
@@ -170,7 +172,6 @@ jobs:
         - run: chmod a+x ci/*.sh
         - run: bash ci/circleci-build-macos.sh
         - deploy-code
-
     build-macos-universal:
         macos:
             xcode: "12.5.1"
@@ -198,7 +199,6 @@ jobs:
             - run: >
                   sh -c "cat build/*.xml"
             - deploy-code
-
     build-msvc-wx32-2022:
         executor:
             name: win/server-2022
@@ -372,7 +372,7 @@ jobs:
         - run: >
             echo "deb-src http://us.archive.ubuntu.com/ubuntu/ jammy-updates main" | sudo tee -a /etc/apt/sources.list
         - run: >
-            echo "deb [trusted=yes] https://ppa.launchpadcontent.net/bdbcat/opencpn/ubuntu/ jammy main" | sudo tee -a /etc/apt/sources.list
+            echo "deb [trusted=yes] https://ppa.launchpadcontent.net/opencpn/opencpn/ubuntu/ jammy main" | sudo tee -a /etc/apt/sources.list
         - run: cat /etc/apt/sources.list
         - run: chmod a+x ci/*.sh
         - run: ci/circleci-build-debian.sh

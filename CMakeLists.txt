@@ -19,7 +19,7 @@
 ## *   xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx                                       *
 #-----------------------------------------------------------------------------
 # Frontend2 Author: Jon Gough 
-# Testplugin(TP) v1.0.260 07/10/2023 DD/MM/YYYY format
+# Testplugin(TP) v1.0.286.3 29/12/2023 DD/MM/YYYY format
 # buildCI:yes useODAPI:no validateJSON:no
 # ---------------------------------------------------------------------------
 ## -- When changing this file do NOT change the order of the sections.    -- ##
@@ -56,8 +56,8 @@ set(LONG_DESCRIPTION "Automatically controls external command-line tools for sof
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "4")
 set(VERSION_PATCH "7")
-set(VERSION_TWEAK "3")
-set(VERSION_DATE  "12/10/2023")#DD/MM/YYYY format
+set(VERSION_TWEAK "4")
+set(VERSION_DATE  "22/01/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
 
 set(OCPN_API_VERSION_MAJOR "1")
