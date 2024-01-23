@@ -40,8 +40,14 @@
 #include "rtlsdrPrefs.h"
 #include "georef.h"
 #include "icons.h"
-#include "GL/gl.h"
 #include <wx/config.h>
+
+#ifdef __WXOSX__
+#include <OpenGL/gl.h>
+#include <OpenGL/glext.h>
+#else
+#include <GL/gl.h>
+#endif
 
 static void KillProcess(wxProcess *process)
 {
