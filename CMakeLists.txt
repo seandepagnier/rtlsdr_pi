@@ -55,8 +55,8 @@ set(LONG_DESCRIPTION "Automatically controls external command-line tools for sof
 
 set(VERSION_MAJOR "1")
 set(VERSION_MINOR "4")
-set(VERSION_PATCH "7")
-set(VERSION_TWEAK "4")
+set(VERSION_PATCH "8")
+set(VERSION_TWEAK "0")
 set(VERSION_DATE  "22/01/2023")#DD/MM/YYYY format
 set(OCPN_MIN_VERSION "ov58")
 
